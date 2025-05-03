@@ -28,7 +28,7 @@ int main(void) {
         }
     } while (UserType == 0);
 
-    chonMenu(UserType);
+    chonMenu(1);
  
  
     return 0;

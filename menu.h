@@ -10,7 +10,7 @@ Chao mung!
 Nhap lua chon cua ban: */
 void menudangNhap();
 /*===== MENU KHACH HANG =====
-Chao mung, [Ten nguoi dung]!
+Chao mung !
 1. Xem danh sach phim
 2. Dat ve xem phim
 3. Xem ve da dat
@@ -24,9 +24,8 @@ void menuKhachHang();
 1. Quan ly Phim
 2. Quan ly Lich chieu
 3. Quan ly Du lieu Ve va Thong ke
-4. Quan ly Tai khoan Nguoi dung (Tuy chon mo rong)
+4. Quan ly Tai khoan Nguoi dung
 5. Dang xuat
-
 -----------------------------
 Nhap lua chon cua ban: */
 void menuQuanTriVien();
