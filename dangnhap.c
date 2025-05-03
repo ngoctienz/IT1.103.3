@@ -7,8 +7,8 @@
 //Ham doc file user
 int docTaiKhoan(char *user, char *pass) {
     FILE *a;
-    char user_temp[15];
-    char pass_temp[15];
+    char *user_temp = (char*)malloc(15 * sizeof(char));
+    char *pass_temp = (char*)malloc(15 * sizeof(char));
     int type;
     a = fopen("nguoidung.txt", "r");
     if (a == NULL) {
@@ -51,4 +51,100 @@ int dangNhap(void) {
     free(user);
     free(pass);
     return check;
+}
+
+// ham dang ky
+int dangKy(void) {
+    FILE *a;
+    char *user = (char*)malloc(15 * sizeof(char));
+    char *pass = (char*)malloc(15 * sizeof(char));
+    char c;
+    NguoiDungNode *head = NULL, *temp = NULL, *newNode = NULL;
+    int check = 0;
+
+    docTaiKhoanTuFile(&head);
+
+    do {
+        printf("Nhap ten dang nhap: ");
+        scanf("%s", user);
+        while ((c = getchar()) != '\n' && c != EOF);
+        check = 0;
+        for (temp = head; temp != NULL; temp = temp->next) {
+            if (strcmp(user, temp->username) == 0) {
+                check = 1;
+                break;
+            }
+        }
+        if (check == 1) {
+            xoaMH();
+            printf("Ten dang nhap da ton tai! Vui long chon ten khac.\n");
+        } else {
+            printf("Nhap mat khau: ");
+            scanf("%s", pass);
+            while ((c = getchar()) != '\n' && c != EOF);
+            newNode = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
+            if (newNode == NULL) {
+                perror("Loi cap phat bo nho: ");
+                // Giải phóng bộ nhớ đã cấp phát trước đó nếu cần
+                return -1; // Hoặc giá trị lỗi khác
+            }
+            strcpy(newNode->username, user);
+            strcpy(newNode->password, pass);
+            newNode->type = 2; // User
+            newNode->next = head;
+            head = newNode;
+            a = fopen("nguoidung.txt", "a");
+            if (a != NULL) {
+                fprintf(a, "%s|%s|%d\n", user, pass, 2);
+                fclose(a);
+                xoaMH();
+                printf("Dang ky thanh cong!\nVui long dang nhap lai!\n");
+                break; // Thoát khỏi vòng lặp do...while sau khi đăng ký thành công
+            } else {
+                perror("Loi mo file de ghi: ");
+            }
+            check = 0;
+        }
+    } while (check == 1);
+
+    NguoiDungNode *current = head;
+    NguoiDungNode *nextNode;
+    while (current != NULL) {
+        nextNode = current->next;
+        free(current);
+        current = nextNode;
+    }
+
+    free(user);
+    free(pass);
+    return 0;
+}
+
+// Ham doc tai khoan tu file
+void docTaiKhoanTuFile(NguoiDungNode **head) {
+    FILE *a;
+    char *pass = (char*)malloc(15 * sizeof(char));
+    NguoiDungNode *temp = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
+    if (temp == NULL) {
+        perror("Loi cap phat bo nho: ");
+        exit(1);
+    }
+    a = fopen("nguoidung.txt", "r");
+    if (a == NULL) {
+        perror("Loi file: ");
+        exit(1);
+    }
+    while (fscanf(a, "%[^|]|%[^|]|%d\n", temp->username, pass, &temp->type) == 3) {
+        strcpy(temp->password, pass);
+        temp->next = *head;
+        *head = temp;
+        temp = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
+        if (temp == NULL) {
+            perror("Loi cap phat bo nho: ");
+            exit(1);
+        }
+    }
+    free(temp);
+    free(pass);
+    fclose(a);
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "hotro.h"
+#include "menu.h"
 
 // ham dem nguoc chuyen huong
 void stop(int t, const char *s) {
@@ -21,4 +22,17 @@ void xoaMH(void) {
 #else
     system("clear");
 #endif
+}
+
+// ham chon menu
+void chonMenu(int n) {
+    if (n == 1) {
+        xoaMH();
+        menuQuanTriVien();
+    } else if (n == 2) {
+        xoaMH();
+        menuKhachHang();
+    } else {
+        exit(0);
+    }
 }

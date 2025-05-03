@@ -16,7 +16,8 @@ int main(void) {
                 UserType = dangNhap();
                 break;
             case 2:
-                printf("Dang ky tai khoan moi thanh cong!\n");
+                xoaMH();
+                UserType = dangKy();
                 break;
             case 3:
                 printf("Cam on ban da su dung he thong!\n");
@@ -27,15 +28,8 @@ int main(void) {
         }
     } while (UserType == 0);
 
-    if (UserType == 1) {
-        xoaMH();
-        menuQuanTriVien();
-    } else if (UserType == 2) {
-        xoaMH();
-        menuKhachHang();
-    } else {
-        return 1;
-    }
-
+    chonMenu(UserType);
+ 
+ 
     return 0;
 }
