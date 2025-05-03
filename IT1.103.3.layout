@@ -1,12 +1,12 @@
 [Editor_0]
-CursorCol=1
-CursorRow=1
-TopLine=1
+CursorCol=14
+CursorRow=12
+TopLine=7
 LeftChar=1
 [Editor_4]
 CursorCol=1
 CursorRow=1
-TopLine=1
+TopLine=9
 LeftChar=1
 [Editors]
 Order=3,4,6,0,1,2
