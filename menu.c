@@ -143,14 +143,25 @@ void chonMenu(int n) {
             scanf("%d", &choice);
             switch (choice) {
                 case 1:
+                do {
                     xoaMH();
-                    printf("Danh sach phim:\n");
-                    // xem danh sach phim
+                    inDanhSachPhim();
+                    printf("Nhap  0 de quay lai: ");
+                    scanf("%d", &choice);
+                    if (choice == 0) 
                     break;
+                } while (choice != 0);
+                break;                              
                 case 2:
-                    xoaMH();
-                    printf("Dat ve xem phim:\n");
-                    // dat ve xem phim
+                    do{
+                        xoaMH();
+                        inDanhSachPhim();
+                        datVe();
+                        printf("Nhap 0 de quay lai: ");
+                        scanf("%d", &choice);
+                        if (choice == 0) 
+                        break;
+                    } while (choice != 0);
                     break;
                 case 3:
                     xoaMH();
