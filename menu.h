@@ -72,4 +72,10 @@ void menuQuanLyVeVaThongKe();
 Nhap lua chon cua ban: */
 void menuQuanLyTaiKhoanNguoiDung();
 
+/*Hàm chọn menu cho người dùng
+ userType = 1: admin
+ userType = 2: user*/
+ void chonMenu(int userType);
+
+
 #endif

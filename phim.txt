@@ -1,0 +1,15 @@
+PH001|Fast & Furious 9|Hành động
+PH002|The Conjuring: The Devil Made Me Do It|Kinh dị
+PH003|Spider-Man: No Way Home|Siêu anh hùng
+PH004|Dune|Khoa học viễn tưởng
+PH005|No Time to Die|Hành động, Phiêu lưu
+PH006|Eternals|Siêu anh hùng, Hành động
+PH007|Shang-Chi and the Legend of the Ten Rings|Siêu anh hùng, Võ thuật
+PH008|A Quiet Place Part II|Kinh dị, Giật gân
+PH009|Cruella|Hài, Tội phạm
+PH010|The Suicide Squad|Siêu anhùng, Hành động, Hài
+PH011|Black Widow|Siêu anhùng, Hành động, Điệp viên
+PH012|Free Guy|Hành động, Hài, Khoa học viễn tưởng
+PH013|Jungle Cruise|Phiêu lưu, Hành động, Hài
+PH014|Godzilla vs. Kong|Hành động, Khoa học viễn tưởng
+PH015|Raya and the Last Dragon|Hoạt hình, Phiêu lưu, Hành động

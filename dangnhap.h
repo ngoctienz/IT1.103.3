@@ -1,17 +1,6 @@
 #ifndef DANGNHAP_H
 #define DANGNHAP_H
 
-/* danh sach lien ket nguoi dung */
-typedef struct NguoiDungNode {
-    char username[15];
-    char password[15];
-    int type;
-    struct NguoiDungNode *next;
-} NguoiDungNode;
-
-/* Hàm dọc tài khoản từ file nguoidung.txt và lưu vào danh sách liên kết*/
-void docTaiKhoanTuFile(NguoiDungNode **head);
-
 
 /*Hàm đăng nhập
 trả về trả về 1 nếu là admin; trả về 2 nếu là user*/
@@ -28,7 +17,5 @@ Cho nhập tên người dùng sau đó kiểm tra với dslk nếu trùng cho n
 nếu chưa tồn tại sẽ cho nhập mật khẩu và lưu vào file nguoidung.txt trả về 2 nếu đăng kí hoàn tấttất*/
 int dangKy(void);
 
-/*hàm sẽ đđọc toàn bộ nội dung của file nguoidung.txt một lần duy nhất và lưuưu vào danh sách liên kết NguoiDungNode*/ 
-void docTaiKhoanTuFile(NguoiDungNode **head);
 
 #endif

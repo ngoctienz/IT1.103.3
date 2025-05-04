@@ -119,32 +119,3 @@ int dangKy(void) {
     free(pass);
     return 0;
 }
-
-// Ham doc tai khoan tu file
-void docTaiKhoanTuFile(NguoiDungNode **head) {
-    FILE *a;
-    char *pass = (char*)malloc(15 * sizeof(char));
-    NguoiDungNode *temp = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
-    if (temp == NULL) {
-        perror("Loi cap phat bo nho: ");
-        exit(1);
-    }
-    a = fopen("nguoidung.txt", "r");
-    if (a == NULL) {
-        perror("Loi file: ");
-        exit(1);
-    }
-    while (fscanf(a, "%[^|]|%[^|]|%d\n", temp->username, pass, &temp->type) == 3) {
-        strcpy(temp->password, pass);
-        temp->next = *head;
-        *head = temp;
-        temp = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
-        if (temp == NULL) {
-            perror("Loi cap phat bo nho: ");
-            exit(1);
-        }
-    }
-    free(temp);
-    free(pass);
-    fclose(a);
-}
