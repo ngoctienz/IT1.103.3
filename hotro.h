@@ -70,6 +70,16 @@ void inVeDaDat(char *user);
 /* Hàm hủy vé đã đặt */
 void huyVeDaDat(char *user);
 
+/* Hàm thêm phim mới vào danh sách phim */
+void themPhim(void);
 
+/* Hàm sửa thông tin phim */
+void suaPhim(void);
+
+/* Hàm in thông tin phim */
+void inThongTinPhim(PhimNode *p);
+
+/* Hàm xóa phim */
+void xoaPhim(void);
 
 #endif

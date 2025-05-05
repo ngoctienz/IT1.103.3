@@ -103,8 +103,50 @@ void chonMenu(int n, char *user) {
                 case 1:
                     do {
                         xoaMH();
-                        menuQuanLyPhim( user);
+                        menuQuanLyPhim(user);
                         scanf("%d", &choice);
+                        switch (choice) {
+                            case 1:
+                            do {
+                                xoaMH();
+                                themPhim();
+                                printf("Nhap  0 de quay lai: ");
+                                scanf("%d", &choice);
+                                if (choice == 0) 
+                                break;
+                            } while (choice != 0);
+                            break;        
+                            case 2:
+
+                                xoaMH();
+                                suaPhim();
+                                break;        
+                            case 3:
+                                do {
+                                    xoaMH();
+                                    xoaPhim();
+                                    printf("Nhap  0 de quay lai: ");
+                                    scanf("%d", &choice);
+                                    if (choice == 0) 
+                                    break;
+                                } while (choice != 0);
+                                break;
+                            case 4:
+                                do {
+                                    xoaMH();
+                                    inDanhSachPhim();
+                                    printf("Nhap  0 de quay lai: ");
+                                    scanf("%d", &choice);
+                                    if (choice == 0) 
+                                    break;
+                                } while (choice != 0);
+                                break;                    ;
+                            case 5:
+                                break;
+                            default:
+                                xoaMH();
+                                printf("Lua chon khong hop le!\n");
+                        }
                         if (choice == 5) break;
                     } while (choice != 5);
                     break;

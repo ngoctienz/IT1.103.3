@@ -29,7 +29,7 @@ int main(void) {
     //     }
     // } while (UserType == 0);
 
-    chonMenu(2, "user");
+    chonMenu(1, "admin123");
     free(user);
     return 0;
 }

@@ -267,7 +267,7 @@ void inVeDaDat(char *user) {
                 }
             }
             if (demGhe == 0) {
-                printf("(Chua dat)");
+                printf("XX ");
             }
 
             printf("%24s\n", temp->TrangThai == 1 ? "Da dat" : "Da huy");
@@ -294,28 +294,334 @@ void huyVeDaDat(char *user) {
         perror("Loi cap phat bo nho"); 
         exit(1); 
     }
+
     inVeDaDat(user);
     printf("Nhap ma ve muon huy: ");
     scanf("%14s", maVe);
 
+    int found = 0;
     VeNode *temp = headVe;
     while (temp) {
-        if (strcmp(temp->MaVe, maVe) == 0 && strcmp(temp->TenNguoiDung, user) == 0) {
+        if (strcmp(temp->MaVe, maVe) == 0 && strcmp(temp->TenNguoiDung, user) == 0 && temp->TrangThai == 1) {
+            printf("Ban chac chan muon huy ve: ");
+            for (int i = 0; i < 40; i++) {
+                if (temp->GheNgoi[i]) {
+                    printf("%c%d ", 'A' + i / 8, i % 8 + 1);
+                }
+            }
+            printf("?\nNhap 1 de xac nhan, 0 de huy thao tac: ");
+
+            int xacNhan;
+            scanf("%d", &xacNhan);
+            if (xacNhan != 1) {
+                printf("Da huy thao tac huy ve.\n");
+                free(maVe);
+                // Giải phóng danh sách
+                VeNode *tmp;
+                while (headVe) {
+                    tmp = headVe;
+                    headVe = headVe->next;
+                    free(tmp);
+                }
+                return;
+            }
+
             temp->TrangThai = 2;
+            for (int i = 0; i < 40; i++) {
+                temp->GheNgoi[i] = 0;
+            }
             ghiDanhSachVeVaoFile(headVe);
             printf("Huy ve thanh cong!\n");
+            found = 1;
             break;
         }
         temp = temp->next;
     }
-    if (!temp) {
-        printf("Ma ve khong ton tai hoac khong phai cua ban!\n");
+
+    if (!found) {
+        printf("Ma ve khong ton tai, da bi huy, hoac khong phai cua ban!\n");
     }
 
+    // Giải phóng
+    free(maVe);
     VeNode *tmp;
     while (headVe) {
         tmp = headVe;
         headVe = headVe->next;
+        free(tmp);
+    }
+}
+
+
+
+void themPhim(void) {
+    PhimNode *headPhim = NULL;
+    docPhimTuFile(&headPhim);
+
+    PhimNode *newPhim = (PhimNode *)malloc(sizeof(PhimNode));
+    if (!newPhim) {
+        perror("Loi cap phat bo nho");
+        return;
+    }
+    xoaMH();
+    printf("THEM PHIM MOI\n");
+    printf("========================================\n");
+
+    printf("Nhap ma phim: ");
+    scanf("%s", newPhim->MaPhim);
+
+    // Kiem tra trung ma phim
+    for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
+        if (strcmp(temp->MaPhim, newPhim->MaPhim) == 0) {
+            printf("Ma phim da ton tai!\n");
+            free(newPhim);
+            return;
+        }
+    }
+
+    printf("Nhap ten phim: ");
+    getchar(); // Xoa bo nho dem
+    fgets(newPhim->TenPhim, sizeof(newPhim->TenPhim), stdin);
+    strtok(newPhim->TenPhim, "\n"); // Xoa ky tu newline
+    printf("Nhap the loai: ");
+    fgets(newPhim->TheLoai, sizeof(newPhim->TheLoai), stdin);
+    strtok(newPhim->TheLoai, "\n");
+    printf("Nhap ngay chieu (dd/mm/yyyy): ");
+    scanf("%s", newPhim->NgayChieu);
+    printf("Nhap gio chieu (hh:mm): ");
+    scanf("%s", newPhim->GioChieu);
+    printf("Nhap phong chieu: ");
+    scanf("%s", newPhim->PhongChieu);
+    printf("Nhap gia ve: ");
+    scanf("%d", &newPhim->GiaVe);
+
+    // Kiem tra trung lich (ngay + gio + phong)
+    for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
+        if (strcmp(temp->NgayChieu, newPhim->NgayChieu) == 0 &&
+            strcmp(temp->GioChieu, newPhim->GioChieu) == 0 &&
+            strcmp(temp->PhongChieu, newPhim->PhongChieu) == 0) {
+            printf("Da co phim duoc chieu vao thoi diem nay trong phong nay!\n");
+            free(newPhim);
+            return;
+        }
+    }
+
+    newPhim->next = NULL;
+
+    FILE *f = fopen("phim.txt", "a");
+    if (!f) {
+        perror("Loi mo file phim.txt");
+        free(newPhim);
+        return;
+    }
+
+    fprintf(f, "%s|%s|%s|%s|%s|%s|%d\n",newPhim->MaPhim,newPhim->TenPhim,newPhim->TheLoai,newPhim->NgayChieu,newPhim->GioChieu,newPhim->PhongChieu,newPhim->GiaVe);
+
+    fclose(f);
+
+    xoaMH();
+    printf("Them phim thanh cong!\n");
+    printf("----------------------------------------------------------\n");
+    inThongTinPhim(newPhim); 
+    printf("----------------------------------------------------------\n");
+    printf("Phim da duoc them vao danh sach phim.\n");
+    // Giai phong danh sach phim da doc
+    free(newPhim);
+    PhimNode *tmp;
+    while (headPhim) {
+        tmp = headPhim;
+        headPhim = headPhim->next;
+        free(tmp);
+    }
+}
+
+void inThongTinPhim(PhimNode *p) {
+    if (p) {
+        printf("Ma phim: %s\n", p->MaPhim);
+        printf("Ten phim: %s\n", p->TenPhim);
+        printf("The loai: %s\n", p->TheLoai);
+        printf("Ngay chieu: %s\n", p->NgayChieu);
+        printf("Gio chieu: %s\n", p->GioChieu);
+        printf("Phong chieu: %s\n", p->PhongChieu);
+        printf("Gia ve: %d\n", p->GiaVe);
+    }
+}
+
+
+void suaPhim() {
+    PhimNode *headPhim = NULL;
+    docPhimTuFile(&headPhim);
+
+    inDanhSachPhim();
+
+    char maPhim[15];
+    printf("Nhap ma phim muon sua: ");
+    scanf("%s", maPhim);
+
+    PhimNode *found = NULL;
+    for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
+        if (strcmp(temp->MaPhim, maPhim) == 0) {
+            found = temp;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Khong tim thay phim voi ma da nhap!\n");
+        return;
+    }
+
+    int choice;
+    do {
+        xoaMH();
+        printf("\n---------------------THONG TIN PHIM---------------------\n");
+        inThongTinPhim(found);
+        printf("\n------------------------- MENU -------------------------\n");
+        printf("1. Sua ma phim\n");
+        printf("2. Sua ten phim\n");
+        printf("3. Sua the loai\n");
+        printf("4. Sua ngay chieu\n");
+        printf("5. Sua gio chieu\n");
+        printf("6. Sua phong chieu\n");
+        printf("7. Sua gia ve\n");
+        printf("0. Thoat sua quay lai quan li phim\n");
+        printf("----------------------------------------------------------\n");
+        printf("Chon: ");
+        scanf("%d", &choice);
+        getchar();
+
+        switch (choice) {
+            case 1:
+                printf("Nhap ma phim moi: ");
+                scanf("%s", found->MaPhim);
+                break;
+            case 2:
+                printf("Nhap ten phim moi: ");
+                fgets(found->TenPhim, sizeof(found->TenPhim), stdin);
+                strtok(found->TenPhim, "\n");
+                break;
+            case 3:
+                printf("Nhap the loai moi: ");
+                fgets(found->TheLoai, sizeof(found->TheLoai), stdin);
+                strtok(found->TheLoai, "\n");
+                break;
+            case 4:
+                printf("Nhap ngay chieu moi: ");
+                scanf("%s", found->NgayChieu);
+                break;
+            case 5:
+                printf("Nhap gio chieu moi: ");
+                scanf("%s", found->GioChieu);
+                break;
+            case 6:
+                printf("Nhap phong chieu moi: ");
+                scanf("%s", found->PhongChieu);
+                break;
+            case 7:
+                printf("Nhap gia ve moi: ");
+                scanf("%d", &found->GiaVe);
+                break;
+            case 0:
+                break;
+            default:
+                printf("Lua chon khong hop le!\n");
+        }
+    } while (choice != 0);
+
+    FILE *f = fopen("phim.txt", "w");
+    if (!f) {
+        perror("Loi mo file phim.txt");
+        return;
+    }
+
+    for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
+        fprintf(f, "%s|%s|%s|%s|%s|%s|%d\n",
+                temp->MaPhim,
+                temp->TenPhim,
+                temp->TheLoai,
+                temp->NgayChieu,
+                temp->GioChieu,
+                temp->PhongChieu,
+                temp->GiaVe);
+    }
+
+    fclose(f);
+
+    PhimNode *tmp;
+    while (headPhim) {
+        tmp = headPhim;
+        headPhim = headPhim->next;
+        free(tmp);
+    }
+}
+
+// Ham xoa phim
+void xoaPhim() {
+    PhimNode *headPhim = NULL;
+    docPhimTuFile(&headPhim);
+    inDanhSachPhim();
+    char maPhim[15];
+    printf("Nhap ma phim muon xoa: ");
+    scanf("%s", maPhim);
+
+    PhimNode *curr = headPhim, *prev = NULL;
+    while (curr != NULL && strcmp(curr->MaPhim, maPhim) != 0) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    if (!curr) {
+        printf("Khong tim thay phim co ma: %s\n", maPhim);
+        return;
+    }
+
+    printf("Ban co chac chan muon xoa phim sau khong?\n");
+    printf("----------------------------------------------------------\n");
+    inThongTinPhim(curr);
+    printf("----------------------------------------------------------\n");
+    printf("Nhap 1 de xoa, 0 de huy: ");
+    int confirm;
+    scanf("%d", &confirm);
+
+    if (confirm != 1) {
+        printf("Huy xoa phim.\n");
+        return;
+    }
+
+    // Xoa node
+    if (!prev) {
+        headPhim = curr->next;
+    } else {
+        prev->next = curr->next;
+    }
+    free(curr);
+
+    // Ghi lai danh sach moi vao file
+    FILE *f = fopen("phim.txt", "w");
+    if (!f) {
+        perror("Loi mo file phim.txt");
+        return;
+    }
+
+    for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
+        fprintf(f, "%s|%s|%s|%s|%s|%s|%d\n",
+                temp->MaPhim,
+                temp->TenPhim,
+                temp->TheLoai,
+                temp->NgayChieu,
+                temp->GioChieu,
+                temp->PhongChieu,
+                temp->GiaVe);
+    }
+
+    fclose(f);
+    printf("Xoa phim thanh cong!\n");
+
+    // Giai phong bo nho
+    PhimNode *tmp;
+    while (headPhim) {
+        tmp = headPhim;
+        headPhim = headPhim->next;
         free(tmp);
     }
 }
