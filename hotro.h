@@ -61,6 +61,9 @@ void datVe(char *user);
 /* Hàm ghi danh sách vé vào file ve.txt */
 void ghiDanhSachVeVaoFile(VeNode *head);
 
+/* Hàm ghi danh sách phim vào file phim.txt */
+void ghiDanhSachPhimVaoFile(PhimNode *head);
+
 /* Hàm in sơ đồ ghế ngồi cho một phim cụ thể */
 void inSoDoGhe(VeNode *headVe, const char *maPhim);
 
@@ -69,6 +72,9 @@ void inVeDaDat(char *user);
 
 /* Hàm hủy vé đã đặt */
 void huyVeDaDat(char *user);
+
+/* ham them phim vao danh sach phim */
+void themPhim(void);
 
 
 
