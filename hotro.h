@@ -56,12 +56,20 @@ void docVeTuFile(VeNode **head);
 void taoMaVe(char *maVe);
 
 /* Hàm đặt vé, thao tác trên danh sách liên kết VeNode */
-void datVe(void);
+void datVe(char *user);
 
 /* Hàm ghi danh sách vé vào file ve.txt */
 void ghiDanhSachVeVaoFile(VeNode *head);
 
 /* Hàm in sơ đồ ghế ngồi cho một phim cụ thể */
 void inSoDoGhe(VeNode *headVe, const char *maPhim);
+
+/* Hàm in ra các vé đã đặt cho một phim cụ thể */
+void inVeDaDat(char *user);
+
+/* Hàm hủy vé đã đặt */
+void huyVeDaDat(char *user);
+
+
 
 #endif

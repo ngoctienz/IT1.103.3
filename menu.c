@@ -4,7 +4,7 @@
 #include "hotro.h"
 
 // Ham menudangNhap
-void menudangNhap() {
+void menudangNhap(void) {
     printf("===== HE THONG DAT VE XEM PHIM =====\n");
     printf("Chao mung!\n");
     printf("1. Dang nhap\n");
@@ -15,9 +15,9 @@ void menudangNhap() {
 }
 
 // Ham menuKhachHang
-void menuKhachHang() {
+void menuKhachHang(char *user) {
     printf("===== MENU KHACH HANG =====\n");
-    printf("Chao mung !\n");
+    printf("Chao mung: %s\n", user);
     printf("1. Xem danh sach phim\n");
     printf("2. Dat ve xem phim\n");
     printf("3. Xem ve da dat\n");
@@ -28,8 +28,9 @@ void menuKhachHang() {
 }
 
 // Ham menuQuanTriVien
-void menuQuanTriVien() {
+void menuQuanTriVien(char *user) {
     printf("===== MENU QUAN TRI VIEN =====\n");
+    printf("Admin: %s\n", user);
     printf("1. Quan ly Phim\n");
     printf("2. Quan ly Lich chieu\n");
     printf("3. Quan ly Du lieu Ve va Thong ke\n");
@@ -40,8 +41,9 @@ void menuQuanTriVien() {
 }
 
 // Ham menuQuanLyPhim
-void menuQuanLyPhim() {
+void menuQuanLyPhim(char *user) {
     printf("===== QUAN LY PHIM =====\n");
+    printf("Admin: %s\n", user);
     printf("1. Them phim moi\n");
     printf("2. Sua thong tin phim\n");
     printf("3. Xoa phim\n");
@@ -52,8 +54,9 @@ void menuQuanLyPhim() {
 }
 
 // Ham menuQuanLyLichChieu
-void menuQuanLyLichChieu() {
+void menuQuanLyLichChieu(char *user) {
     printf("===== QUAN LY LICH CHIEU =====\n");
+    printf("Admin: %s\n", user);
     printf("1. Them lich chieu moi\n");
     printf("2. Sua thong tin lich chieu\n");
     printf("3. Hien thi danh sach lich chieu\n");
@@ -64,8 +67,9 @@ void menuQuanLyLichChieu() {
 }
 
 // Ham menuQuanLyVeVaThongKe
-void menuQuanLyVeVaThongKe() {
+void menuQuanLyVeVaThongKe(char *user) {
     printf("===== QUAN LY VE & THONG KE =====\n");
+    printf("Admin: %s\n", user);
     printf("1. Xem danh sach tat ca ve da dat\n");
     printf("2. Xu ly ve bi huy (cap nhat trang thai)\n");
     printf("3. Thong ke doanh thu\n");
@@ -76,8 +80,9 @@ void menuQuanLyVeVaThongKe() {
 }
 
 // Ham menuQuanLyTaiKhoanNguoiDung
-void menuQuanLyTaiKhoanNguoiDung() {
+void menuQuanLyTaiKhoanNguoiDung(char *user) {
     printf("===== QUAN LY TAI KHOAN NGUOI DUNG ======\n");
+    printf("Admin: %s\n", user);
     printf("1. Xem danh sach nguoi dung\n");
     printf("2. Xoa tai khoan nguoi dung\n");
     printf("3. Quay lai Menu chinh\n");
@@ -86,19 +91,19 @@ void menuQuanLyTaiKhoanNguoiDung() {
 }
 
 // ham chon menu
-void chonMenu(int n) {
+void chonMenu(int n, char *user) {    
     int choice;
     if (n == 1) {
         do {
             xoaMH();
-            menuQuanTriVien();
+            menuQuanTriVien(user);
             scanf("%d", &choice);
 
             switch (choice) {
                 case 1:
                     do {
                         xoaMH();
-                        menuQuanLyPhim();
+                        menuQuanLyPhim( user);
                         scanf("%d", &choice);
                         if (choice == 5) break;
                     } while (choice != 5);
@@ -106,7 +111,7 @@ void chonMenu(int n) {
                 case 2:
                     do {
                         xoaMH();
-                        menuQuanLyLichChieu();
+                        menuQuanLyLichChieu(user);
                         scanf("%d", &choice);
                          if (choice == 5) break;
                     } while (choice != 5);
@@ -114,7 +119,7 @@ void chonMenu(int n) {
                 case 3:
                     do {
                         xoaMH();
-                        menuQuanLyVeVaThongKe();
+                        menuQuanLyVeVaThongKe(user);
                         scanf("%d", &choice);
                         if (choice == 5) break;
                     } while (choice != 5);
@@ -122,7 +127,7 @@ void chonMenu(int n) {
                 case 4:
                     do {
                         xoaMH();
-                        menuQuanLyTaiKhoanNguoiDung();
+                        menuQuanLyTaiKhoanNguoiDung(user);
                         scanf("%d", &choice);
                         if (choice == 3) break;
                     } while (choice != 3);
@@ -139,7 +144,7 @@ void chonMenu(int n) {
     } else if (n == 2) {
         do {
             xoaMH();
-            menuKhachHang();
+            menuKhachHang(user);
             scanf("%d", &choice);
             switch (choice) {
                 case 1:
@@ -155,8 +160,7 @@ void chonMenu(int n) {
                 case 2:
                     do{
                         xoaMH();
-                        inDanhSachPhim();
-                        datVe();
+                        datVe(user);
                         printf("Nhap 0 de quay lai: ");
                         scanf("%d", &choice);
                         if (choice == 0) 
@@ -164,15 +168,25 @@ void chonMenu(int n) {
                     } while (choice != 0);
                     break;
                 case 3:
+                do{
                     xoaMH();
-                    printf("Ve da dat:\n");
-                    // xem ve da dat
+                    inVeDaDat(user);
+                    printf("Nhap 0 de quay lai: ");
+                    scanf("%d", &choice);
+                    if (choice == 0) 
                     break;
+                } while (choice != 0);
+                break;
                 case 4:
+                do{
                     xoaMH();
-                    printf("Huy ve da dat:\n");
-                    // huy ve da dat
+                    huyVeDaDat(user);
+                    printf("Nhap 0 de quay lai: ");
+                    scanf("%d", &choice);
+                    if (choice == 0) 
                     break;
+                } while (choice != 0);
+                break;
                 case 5:
                     xoaMH();
                     printf("Dang xuat thanh cong!\n");

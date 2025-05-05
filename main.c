@@ -6,18 +6,19 @@
 
 int main(void) {
     int choice, UserType = 0;
-
+    char *user = (char*)malloc(15 * sizeof(char));
+    char c;
     // do {
     //     menudangNhap();
     //     scanf("%d", &choice);
     //     switch (choice) {
     //         case 1:
     //             xoaMH();
-    //             UserType = dangNhap();
+    //             UserType = dangNhap(user);
     //             break;
     //         case 2:
     //             xoaMH();
-    //             UserType = dangKy();
+    //             UserType = dangKy(user);
     //             break;
     //         case 3:
     //             printf("Cam on ban da su dung he thong!\n");
@@ -28,8 +29,7 @@ int main(void) {
     //     }
     // } while (UserType == 0);
 
-    chonMenu(2);
- 
- 
+    chonMenu(2, "user");
+    free(user);
     return 0;
 }

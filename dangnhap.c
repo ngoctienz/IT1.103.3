@@ -26,8 +26,7 @@ int docTaiKhoan(char *user, char *pass) {
 }
 
 // ham dang nhap
-int dangNhap(void) {
-    char *user = (char*)malloc(15 * sizeof(char));
+int dangNhap(char *user) {
     char *pass = (char*)malloc(15 * sizeof(char));
     int c, check;
     printf("===== HE THONG DANG NHAP =====\n");
@@ -42,21 +41,21 @@ int dangNhap(void) {
         check = docTaiKhoan(user, pass);
         if (check != 0) {
             printf("Dang nhap thanh cong!\n");
+            printf("User: %s\n", user);
             stop(3, (check == 1) ? "MENU QUAN TRI VIEN" : "MENU KHACH HANG");
         } else {
             xoaMH();
             printf("Tai khoan hoac mat khau chua chinh xac !\n");
         }
     } while (check == 0);
-    free(user);
     free(pass);
     return check;
 }
 
 // ham dang ky
-int dangKy(void) {
+int dangKy(char *user) {
     FILE *a;
-    char *user = (char*)malloc(15 * sizeof(char));
+//    char *user = (char*)malloc(15 * sizeof(char));
     char *pass = (char*)malloc(15 * sizeof(char));
     char c;
     NguoiDungNode *head = NULL, *temp = NULL, *newNode = NULL;

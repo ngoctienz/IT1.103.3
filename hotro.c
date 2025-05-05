@@ -81,6 +81,8 @@ void inDanhSachPhim(void) {
 
 
 
+// Ham doc danh sach ve tu file ve.txt
+// va luu vao danh sach lien ket
 
 void docVeTuFile(VeNode **head) {
     FILE *a = fopen("ve.txt", "r");
@@ -109,6 +111,7 @@ void docVeTuFile(VeNode **head) {
     fclose(a);
 }
 
+// Ham ghi danh sach ve vao file ve.txt
 void ghiDanhSachVeVaoFile(VeNode *head) {
     FILE *f = fopen("ve.txt", "w");
     if (!f) { perror("Loi file"); exit(1); }
@@ -162,20 +165,30 @@ void inSoDoGhe(VeNode *headVe, const char *maPhim) {
     printf("\n");
 }
 
-void datVe(void) {
+// Ham dat ve cho nguoi dung
+void datVe(char *user) {
     PhimNode *headPhim = NULL;
     VeNode *headVe = NULL;
     docPhimTuFile(&headPhim);
     docVeTuFile(&headVe);
 
     VeNode *newVe = (VeNode*)malloc(sizeof(VeNode));
-    if (!newVe) { perror("Loi cap phat bo nho"); exit(1); }
-    taoMaVe(newVe->MaVe);
+    if (newVe == NULL) { 
+        perror("Loi cap phat bo nho"); 
+        exit(1); 
+    }
+    taoMaVe(newVe->MaVe);   
 
-    char maPhim[15], tenNguoiDung[15], gheNgoi[3];
+    char *maPhim = (char*)malloc(15 * sizeof(char));
+    char *gheNgoi = (char*)malloc(3 * sizeof(char));
+    if (maPhim == NULL || gheNgoi == NULL) { 
+        perror("Loi cap phat bo nho"); 
+        exit(1); 
+    }
+
     int gheINT;
     newVe->TrangThai = 1;
-
+    inDanhSachPhim();
     PhimNode *tempPhim;
     do {
         printf("Nhap ma phim muon dat ve: ");
@@ -196,18 +209,17 @@ void datVe(void) {
         }
     } while (1);
 
-    printf("Nhap ten nguoi dat ve: ");
-    scanf("%14s", tenNguoiDung);
-    strcpy(newVe->TenNguoiDung, tenNguoiDung);
+    printf("Nguoi dat ve: %s\n", user);
+    strcpy(newVe->TenNguoiDung, user);
 
     do {
         printf("Nhap ghe ngoi (VD: A1): ");
         scanf("%2s", gheNgoi);
-        if (strlen(gheNgoi) != 2 || gheNgoi[0] < 'A' || gheNgoi[0] > 'E' || gheNgoi[1] < '1' || gheNgoi[1] > '8') {
+        if (strlen(gheNgoi) != 2 || *gheNgoi < 'A' || *gheNgoi > 'E' || *(gheNgoi + 1) < '1' || *(gheNgoi + 1) > '8') {
             printf("Dinh dang sai.\n");
             continue;
         }
-        gheINT = (gheNgoi[0] - 'A') * 8 + (gheNgoi[1] - '1');
+        gheINT = (*gheNgoi - 'A') * 8 + (*(gheNgoi + 1) - '1');
         int daDat = 0;
         for (VeNode *temp = headVe; temp; temp = temp->next) {
             if (strcmp(temp->MaPhim, newVe->MaPhim) == 0 && temp->GheNgoi[gheINT]) {
@@ -227,5 +239,83 @@ void datVe(void) {
             printf("Ghe da duoc dat!\n");
         }
     } while (1);
+
+    free(maPhim);
+    free(gheNgoi);
 }
 
+void inVeDaDat(char *user) {
+    VeNode *headVe = NULL;
+    docVeTuFile(&headVe);
+ 
+    printf("                                      DANH SACH VE DA DAT                              \n");
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("\n%-10s %-10s %-20s %-20s %-12s\n", "Ma Ve", "Ma Phim", "Ten Nguoi Dat", "Ghe Ngoi", "Trang Thai");
+    printf("----------------------------------------------------------------------------------------\n");
+
+    for (VeNode *temp = headVe; temp; temp = temp->next) {
+        if (strcmp(temp->TenNguoiDung, user) == 0) {
+            // In dòng đầu với các trường cơ bản
+            printf("%-10s %-10s %-20s ", temp->MaVe, temp->MaPhim, temp->TenNguoiDung);
+
+            // In các ghế đã đặt
+            int demGhe = 0;
+            for (int i = 0; i < 40; i++) {
+                if (temp->GheNgoi[i]) {
+                    printf("%c%d ", 'A' + i / 8, i % 8 + 1);
+                    demGhe++;
+                }
+            }
+            if (demGhe == 0) {
+                printf("(Chua dat)");
+            }
+
+            printf("%24s\n", temp->TrangThai == 1 ? "Da dat" : "Da huy");
+        }
+    }
+
+    printf("----------------------------------------------------------------------------------------\n");
+
+    // Giải phóng bộ nhớ
+    VeNode *tmp;
+    while (headVe) {
+        tmp = headVe;
+        headVe = headVe->next;
+        free(tmp);
+    }
+}
+
+void huyVeDaDat(char *user) {
+    VeNode *headVe = NULL;
+    docVeTuFile(&headVe);
+
+    char *maVe = (char*)malloc(15 * sizeof(char));
+    if (maVe == NULL) { 
+        perror("Loi cap phat bo nho"); 
+        exit(1); 
+    }
+    inVeDaDat(user);
+    printf("Nhap ma ve muon huy: ");
+    scanf("%14s", maVe);
+
+    VeNode *temp = headVe;
+    while (temp) {
+        if (strcmp(temp->MaVe, maVe) == 0 && strcmp(temp->TenNguoiDung, user) == 0) {
+            temp->TrangThai = 2;
+            ghiDanhSachVeVaoFile(headVe);
+            printf("Huy ve thanh cong!\n");
+            break;
+        }
+        temp = temp->next;
+    }
+    if (!temp) {
+        printf("Ma ve khong ton tai hoac khong phai cua ban!\n");
+    }
+
+    VeNode *tmp;
+    while (headVe) {
+        tmp = headVe;
+        headVe = headVe->next;
+        free(tmp);
+    }
+}

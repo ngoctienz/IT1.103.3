@@ -8,7 +8,7 @@ Chao mung!
 3. Thoat
 ------------------------------------
 Nhap lua chon cua ban: */
-void menudangNhap();
+void menudangNhap(void);
 /*===== MENU KHACH HANG =====
 Chao mung !
 1. Xem danh sach phim
@@ -18,7 +18,7 @@ Chao mung !
 5. Dang xuat
 --------------------------
 Nhap lua chon cua ban: */
-void menuKhachHang();
+void menuKhachHang(char *user);
 /*===== MENU QUAN TRI VIEN =====
 
 1. Quan ly Phim
@@ -28,7 +28,7 @@ void menuKhachHang();
 5. Dang xuat
 -----------------------------
 Nhap lua chon cua ban: */
-void menuQuanTriVien();
+void menuQuanTriVien(char *user);
 /*===== QUAN LY PHIM =====
 
 1. Them phim moi
@@ -39,7 +39,7 @@ void menuQuanTriVien();
 
 ------------------------
 Nhap lua chon cua ban: */
-void menuQuanLyPhim();
+void menuQuanLyPhim(char *user);
 /*===== QUAN LY LICH CHIEU =====
 
 1. Them lich chieu moi
@@ -50,7 +50,7 @@ void menuQuanLyPhim();
 
 ----------------------------
 Nhap lua chon cua ban: */
-void menuQuanLyLichChieu();
+void menuQuanLyLichChieu(char *user);
 /*===== QUAN LY VE & THONG KE =====
 
 1. Xem danh sach tat ca ve da dat
@@ -61,7 +61,7 @@ void menuQuanLyLichChieu();
 
 ------------------------------
 Nhap lua chon cua ban: */
-void menuQuanLyVeVaThongKe();
+void menuQuanLyVeVaThongKe(char *user);
 /*===== QUAN LY TAI KHOAN NGUOI DUNG ======
 
 1. Xem danh sach nguoi dung
@@ -70,12 +70,12 @@ void menuQuanLyVeVaThongKe();
 
 ------------------------------------
 Nhap lua chon cua ban: */
-void menuQuanLyTaiKhoanNguoiDung();
+void menuQuanLyTaiKhoanNguoiDung(char *user);
 
 /*Hàm chọn menu cho người dùng
  userType = 1: admin
  userType = 2: user*/
- void chonMenu(int userType);
+ void chonMenu(int userType, char *user);
 
 
 #endif

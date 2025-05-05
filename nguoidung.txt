@@ -2,3 +2,4 @@ admin123|12345|1
 user123|123456789|2
 tester|12345|1hhjj|555|2
 ngoctien|2006|2
+user|123|2
