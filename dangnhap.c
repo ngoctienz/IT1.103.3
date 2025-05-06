@@ -52,10 +52,10 @@ int dangNhap(char *user) {
     return check;
 }
 
+
 // ham dang ky
 int dangKy(char *user) {
     FILE *a;
-//    char *user = (char*)malloc(15 * sizeof(char));
     char *pass = (char*)malloc(15 * sizeof(char));
     char c;
     NguoiDungNode *head = NULL, *temp = NULL, *newNode = NULL;
@@ -84,8 +84,8 @@ int dangKy(char *user) {
             newNode = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
             if (newNode == NULL) {
                 perror("Loi cap phat bo nho: ");
-                // Giải phóng bộ nhớ đã cấp phát trước đó nếu cần
-                return -1; // Hoặc giá trị lỗi khác
+         
+                return -1; 
             }
             strcpy(newNode->username, user);
             strcpy(newNode->password, pass);
@@ -98,7 +98,7 @@ int dangKy(char *user) {
                 fclose(a);
                 xoaMH();
                 printf("Dang ky thanh cong!\nVui long dang nhap lai!\n");
-                break; // Thoát khỏi vòng lặp do...while sau khi đăng ký thành công
+                break; 
             } else {
                 perror("Loi mo file de ghi: ");
             }
