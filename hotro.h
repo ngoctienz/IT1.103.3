@@ -33,8 +33,6 @@ typedef struct VeNode {
     struct VeNode *next;
 } VeNode;
 
-
-
 /*Hàm xóa màn hình*/
 void xoaMH(void);
 /*Hàm đếm ngược t giây sau đó chuyển hướng đến nhiệm vụ/ quá trình s*/
@@ -81,5 +79,11 @@ void inThongTinPhim(PhimNode *p);
 
 /* Hàm xóa phim */
 void xoaPhim(void);
+
+/* Hàm in danh sách vé đã đặt sap xếp theo mã phim */
+void inDanhSachVe(void);
+
+/* Hàm thống kê doanh thu theo phim*/
+void thongKeDoanhThu(void);
 
 #endif

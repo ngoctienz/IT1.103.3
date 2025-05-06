@@ -23,6 +23,7 @@ void stop(int t, const char *s) {
     sleep(1);
 }
 
+// Ham doc danh sach tai khoan tu file nguoidung.txt
 void docTaiKhoanTuFile(NguoiDungNode **head) {
     FILE *a = fopen("nguoidung.txt", "r");
     if (!a) { perror("Loi file"); exit(1); }
@@ -623,5 +624,116 @@ void xoaPhim() {
         tmp = headPhim;
         headPhim = headPhim->next;
         free(tmp);
+    }
+}
+
+// Ham in danh sach ve da dat sap xep theo ma phim
+void inDanhSachVe() {
+    VeNode *headVe = NULL;
+    PhimNode *headPhim = NULL;
+    docVeTuFile(&headVe);
+    docPhimTuFile(&headPhim);
+    printf("                                 DANH SACH VE DA DAT                                   \n");
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("%-10s %-10s %-20s %-10s %-12s %-10s\n", "Ma Ve", "Ma Phim", "Ten Nguoi Dat", "Ghe", "Trang Thai", "Ten phim");
+    printf("----------------------------------------------------------------------------------------\n");
+
+    int soLuongVe[100]; 
+    for (int i = 0; i < 100; i++) {
+        soLuongVe[i] = 0;
+    }
+
+    for (VeNode *tempVe = headVe; tempVe; tempVe = tempVe->next) {
+        PhimNode *tempPhim = headPhim;
+        char tenPhim[50] = "Khong tim thay";
+        while (tempPhim) {
+            if (strcmp(tempPhim->MaPhim, tempVe->MaPhim) == 0) {
+                strcpy(tenPhim, tempPhim->TenPhim);
+                break;
+            }
+            tempPhim = tempPhim->next;
+        }
+
+        printf("%-10s %-10s %-20s ", tempVe->MaVe, tempVe->MaPhim, tempVe->TenNguoiDung);
+
+        int demGhe = 0;
+        for (int i = 0; i < 40; i++) {
+            if (tempVe->GheNgoi[i]) {
+                printf("%c%d ", 'A' + i / 8, i % 8 + 1);
+                demGhe++;
+            }
+        }
+        if (demGhe == 0) {
+            printf("XX ");
+        }
+		printf("%s", "        ");
+        printf("%-12s %-35s\n", tempVe->TrangThai == 1 ? "Da dat" : "Da huy", tenPhim);
+
+
+        for (tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
+            if (strcmp(tempPhim->MaPhim, tempVe->MaPhim) == 0) {
+                soLuongVe[atoi(tempVe->MaPhim + 2)]++;
+                break;
+            }
+        }
+    }
+//    printf("----------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("\n\n                                SO LUONG VE DA DAT THEO PHIM                             \n");
+    printf("-----------------------------------------------------------------------------------------\n");
+    printf("%-15s %-35s %-10s\n", "Ma Phim", "Ten Phim", "So Luong Ve");
+    printf("-----------------------------------------------------------------------------------------\n");
+    for (PhimNode *tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
+        int index = atoi(tempPhim->MaPhim + 2);
+        printf("%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, soLuongVe[index]);
+    }
+	printf("-----------------------------------------------------------------------------------------\n");
+    
+    VeNode *tmpVe;
+    while (headVe) {
+        tmpVe = headVe;
+        headVe = headVe->next;
+        free(tmpVe);
+    }
+    PhimNode *tmpPhim;
+    while (headPhim) {
+        tmpPhim = headPhim;
+        headPhim = headPhim->next;
+        free(tmpPhim);
+    }
+}
+void thongKeDoanhThu() {
+    VeNode *headVe = NULL;
+    PhimNode *headPhim = NULL;
+    docVeTuFile(&headVe);
+    docPhimTuFile(&headPhim);
+
+    printf("                                 THONG KE DOANH THU                                     \n");
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("%-15s %-35s %-10s\n", "Ma Phim", "Ten Phim", "Doanh Thu");
+    printf("----------------------------------------------------------------------------------------\n");
+
+    for (PhimNode *tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
+        int doanhThu = 0;
+        for (VeNode *tempVe = headVe; tempVe; tempVe = tempVe->next) {
+            if (strcmp(tempPhim->MaPhim, tempVe->MaPhim) == 0 && tempVe->TrangThai == 1) {
+                doanhThu += tempPhim->GiaVe;
+            }
+        }
+        printf("%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, doanhThu);
+    }
+    printf("----------------------------------------------------------------------------------------\n");
+
+    VeNode *tmpVe;
+    while (headVe) {
+        tmpVe = headVe;
+        headVe = headVe->next;
+        free(tmpVe);
+    }
+    PhimNode *tmpPhim;
+    while (headPhim) {
+        tmpPhim = headPhim;
+        headPhim = headPhim->next;
+        free(tmpPhim);
     }
 }

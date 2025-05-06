@@ -50,18 +50,8 @@ ProductVersion=
 AutoIncBuildNr=0
 SyncProduct=1
 
-[Unit6]
-FileName=menu.c
-CompileCpp=0
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit7]
-FileName=menu.h
+[Unit1]
+FileName=dangnhap.c
 CompileCpp=0
 Folder=
 Compile=1
@@ -110,8 +100,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit1]
-FileName=dangnhap.c
+[Unit6]
+FileName=menu.c
+CompileCpp=0
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit7]
+FileName=menu.h
 CompileCpp=0
 Folder=
 Compile=1

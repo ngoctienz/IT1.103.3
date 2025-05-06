@@ -22,10 +22,9 @@ void menuKhachHang(char *user);
 /*===== MENU QUAN TRI VIEN =====
 
 1. Quan ly Phim
-2. Quan ly Lich chieu
-3. Quan ly Du lieu Ve va Thong ke
-4. Quan ly Tai khoan Nguoi dung
-5. Dang xuat
+2. Quan ly Du lieu Ve va Thong ke
+3. Quan ly Tai khoan Nguoi dung
+4. Dang xuat
 -----------------------------
 Nhap lua chon cua ban: */
 void menuQuanTriVien(char *user);
@@ -40,24 +39,12 @@ void menuQuanTriVien(char *user);
 ------------------------
 Nhap lua chon cua ban: */
 void menuQuanLyPhim(char *user);
-/*===== QUAN LY LICH CHIEU =====
 
-1. Them lich chieu moi
-2. Sua thong tin lich chieu
-3. Hien thi danh sach lich chieu
-4. Cap nhat so do ghe ngoi (trang thai)
-5. Quay lai Menu chinh
-
-----------------------------
-Nhap lua chon cua ban: */
-void menuQuanLyLichChieu(char *user);
 /*===== QUAN LY VE & THONG KE =====
 
 1. Xem danh sach tat ca ve da dat
-2. Xu ly ve bi huy (cap nhat trang thai)
-3. Thong ke doanh thu
-4. Xuat bao cao thong ke
-5. Quay lai Menu chinh
+2. Thong ke doanh thu
+3. Quay lai Menu chinh
 
 ------------------------------
 Nhap lua chon cua ban: */
@@ -76,6 +63,5 @@ void menuQuanLyTaiKhoanNguoiDung(char *user);
  userType = 1: admin
  userType = 2: user*/
  void chonMenu(int userType, char *user);
-
 
 #endif
