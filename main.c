@@ -28,8 +28,7 @@ int main(void) {
                  printf("Lua chon khong hop le!\n");
          }
      } while (UserType == 0);
-
-    chonMenu(UserType, user);
+    chonMenu(UserType,user);
     free(user);
     return 0;
 }

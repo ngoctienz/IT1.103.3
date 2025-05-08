@@ -101,7 +101,6 @@ void chonMenu(int n, char *user) {
                             } while (choice != 0);
                             break;        
                             case 2:
-
                                 xoaMH();
                                 suaPhim();
                                 break;        
@@ -174,6 +173,28 @@ void chonMenu(int n, char *user) {
                         xoaMH();
                         menuQuanLyTaiKhoanNguoiDung(user);
                         scanf("%d", &choice);
+                        switch (choice) {
+                         case 1: 
+                        	do{
+                        	xoaMH();
+                        	inDanhSachNguoiDung();
+                        	printf("Nhap 0 de quay lai: ");
+                            scanf("%d", &choice);
+                            if (choice == 0) 
+                            break;					                                                	
+                      	} while (choice != 0);
+                      	break;
+                      	 case 2:
+                      	    do{
+                      	    xoaMH();
+							xoaTaiKhoanNguoiDung(user);  
+							printf("Nhap 0 de quay lai: ");
+                            scanf("%d", &choice);
+                            if (choice == 0) 
+                            break;  	
+							  }while (choice != 0);
+							  break;
+					}
                         if (choice == 3) break;
                     } while (choice != 3);
                     break;

@@ -737,3 +737,126 @@ void thongKeDoanhThu() {
         free(tmpPhim);
     }
 }
+// Ham ghi danh sach nguoi dung vao file nguoidung.txt
+void ghiDanhSachNguoiDungVaoFile(NguoiDungNode *head) {
+    FILE *f = fopen("nguoidung.txt", "w");
+    if (!f) {
+        perror("Loi mo file nguoidung.txt de ghi");
+        return;
+    }
+
+    NguoiDungNode *current = head;
+    while (current) {
+        // WARNING: Writing password to file. Consider hashing in a real application.
+        fprintf(f, "%s|%s|%d\n", current->username, current->password, current->type);
+        current = current->next;
+    }
+    fclose(f);
+}
+
+// Ham in danh sach tat ca nguoi dung
+void inDanhSachNguoiDung(void) {
+    NguoiDungNode *head = NULL;
+    docTaiKhoanTuFile(&head);
+
+    printf("                                 DANH SACH NGUOI DUNG                                  \n");
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("%-20s %-10s\n", "Ten Dang Nhap", "Loai Tai Khoan");
+    printf("----------------------------------------------------------------------------------------\n");
+
+    NguoiDungNode *current = head;
+    while (current != NULL) {
+        // Do not display passwords directly
+        printf("%-20s %-10s\n", current->username, current->type == 1 ? "Admin" : "User");
+        current = current->next;
+    }
+    printf("----------------------------------------------------------------------------------------\n");
+
+    // Giai phong bo nho
+    NguoiDungNode *tmp;
+    while (head) {
+        tmp = head;
+        head = tmp->next;
+        free(tmp);
+    }
+}
+
+// Ham xoa tai khoan nguoi dung
+void xoaTaiKhoanNguoiDung(char *adminUser) {
+    NguoiDungNode *head = NULL;
+    docTaiKhoanTuFile(&head);
+
+    xoaMH();
+    inDanhSachNguoiDung();
+
+    char usernameToDelete[15];
+    printf("\nNhap ten dang nhap cua nguoi dung muon xoa: ");
+    scanf("%14s", usernameToDelete);
+
+    if (strcmp(usernameToDelete, adminUser) == 0) {
+        printf("Ban khong the xoa tai khoan admin dang su dung!\n");
+         // Giai phong bo nho
+        NguoiDungNode *tmp;
+        while (head) {
+            tmp = head;
+            head = tmp->next;
+            free(tmp);
+        }
+        return;
+    }
+
+    NguoiDungNode *curr = head, *prev = NULL;
+    while (curr != NULL && strcmp(curr->username, usernameToDelete) != 0) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    if (!curr) {
+        printf("Khong tim thay nguoi dung voi ten dang nhap: %s\n", usernameToDelete);
+         // Giai phong bo nho
+        NguoiDungNode *tmp;
+        while (head) {
+            tmp = head;
+            head = tmp->next;
+            free(tmp);
+        }
+        return;
+    }
+
+    printf("Ban co chac chan muon xoa tai khoan cua nguoi dung '%s' khong?\n", usernameToDelete);
+    printf("Nhap 1 de xac nhan, 0 de huy: ");
+    int confirm;
+    scanf("%d", &confirm);
+
+    if (confirm != 1) {
+        printf("Huy xoa tai khoan.\n");
+         // Giai phong bo nho
+        NguoiDungNode *tmp;
+        while (head) {
+            tmp = head;
+            head = tmp->next;
+            free(tmp);
+        }
+        return;
+    }
+
+    // Xoa node
+    if (!prev) {
+        head = curr->next;
+    } else {
+        prev->next = curr->next;
+    }
+    free(curr);
+
+    // Ghi lai danh sach moi vao file
+    ghiDanhSachNguoiDungVaoFile(head);
+
+    printf("Xoa tai khoan nguoi dung '%s' thanh cong!\n", usernameToDelete);
+
+    // Giai phong bo nho
+    NguoiDungNode *tmp;
+    while (head) {
+        tmp = head;
+        head = tmp->next;
+        free(tmp);
+    }}

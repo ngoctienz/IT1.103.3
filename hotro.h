@@ -86,4 +86,12 @@ void inDanhSachVe(void);
 /* Hàm thống kê doanh thu theo phim*/
 void thongKeDoanhThu(void);
 
+/* Hàm ghi danh sách người dùng vào file nguoidung.txt */
+void ghiDanhSachNguoiDungVaoFile(NguoiDungNode *head);
+
+/* Hàm in danh sách tất cả người dùng (Admin only) */
+void inDanhSachNguoiDung(void);
+
+/* Hàm xóa tài khoản người dùng (Admin only) */
+void xoaTaiKhoanNguoiDung(char *adminUser);
 #endif
