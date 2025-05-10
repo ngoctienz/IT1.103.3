@@ -3,12 +3,6 @@
 #include <string.h>
 #include "dangnhap.h"
 #include "hotro.h"
-#define RESET_COLOR   "\x1b[0m"
-#define BOLD          "\x1b[1m"
-#define GREEN         "\x1b[32m"
-#define RED           "\x1b[31m"
-#define YELLOW        "\x1b[33m"
-#define CYAN          "\x1b[36m"
 //Ham doc file user
 int docTaiKhoan(char *user, char *pass) {
     FILE *a;
@@ -44,8 +38,11 @@ int dangNhap(char *user) {
         printf(YELLOW "Nhap mat khau: " RESET_COLOR);
         scanf("%s", pass);
         while ((c = getchar()) != '\n' && c != EOF);
+        // Gọi hàm docTaiKhoan để kiểm tra thông tin đăng nhập
+        // Hàm này được giả định sẽ đọc file, tìm kiếm tài khoản khớp với user/pass
+        // và trả về loại tài khoản (1: admin, 2: user) hoặc 0 nếu không tìm thấy/sai
         UserType = docTaiKhoan(user, pass);
-        if (UserType == 0) {
+        if (UserType == 0) {// Nếu UserType là 0 (đăng nhập thất bại)
             xoaMH();
             printf(RED BOLD "Ten dang nhap hoac mat khau khong dung!\n" RESET_COLOR);
             printf(YELLOW "Nhan Enter de nhap lai hoac nhap 0 de quay lai menu chinh: " RESET_COLOR);
@@ -58,13 +55,13 @@ int dangNhap(char *user) {
             }
             xoaMH();
             printf(BOLD CYAN "===== HE THONG DANG NHAP =====\n" RESET_COLOR);
-        } else {
+        } else {// Nếu UserType khác 0 (đăng nhập thành công)
             printf(GREEN BOLD "Dang nhap thanh cong!\n" RESET_COLOR);
             stop(2, "Menu");
             free(pass);
             return UserType;
         }
-    } while (UserType == 0);
+    } while (UserType == 0);// Vòng lặp tiếp tục nếu UserType là 0 (đăng nhập thất bại)
     free(pass);
     return 0;
 }
@@ -72,9 +69,9 @@ int dangNhap(char *user) {
 int dangKy(char *user) {
     FILE *a;
     char *pass = (char*)malloc(15 * sizeof(char));
-    char c;
+    char c;// Khai báo biến để đọc ký tự thừa trong bộ đệm nhập
     NguoiDungNode *head = NULL, *temp = NULL, *newNode = NULL;
-    int check = 0;
+    int check = 0;// Biến để kiểm tra tên đăng nhập có tồn tại hay không
 
     docTaiKhoanTuFile(&head);
 
@@ -102,6 +99,7 @@ int dangKy(char *user) {
          
                 return -1; 
             }
+            // Sao chép tên đăng nhập và mật khẩu vào nút mới
             strcpy(newNode->username, user);
             strcpy(newNode->password, pass);
             newNode->type = 2; // User

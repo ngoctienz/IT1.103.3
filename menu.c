@@ -2,14 +2,6 @@
 #include <stdlib.h>
 #include "menu.h"
 #include "hotro.h"
-#define RESET_COLOR   "\x1b[0m"
-#define BOLD          "\x1b[1m"
-#define YELLOW        "\x1b[33m"
-#define RED           "\x1b[31m"
-#define GREEN         "\x1b[32m"
-#define CYAN          "\x1b[36m"
-#define MAGENTA       "\x1b[35m"
-#define BLUE          "\x1b[34m"
 // Ham menudangNhap
 void menudangNhap(void) {
     xoaMH();

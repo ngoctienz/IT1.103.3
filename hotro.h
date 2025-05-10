@@ -2,6 +2,15 @@
 #define HOTRO_H
 
 #define MAX_GHE 40
+#define RESET_COLOR   "\x1b[0m"
+#define BOLD          "\x1b[1m"
+#define GREEN         "\x1b[32m"
+#define RED           "\x1b[31m"
+#define YELLOW        "\x1b[33m"
+#define CYAN          "\x1b[36m"
+#define BLUE          "\x1b[34m"
+#define MAGENTA       "\x1b[35m"
+#define BLACK         "\x1b[30m"
 /* danh sach lien ket nguoi dung */
 typedef struct NguoiDungNode {
     char username[15];
@@ -38,7 +47,7 @@ void xoaMH(void);
 /*Hàm đếm ngược t giây sau đó chuyển hướng đến nhiệm vụ/ quá trình s*/
 void stop(int t, const char *s);
 
-/*HHàm sẽ đđọc toàn bộ nội dung của file nguoidung.txt một lần duy nhất và lưu vào danh sách liên kết NguoiDungNode*/ 
+/*HHàm sẽ đọc toàn bộ nội dung của file nguoidung.txt một lần duy nhất và lưu vào danh sách liên kết NguoiDungNode*/ 
 void docTaiKhoanTuFile(NguoiDungNode **head);
 
 /*Hàm sẽ đọc toàn bộ nội dung của file phim.txt một lần duy nhất và lưu vào danh sách liên kết PhimNode*/
