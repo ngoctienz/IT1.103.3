@@ -4,7 +4,15 @@
 #include <unistd.h>
 #include <time.h>
 #include "hotro.h"
-
+#define RESET_COLOR   "\x1b[0m"
+#define BOLD          "\x1b[1m"
+#define GREEN         "\x1b[32m"
+#define RED           "\x1b[31m"
+#define YELLOW        "\x1b[33m"
+#define CYAN          "\x1b[36m"
+#define BLUE          "\x1b[34m"
+#define Magenta       "\x1b[35m"
+#define BLACK         "\x1b[30m"
 void xoaMH(void) {
 #ifdef _WIN32
     system("cls");
@@ -22,7 +30,6 @@ void stop(int t, const char *s) {
     printf("\nDang chuyen huong den %s ...\n", s);
     sleep(1);
 }
-
 // Ham doc danh sach tai khoan tu file nguoidung.txt
 void docTaiKhoanTuFile(NguoiDungNode **head) {
     FILE *a = fopen("nguoidung.txt", "r");
@@ -31,7 +38,6 @@ void docTaiKhoanTuFile(NguoiDungNode **head) {
     while (!feof(a)) {
         NguoiDungNode *temp = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
         if (!temp) { perror("Loi cap phat bo nho"); exit(1); }
-
         char pass[15];
         if (fscanf(a, "%[^|]|%[^|]|%d\n", temp->username, pass, &temp->type) == 3) {
             strcpy(temp->password, pass);
@@ -43,7 +49,6 @@ void docTaiKhoanTuFile(NguoiDungNode **head) {
     }
     fclose(a);
 }
-
 void docPhimTuFile(PhimNode **head) {
     FILE *a = fopen("phim.txt", "r");
     if (!a) { perror("Loi file"); exit(1); }
@@ -67,31 +72,26 @@ void docPhimTuFile(PhimNode **head) {
 void inDanhSachPhim(void) {
     PhimNode *temp = NULL;
     docPhimTuFile(&temp);
-    printf("                                         DANH SACH PHIM                                   \n");
-    printf("------------------------------------------------------------------------------------------\n");
-    printf("%-10s %-15s %-15s %-10s %-10s %-10s %-10s\n", "Ma Phim", "Ten Phim", "The Loai", "Ngay", "Gio", "Phong", "Gia ve");
-    printf("------------------------------------------------------------------------------------------\n");
+    printf(BLUE"                                         DANH SACH PHIM                                   \n"RESET_COLOR);
+    printf(RED"------------------------------------------------------------------------------------------\n"RESET_COLOR);
+    printf(RED"%-10s %-15s %-15s %-10s %-10s %-10s %-10s\n", "Ma Phim", "Ten Phim", "The Loai", "Ngay", "Gio", "Phong", "Gia ve");
+    printf("------------------------------------------------------------------------------------------\n"RESET_COLOR);
     while (temp != NULL) {
-        printf("%-10s %-15s %-15s %-10s %-10s %-10s %-10d\n", temp->MaPhim, temp->TenPhim, temp->TheLoai, temp->NgayChieu, temp->GioChieu, temp->PhongChieu, temp->GiaVe);
+        printf(YELLOW"%-10s %-15s %-15s %-10s %-10s %-10s %-10d\n", temp->MaPhim, temp->TenPhim, temp->TheLoai, temp->NgayChieu, temp->GioChieu, temp->PhongChieu, temp->GiaVe);
         temp = temp->next;
     }
-    printf("------------------------------------------------------------------------------------------\n");
+    printf(RESET_COLOR);
+    printf(RED"------------------------------------------------------------------------------------------\n"RESET_COLOR);
     }
-
-
-
-
-
 // Ham doc danh sach ve tu file ve.txt
 // va luu vao danh sach lien ket
 
 void docVeTuFile(VeNode **head) {
     FILE *a = fopen("ve.txt", "r");
     if (!a) { perror("Loi file"); exit(1); }
-
     while (!feof(a)) {
         VeNode *temp = (VeNode*)malloc(sizeof(VeNode));
-        if (!temp) { perror("Loi cap phat bo nho"); exit(1); }
+        if (!temp) { perror(RED"Loi cap phat bo nho"RESET_COLOR); exit(1); }
 
         char gheChuoi[200];
         if (fscanf(a, "%[^|]|%[^|]|%[^|]|%[^|]|%d\n", temp->MaVe, temp->MaPhim, temp->TenNguoiDung, gheChuoi, &temp->TrangThai) == 5) {
@@ -129,7 +129,6 @@ void ghiDanhSachVeVaoFile(VeNode *head) {
     }
     fclose(f);
 }
-
 void taoMaVe(char *maVe) {
     srand(time(NULL));
     sprintf(maVe, "VE%04d", rand() % 10000);
@@ -146,14 +145,14 @@ void inSoDoGhe(VeNode *headVe, const char *maPhim) {
         }
     }
 
-    printf("\nSo do ghe (X: da dat, O: trong):\n");
+    printf(RED"\nSo do ghe (X: da dat, O: trong):\n"RESET_COLOR);
     printf("  ------------------------\n");
 
     for (char hang = 'A'; hang <= 'E'; hang++) {
         printf("%c |", hang);
         for (int cot = 1; cot <= 8; cot++) {
             int idx = (hang - 'A') * 8 + (cot - 1);
-            printf(" %-2s", ghe[idx] ? "X" : "O");
+            printf(" %-2s", ghe[idx] ? RED"X"RESET_COLOR : GREEN"O"RESET_COLOR);
         }
         printf("\n");
     }
@@ -175,7 +174,7 @@ void datVe(char *user) {
 
     VeNode *newVe = (VeNode*)malloc(sizeof(VeNode));
     if (newVe == NULL) { 
-        perror("Loi cap phat bo nho"); 
+        perror(RED"Loi cap phat bo nho"RESET_COLOR); 
         exit(1); 
     }
     taoMaVe(newVe->MaVe);   
@@ -183,7 +182,7 @@ void datVe(char *user) {
     char *maPhim = (char*)malloc(15 * sizeof(char));
     char *gheNgoi = (char*)malloc(3 * sizeof(char));
     if (maPhim == NULL || gheNgoi == NULL) { 
-        perror("Loi cap phat bo nho"); 
+        perror(RED"Loi cap phat bo nho"RESET_COLOR); 
         exit(1); 
     }
 
@@ -192,7 +191,7 @@ void datVe(char *user) {
     inDanhSachPhim();
     PhimNode *tempPhim;
     do {
-        printf("Nhap ma phim muon dat ve: ");
+        printf(YELLOW"Nhap ma phim muon dat ve: "RESET_COLOR);
         scanf("%14s", maPhim);
         tempPhim = headPhim;
         while (tempPhim) {
@@ -203,18 +202,18 @@ void datVe(char *user) {
             tempPhim = tempPhim->next;
         }
         if (!tempPhim) {
-            printf("Ma phim khong ton tai!\n");
+            printf(RED"Ma phim khong ton tai!\n"RESET_COLOR);
         } else {
             inSoDoGhe(headVe, maPhim);
             break;
         }
     } while (1);
 
-    printf("Nguoi dat ve: %s\n", user);
+    printf(GREEN"Nguoi dat ve: %s\n"RESET_COLOR, user);
     strcpy(newVe->TenNguoiDung, user);
 
     do {
-        printf("Nhap ghe ngoi (VD: A1): ");
+        printf(GREEN"Nhap ghe ngoi (VD: A1): "RESET_COLOR);
         scanf("%2s", gheNgoi);
         if (strlen(gheNgoi) != 2 || *gheNgoi < 'A' || *gheNgoi > 'E' || *(gheNgoi + 1) < '1' || *(gheNgoi + 1) > '8') {
             printf("Dinh dang sai.\n");
@@ -234,10 +233,10 @@ void datVe(char *user) {
             newVe->next = headVe;
             headVe = newVe;
             ghiDanhSachVeVaoFile(headVe);
-            printf("Dat ve thanh cong!\n");
+            printf(RED"Dat ve thanh cong!\n"RESET_COLOR);
             break;
         } else {
-            printf("Ghe da duoc dat!\n");
+            printf(GREEN"Ghe da duoc dat!\n"RESET_COLOR);
         }
     } while (1);
 
@@ -249,15 +248,14 @@ void inVeDaDat(char *user) {
     VeNode *headVe = NULL;
     docVeTuFile(&headVe);
  
-    printf("                                      DANH SACH VE DA DAT                              \n");
-    printf("----------------------------------------------------------------------------------------\n");
-    printf("\n%-10s %-10s %-20s %-20s %-12s\n", "Ma Ve", "Ma Phim", "Ten Nguoi Dat", "Ghe Ngoi", "Trang Thai");
-    printf("----------------------------------------------------------------------------------------\n");
-
+    printf(BLUE"                                    DANH SACH VE DA DAT                              \n");
+    printf(Magenta"----------------------------------------------------------------------------------------");
+    printf(RED"\n%-10s %-10s %-20s %-20s %-12s\n", "Ma Ve", "Ma Phim", "Ten Nguoi Dat", "Ghe Ngoi", "Trang Thai");
+    printf(Magenta"----------------------------------------------------------------------------------------\n");
     for (VeNode *temp = headVe; temp; temp = temp->next) {
         if (strcmp(temp->TenNguoiDung, user) == 0) {
             // In dòng đầu với các trường cơ bản
-            printf("%-10s %-10s %-20s ", temp->MaVe, temp->MaPhim, temp->TenNguoiDung);
+            printf(BOLD YELLOW"%-10s %-10s %-20s ", temp->MaVe, temp->MaPhim, temp->TenNguoiDung);
 
             // In các ghế đã đặt
             int demGhe = 0;
@@ -271,11 +269,11 @@ void inVeDaDat(char *user) {
                 printf("XX ");
             }
 
-            printf("%24s\n", temp->TrangThai == 1 ? "Da dat" : "Da huy");
+            printf("%30s\n", temp->TrangThai == 1 ? GREEN"Da dat" : RED"Da huy"RESET_COLOR);
         }
     }
 
-    printf("----------------------------------------------------------------------------------------\n");
+    printf(Magenta"----------------------------------------------------------------------------------------\n"RESET_COLOR);
 
     // Giải phóng bộ nhớ
     VeNode *tmp;
@@ -297,25 +295,25 @@ void huyVeDaDat(char *user) {
     }
 
     inVeDaDat(user);
-    printf("Nhap ma ve muon huy: ");
+    printf(YELLOW"Nhap ma ve muon huy: "RESET_COLOR);
     scanf("%14s", maVe);
 
     int found = 0;
     VeNode *temp = headVe;
     while (temp) {
         if (strcmp(temp->MaVe, maVe) == 0 && strcmp(temp->TenNguoiDung, user) == 0 && temp->TrangThai == 1) {
-            printf("Ban chac chan muon huy ve: ");
+            printf(YELLOW"Ban chac chan muon huy ve: "RESET_COLOR);
             for (int i = 0; i < 40; i++) {
                 if (temp->GheNgoi[i]) {
                     printf("%c%d ", 'A' + i / 8, i % 8 + 1);
                 }
             }
-            printf("?\nNhap 1 de xac nhan, 0 de huy thao tac: ");
+            printf(BLUE"?\nNhap 1 de xac nhan, 0 de huy thao tac: "RESET_COLOR);
 
             int xacNhan;
             scanf("%d", &xacNhan);
             if (xacNhan != 1) {
-                printf("Da huy thao tac huy ve.\n");
+                printf(RED"Da huy thao tac huy ve.\n"RESET_COLOR);
                 free(maVe);
                 // Giải phóng danh sách
                 VeNode *tmp;
@@ -340,7 +338,7 @@ void huyVeDaDat(char *user) {
     }
 
     if (!found) {
-        printf("Ma ve khong ton tai, da bi huy, hoac khong phai cua ban!\n");
+        printf(RED"Ma ve khong ton tai, da bi huy, hoac khong phai cua ban!\n"RESET_COLOR);
     }
 
     // Giải phóng
@@ -367,10 +365,8 @@ void themPhim(void) {
     xoaMH();
     printf("THEM PHIM MOI\n");
     printf("========================================\n");
-
     printf("Nhap ma phim: ");
     scanf("%s", newPhim->MaPhim);
-
     // Kiem tra trung ma phim
     for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
         if (strcmp(temp->MaPhim, newPhim->MaPhim) == 0) {
@@ -380,20 +376,20 @@ void themPhim(void) {
         }
     }
 
-    printf("Nhap ten phim: ");
+    printf(YELLOW"Nhap ten phim: "RESET_COLOR);
     getchar(); // Xoa bo nho dem
     fgets(newPhim->TenPhim, sizeof(newPhim->TenPhim), stdin);
     strtok(newPhim->TenPhim, "\n"); // Xoa ky tu newline
-    printf("Nhap the loai: ");
+    printf(YELLOW"Nhap the loai: "RESET_COLOR);
     fgets(newPhim->TheLoai, sizeof(newPhim->TheLoai), stdin);
     strtok(newPhim->TheLoai, "\n");
-    printf("Nhap ngay chieu (dd/mm/yyyy): ");
+    printf(YELLOW"Nhap ngay chieu (dd/mm/yyyy): "RESET_COLOR);
     scanf("%s", newPhim->NgayChieu);
-    printf("Nhap gio chieu (hh:mm): ");
+    printf(YELLOW"Nhap gio chieu (hh:mm): "RESET_COLOR);
     scanf("%s", newPhim->GioChieu);
-    printf("Nhap phong chieu: ");
+    printf(YELLOW"Nhap phong chieu: "RESET_COLOR);
     scanf("%s", newPhim->PhongChieu);
-    printf("Nhap gia ve: ");
+    printf(YELLOW"Nhap gia ve: "RESET_COLOR);
     scanf("%d", &newPhim->GiaVe);
 
     // Kiem tra trung lich (ngay + gio + phong)
@@ -401,7 +397,7 @@ void themPhim(void) {
         if (strcmp(temp->NgayChieu, newPhim->NgayChieu) == 0 &&
             strcmp(temp->GioChieu, newPhim->GioChieu) == 0 &&
             strcmp(temp->PhongChieu, newPhim->PhongChieu) == 0) {
-            printf("Da co phim duoc chieu vao thoi diem nay trong phong nay!\n");
+            printf(RED"Da co phim duoc chieu vao thoi diem nay trong phong nay!\n"RESET_COLOR);
             free(newPhim);
             return;
         }
@@ -478,54 +474,54 @@ void suaPhim() {
         printf("\n---------------------THONG TIN PHIM---------------------\n");
         inThongTinPhim(found);
         printf("\n------------------------- MENU -------------------------\n");
-        printf("1. Sua ma phim\n");
-        printf("2. Sua ten phim\n");
-        printf("3. Sua the loai\n");
-        printf("4. Sua ngay chieu\n");
-        printf("5. Sua gio chieu\n");
-        printf("6. Sua phong chieu\n");
-        printf("7. Sua gia ve\n");
-        printf("0. Thoat sua quay lai quan li phim\n");
+        printf(Magenta"1. Sua ma phim\n"RESET_COLOR);
+        printf(Magenta"2. Sua ten phim\n"RESET_COLOR);
+        printf(Magenta"3. Sua the loai\n"RESET_COLOR);
+        printf(Magenta"4. Sua ngay chieu\n"RESET_COLOR);
+        printf(Magenta"5. Sua gio chieu\n"RESET_COLOR);
+        printf(Magenta"6. Sua phong chieu\n"RESET_COLOR);
+        printf(Magenta"7. Sua gia ve\n"RESET_COLOR);
+        printf(Magenta"0. Thoat sua quay lai quan li phim\n"RESET_COLOR);
         printf("----------------------------------------------------------\n");
-        printf("Chon: ");
+        printf(BLUE"Chon: "RESET_COLOR);
         scanf("%d", &choice);
         getchar();
 
         switch (choice) {
             case 1:
-                printf("Nhap ma phim moi: ");
+                printf(BLUE"Nhap ma phim moi: "RESET_COLOR);
                 scanf("%s", found->MaPhim);
                 break;
             case 2:
-                printf("Nhap ten phim moi: ");
+                printf(BLUE"Nhap ten phim moi: "RESET_COLOR);
                 fgets(found->TenPhim, sizeof(found->TenPhim), stdin);
                 strtok(found->TenPhim, "\n");
                 break;
             case 3:
-                printf("Nhap the loai moi: ");
+                printf(BLUE"Nhap the loai moi: "RESET_COLOR);
                 fgets(found->TheLoai, sizeof(found->TheLoai), stdin);
                 strtok(found->TheLoai, "\n");
                 break;
             case 4:
-                printf("Nhap ngay chieu moi: ");
+                printf(BLUE"Nhap ngay chieu moi: "RESET_COLOR);
                 scanf("%s", found->NgayChieu);
                 break;
             case 5:
-                printf("Nhap gio chieu moi: ");
+                printf(BLUE"Nhap gio chieu moi: "RESET_COLOR);
                 scanf("%s", found->GioChieu);
                 break;
             case 6:
-                printf("Nhap phong chieu moi: ");
+                printf(BLUE"Nhap phong chieu moi: "RESET_COLOR);
                 scanf("%s", found->PhongChieu);
                 break;
             case 7:
-                printf("Nhap gia ve moi: ");
+                printf(BLUE"Nhap gia ve moi: "RESET_COLOR);
                 scanf("%d", &found->GiaVe);
                 break;
             case 0:
                 break;
             default:
-                printf("Lua chon khong hop le!\n");
+                printf(RED"Lua chon khong hop le!\n"RESET_COLOR);
         }
     } while (choice != 0);
 
@@ -562,8 +558,8 @@ void xoaPhim() {
     docPhimTuFile(&headPhim);
     inDanhSachPhim();
     char maPhim[15];
-    printf("Nhap ma phim muon xoa: ");
-    scanf("%s", maPhim);
+    printf(RED"Nhap ma phim muon xoa: "RESET_COLOR);
+    scanf(GREEN"%s"RESET_COLOR, maPhim);
 
     PhimNode *curr = headPhim, *prev = NULL;
     while (curr != NULL && strcmp(curr->MaPhim, maPhim) != 0) {
@@ -576,16 +572,16 @@ void xoaPhim() {
         return;
     }
 
-    printf("Ban co chac chan muon xoa phim sau khong?\n");
-    printf("----------------------------------------------------------\n");
+    printf(RED"Ban co chac chan muon xoa phim sau khong?\n"RESET_COLOR);
+    printf(BLUE"----------------------------------------------------------\n"RESET_COLOR);
     inThongTinPhim(curr);
-    printf("----------------------------------------------------------\n");
-    printf("Nhap 1 de xoa, 0 de huy: ");
+    printf(BLUE"----------------------------------------------------------\n"RESET_COLOR);
+    printf(RED"Nhap 1 de xoa, 0 de huy: "RESET_COLOR);
     int confirm;
-    scanf("%d", &confirm);
+    scanf(GREEN"%d"RESET_COLOR, &confirm);
 
     if (confirm != 1) {
-        printf("Huy xoa phim.\n");
+        printf(RED"Huy xoa phim.\n"RESET_COLOR);
         return;
     }
 
@@ -633,10 +629,10 @@ void inDanhSachVe() {
     PhimNode *headPhim = NULL;
     docVeTuFile(&headVe);
     docPhimTuFile(&headPhim);
-    printf("                                 DANH SACH VE DA DAT                                   \n");
-    printf("----------------------------------------------------------------------------------------\n");
+    printf(BOLD BLUE"                                 DANH SACH VE DA DAT                                   \n"RESET_COLOR);
+    printf(BOLD Magenta"----------------------------------------------------------------------------------------\n");
     printf("%-10s %-10s %-20s %-10s %-12s %-10s\n", "Ma Ve", "Ma Phim", "Ten Nguoi Dat", "Ghe", "Trang Thai", "Ten phim");
-    printf("----------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------\n"RESET_COLOR);
 
     int soLuongVe[100]; 
     for (int i = 0; i < 100; i++) {
@@ -654,8 +650,8 @@ void inDanhSachVe() {
             tempPhim = tempPhim->next;
         }
 
-        printf("%-10s %-10s %-20s ", tempVe->MaVe, tempVe->MaPhim, tempVe->TenNguoiDung);
-
+        printf(BOLD YELLOW"%-10s %-10s %-20s ", tempVe->MaVe, tempVe->MaPhim, tempVe->TenNguoiDung);
+        
         int demGhe = 0;
         for (int i = 0; i < 40; i++) {
             if (tempVe->GheNgoi[i]) {
@@ -668,7 +664,7 @@ void inDanhSachVe() {
         }
 		printf("%s", "        ");
         printf("%-12s %-35s\n", tempVe->TrangThai == 1 ? "Da dat" : "Da huy", tenPhim);
-
+       printf(RESET_COLOR);
 
         for (tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
             if (strcmp(tempPhim->MaPhim, tempVe->MaPhim) == 0) {
@@ -678,16 +674,17 @@ void inDanhSachVe() {
         }
     }
 //    printf("----------------------------------------------------------------------------------------\n");
-    printf("----------------------------------------------------------------------------------------\n");
-    printf("\n\n                                SO LUONG VE DA DAT THEO PHIM                             \n");
-    printf("-----------------------------------------------------------------------------------------\n");
+    printf(BOLD Magenta"----------------------------------------------------------------------------------------\n"RESET_COLOR);
+    printf(BOLD BLUE"\n\n                                SO LUONG VE DA DAT THEO PHIM                             \n"RESET_COLOR);
+    printf(BOLD Magenta"-----------------------------------------------------------------------------------------\n");
     printf("%-15s %-35s %-10s\n", "Ma Phim", "Ten Phim", "So Luong Ve");
-    printf("-----------------------------------------------------------------------------------------\n");
+    printf("-----------------------------------------------------------------------------------------\n"RESET_COLOR);
     for (PhimNode *tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
         int index = atoi(tempPhim->MaPhim + 2);
-        printf("%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, soLuongVe[index]);
+        printf(BOLD YELLOW"%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, soLuongVe[index]);
     }
-	printf("-----------------------------------------------------------------------------------------\n");
+    printf(RESET_COLOR);
+	printf(BOLD Magenta"-----------------------------------------------------------------------------------------\n"RESET_COLOR);
     
     VeNode *tmpVe;
     while (headVe) {
@@ -708,10 +705,10 @@ void thongKeDoanhThu() {
     docVeTuFile(&headVe);
     docPhimTuFile(&headPhim);
 
-    printf("                                 THONG KE DOANH THU                                     \n");
-    printf("----------------------------------------------------------------------------------------\n");
+    printf(BOLD BLUE"                                 THONG KE DOANH THU                                     \n"RESET_COLOR);
+    printf(BOLD Magenta"----------------------------------------------------------------------------------------\n");
     printf("%-15s %-35s %-10s\n", "Ma Phim", "Ten Phim", "Doanh Thu");
-    printf("----------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------\n"RESET_COLOR);
 
     for (PhimNode *tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
         int doanhThu = 0;
@@ -720,9 +717,10 @@ void thongKeDoanhThu() {
                 doanhThu += tempPhim->GiaVe;
             }
         }
-        printf("%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, doanhThu);
+        printf(BOLD YELLOW"%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, doanhThu);
     }
-    printf("----------------------------------------------------------------------------------------\n");
+    printf(RESET_COLOR);
+    printf(BOLD Magenta"----------------------------------------------------------------------------------------\n"RESET_COLOR);
 
     VeNode *tmpVe;
     while (headVe) {
@@ -759,19 +757,19 @@ void inDanhSachNguoiDung(void) {
     NguoiDungNode *head = NULL;
     docTaiKhoanTuFile(&head);
 
-    printf("                                 DANH SACH NGUOI DUNG                                  \n");
-    printf("----------------------------------------------------------------------------------------\n");
+    printf(BOLD RED"                                 DANH SACH NGUOI DUNG                                  \n"RESET_COLOR);
+    printf(BOLD BLUE"----------------------------------------------------------------------------------------\n");
     printf("%-20s %-10s\n", "Ten Dang Nhap", "Loai Tai Khoan");
-    printf("----------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------\n"RESET_COLOR);
 
     NguoiDungNode *current = head;
     while (current != NULL) {
         // Do not display passwords directly
-        printf("%-20s %-10s\n", current->username, current->type == 1 ? "Admin" : "User");
+        printf(BOLD YELLOW"%-20s %-10s\n", current->username, current->type == 1 ? "Admin" : "User");
         current = current->next;
     }
-    printf("----------------------------------------------------------------------------------------\n");
-
+    printf(RESET_COLOR);
+    printf(BOLD BLUE"----------------------------------------------------------------------------------------\n"RESET_COLOR);
     // Giai phong bo nho
     NguoiDungNode *tmp;
     while (head) {
@@ -790,11 +788,11 @@ void xoaTaiKhoanNguoiDung(char *adminUser) {
     inDanhSachNguoiDung();
 
     char usernameToDelete[15];
-    printf("\nNhap ten dang nhap cua nguoi dung muon xoa: ");
+    printf(RED"\nNhap ten dang nhap cua nguoi dung muon xoa: "RESET_COLOR);
     scanf("%14s", usernameToDelete);
 
     if (strcmp(usernameToDelete, adminUser) == 0) {
-        printf("Ban khong the xoa tai khoan admin dang su dung!\n");
+        printf(RED"Ban khong the xoa tai khoan admin dang su dung!\n"RESET_COLOR);
          // Giai phong bo nho
         NguoiDungNode *tmp;
         while (head) {
@@ -823,13 +821,13 @@ void xoaTaiKhoanNguoiDung(char *adminUser) {
         return;
     }
 
-    printf("Ban co chac chan muon xoa tai khoan cua nguoi dung '%s' khong?\n", usernameToDelete);
-    printf("Nhap 1 de xac nhan, 0 de huy: ");
+    printf(RED"Ban co chac chan muon xoa tai khoan cua nguoi dung '%s' khong?\n", usernameToDelete);
+    printf("Nhap 1 de xac nhan, 0 de huy: "RESET_COLOR);
     int confirm;
     scanf("%d", &confirm);
 
     if (confirm != 1) {
-        printf("Huy xoa tai khoan.\n");
+        printf(RED"Huy xoa tai khoan.\n"RESET_COLOR);
          // Giai phong bo nho
         NguoiDungNode *tmp;
         while (head) {

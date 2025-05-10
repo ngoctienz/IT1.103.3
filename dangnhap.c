@@ -3,7 +3,12 @@
 #include <string.h>
 #include "dangnhap.h"
 #include "hotro.h"
-
+#define RESET_COLOR   "\x1b[0m"
+#define BOLD          "\x1b[1m"
+#define GREEN         "\x1b[32m"
+#define RED           "\x1b[31m"
+#define YELLOW        "\x1b[33m"
+#define CYAN          "\x1b[36m"
 //Ham doc file user
 int docTaiKhoan(char *user, char *pass) {
     FILE *a;
@@ -29,30 +34,40 @@ int docTaiKhoan(char *user, char *pass) {
 int dangNhap(char *user) {
     char *pass = (char*)malloc(15 * sizeof(char));
     int c, check;
-    printf("===== HE THONG DANG NHAP =====\n");
-
+    int UserType = 0;
+    xoaMH();
+    printf(BOLD CYAN "===== HE THONG DANG NHAP =====\n" RESET_COLOR);
     do {
-        printf("Nhap ten dang nhap: ");
+        printf(YELLOW "Nhap ten dang nhap: " RESET_COLOR);
         scanf("%s", user);
         while ((c = getchar()) != '\n' && c != EOF);
-        printf("Nhap mat khau: ");
+        printf(YELLOW "Nhap mat khau: " RESET_COLOR);
         scanf("%s", pass);
         while ((c = getchar()) != '\n' && c != EOF);
-        check = docTaiKhoan(user, pass);
-        if (check != 0) {
-            printf("Dang nhap thanh cong!\n");
-            printf("User: %s\n", user);
-            stop(3, (check == 1) ? "MENU QUAN TRI VIEN" : "MENU KHACH HANG");
-        } else {
+        UserType = docTaiKhoan(user, pass);
+        if (UserType == 0) {
             xoaMH();
-            printf("Tai khoan hoac mat khau chua chinh xac !\n");
+            printf(RED BOLD "Ten dang nhap hoac mat khau khong dung!\n" RESET_COLOR);
+            printf(YELLOW "Nhan Enter de nhap lai hoac nhap 0 de quay lai menu chinh: " RESET_COLOR);
+             char temp_choice[10];
+             fgets(temp_choice, sizeof(temp_choice), stdin);
+            if (strcmp(temp_choice, "0\n") == 0 || strcmp(temp_choice, "0\r\n") == 0) {
+                 free(pass);
+                 user[0] = '\0';
+                 return 0;
+            }
+            xoaMH();
+            printf(BOLD CYAN "===== HE THONG DANG NHAP =====\n" RESET_COLOR);
+        } else {
+            printf(GREEN BOLD "Dang nhap thanh cong!\n" RESET_COLOR);
+            stop(2, "Menu");
+            free(pass);
+            return UserType;
         }
-    } while (check == 0);
+    } while (UserType == 0);
     free(pass);
-    return check;
+    return 0;
 }
-
-
 // ham dang ky
 int dangKy(char *user) {
     FILE *a;
@@ -64,7 +79,7 @@ int dangKy(char *user) {
     docTaiKhoanTuFile(&head);
 
     do {
-        printf("Nhap ten dang nhap: ");
+        printf(YELLOW"Nhap ten dang nhap: "RESET_COLOR);
         scanf("%s", user);
         while ((c = getchar()) != '\n' && c != EOF);
         check = 0;
@@ -76,9 +91,9 @@ int dangKy(char *user) {
         }
         if (check == 1) {
             xoaMH();
-            printf("Ten dang nhap da ton tai! Vui long chon ten khac.\n");
+            printf(RED"Ten dang nhap da ton tai! Vui long chon ten khac.\n"RESET_COLOR);
         } else {
-            printf("Nhap mat khau: ");
+            printf(YELLOW"Nhap mat khau: "RESET_COLOR);
             scanf("%s", pass);
             while ((c = getchar()) != '\n' && c != EOF);
             newNode = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
