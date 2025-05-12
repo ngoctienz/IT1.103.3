@@ -6,13 +6,14 @@
 #include "hotro.h"
 
 void xoaMH(void) {
-#ifdef _WIN32
+#ifdef _WIN32 // Nếu đang chạy trên Windows
     system("cls");
 #else
-    system("clear");
+    system("clear"); // Nếu đang chạy trên Linux hoặc macOS
 #endif
 }
 
+// Ham dem nguoc t giay va chuyen huong den noi dung s
 void stop(int t, const char *s) {
     while (t > 0) {
         printf("\rChuyen huong den %s sau %d giay !", s, t);
@@ -22,15 +23,27 @@ void stop(int t, const char *s) {
     printf("\nDang chuyen huong den %s ...\n", s);
     sleep(1);
 }
+
+
 // Ham doc danh sach tai khoan tu file nguoidung.txt
+// va luu vao danh sach lien ket
+// tra ve qua con tro head
 void docTaiKhoanTuFile(NguoiDungNode **head) {
+
     FILE *a = fopen("nguoidung.txt", "r");
-    if (!a) { perror("Loi file"); exit(1); }
+    if ( a == NULL) {
+        perror("Loi file: "); // Thông báo lỗi nếu không mở được file
+        exit(1); 
+    }
 
     while (!feof(a)) {
         NguoiDungNode *temp = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
-        if (!temp) { perror("Loi cap phat bo nho"); exit(1); }
-        char pass[15];
+        if ( temp == NULL) {
+             perror("Loi cap phat bo nho");
+              exit(1); 
+            }
+        char *pass;
+        pass = (char*)malloc(15 * sizeof(char));
         if (fscanf(a, "%[^|]|%[^|]|%d\n", temp->username, pass, &temp->type) == 3) {
             strcpy(temp->password, pass);
             temp->next = *head;
@@ -41,9 +54,16 @@ void docTaiKhoanTuFile(NguoiDungNode **head) {
     }
     fclose(a);
 }
+
+// Ham doc danh sach phim tu file phim.txt
+// va luu vao danh sach lien ket
+// tra ve qua con tro head
 void docPhimTuFile(PhimNode **head) {
     FILE *a = fopen("phim.txt", "r");
-    if (!a) { perror("Loi file"); exit(1); }
+    if ( a == NULL) {
+     perror("Loi file"); 
+     exit(1); 
+    }
 
     while (!feof(a)) {
         PhimNode *temp = (PhimNode*)malloc(sizeof(PhimNode));
@@ -62,8 +82,13 @@ void docPhimTuFile(PhimNode **head) {
 
 // Ham in danh sach phim tu danh sach PhimNode
 void inDanhSachPhim(void) {
-    PhimNode *temp = NULL;
+    // Khoi tao danh sach lien ket phim
+    PhimNode *temp = NULL; 
+
+    // Doc danh sach phim tu file phim.txt
+    // va luu vao danh sach lien ket temp
     docPhimTuFile(&temp);
+
     printf(BLUE"                                         DANH SACH PHIM                                   \n"RESET_COLOR);
     printf(RED"------------------------------------------------------------------------------------------\n"RESET_COLOR);
     printf(RED"%-10s %-15s %-15s %-10s %-10s %-10s %-10s\n", "Ma Phim", "Ten Phim", "The Loai", "Ngay", "Gio", "Phong", "Gia ve");
@@ -75,23 +100,28 @@ void inDanhSachPhim(void) {
     printf(RESET_COLOR);
     printf(RED"------------------------------------------------------------------------------------------\n"RESET_COLOR);
     }
+
 // Ham doc danh sach ve tu file ve.txt
 // va luu vao danh sach lien ket
-
+// tra ve qua con tro head
 void docVeTuFile(VeNode **head) {
     FILE *a = fopen("ve.txt", "r");
     if (!a) { perror("Loi file"); exit(1); }
-    while (!feof(a)) {// Lặp cho đến khi đạt cuối tệp
+    while ( feof(a) == 0) {
         VeNode *temp = (VeNode*)malloc(sizeof(VeNode));
-        if (!temp) { perror(RED"Loi cap phat bo nho"RESET_COLOR); exit(1); }
+        if (temp == NULL) {
+            perror(RED"Loi cap phat bo nho"RESET_COLOR);
+            exit(1);
+            }
 
-        char gheChuoi[200];
-        if (fscanf(a, "%[^|]|%[^|]|%[^|]|%[^|]|%d\n", temp->MaVe, temp->MaPhim, temp->TenNguoiDung, gheChuoi, &temp->TrangThai) == 5) {
-            char *token = strtok(gheChuoi, ",");// Bắt đầu phân tích chuỗi ghế ngồi bằng dấu phẩy
+        char *ghe;
+        ghe = (char*)malloc(100 * sizeof(char));
+        if (fscanf(a, "%[^|]|%[^|]|%[^|]|%[^|]|%d\n", temp->MaVe, temp->MaPhim, temp->TenNguoiDung, ghe, &temp->TrangThai) == 5) {
+            char *maGhe = strtok(ghe, ",");// Bắt đầu phân tích chuỗi ghế ngồi bằng dấu phẩy
             int i = 0;
-            while (token && i < 40) {// Lặp qua các token (số ghế) và giới hạn 40 ghế
-                temp->GheNgoi[i++] = atoi(token);// Chuyển token sang số nguyên và lưu vào mảng GheNgoi
-                token = strtok(NULL, ",");// Lấy token tiếp theo
+            while (maGhe && i < 40) {// Lặp qua các maGhe (số ghế) và giới hạn 40 ghế
+                temp->GheNgoi[i++] = atoi(maGhe);// Chuyển maGhe sang số nguyên và lưu vào mảng GheNgoi
+                maGhe = strtok(NULL, ",");// Lấy maGhe tiếp theo
             }
             while (i < 40) temp->GheNgoi[i++] = 0;// Điền 0 cho các vị trí còn lại nếu ít hơn 40 ghế
 
@@ -105,34 +135,59 @@ void docVeTuFile(VeNode **head) {
 }
 
 // Ham ghi danh sach ve vao file ve.txt
+// lay du lieu tu danh sach lien ket qua con tro head
+
 void ghiDanhSachVeVaoFile(VeNode *head) {
-    FILE *f = fopen("ve.txt", "w");
-    if (!f) { perror("Loi file"); exit(1); }
+    FILE *a = fopen("ve.txt", "w");
+    if (a == NULL) {
+        perror("Loi file"); 
+        exit(1); 
+    }
 
     VeNode *current = head;
-    while (current) {// Lặp qua từng vé trong danh sách liên kết cho đến khi gặp NULL.
-        fprintf(f, "%s|%s|%s|", current->MaVe, current->MaPhim, current->TenNguoiDung);
-        for (int i = 0; i < 40; i++) {// Lặp qua mảng GheNgoi (40 phần tử) để ghi trạng thái từng ghế
-            fprintf(f, "%d", current->GheNgoi[i]);// Ghi trạng thái ghế (0 hoặc 1).
-            if (i < 39) fprintf(f, ",");// Ghi dấu phẩy sau mỗi số ghế, trừ số cuối cùng.
+    while (current) {   // Lặp qua từng vé trong danh sách liên kết cho đến khi gặp NULL.
+        fprintf(a, "%s|%s|%s|", current->MaVe, current->MaPhim, current->TenNguoiDung);
+        for (int i = 0; i < 40; i++) { // Lặp qua mảng GheNgoi (40 phần tử) để ghi trạng thái từng ghế
+            fprintf(a, "%d", current->GheNgoi[i]);// Ghi trạng thái ghế (0 hoặc 1).
+            if (i < 39) fprintf(a, ",");// Ghi dấu phẩy sau mỗi số ghế, trừ số cuối cùng.
         }
-        fprintf(f, "|%d\n", current->TrangThai);
+        fprintf(a, "|%d\n", current->TrangThai);
         current = current->next;
     }
-    fclose(f);
+    fclose(a);
 }
+
+// Ham tao ma ve ngau nhien
+// Ma ve co dang "VE" + 4 chu so ngau nhien
 void taoMaVe(char *maVe) {
-    srand(time(NULL)); // Khởi tạo bộ sinh số ngẫu nhiên dựa trên thời gian hiện tại
+    srand(time(NULL)); // khoi tao bo sinh ngau nhien
     sprintf(maVe, "VE%04d", rand() % 10000);// Tạo mã vé có dạng "VE" theo sau là 4 chữ số ngẫu nhiên
 }
 
+// Ham in so do ghe ngoi
+// cho phim co ma phim la maPhim
+// Duyet qua danh sach ve va kiem tra ghe ngoi da dat
+// neu ghe ngoi da dat thi danh dau ghe do
+// neu ghe ngoi chua dat thi khong danh dau
 void inSoDoGhe(VeNode *headVe, const char *maPhim) {
+
     // Giả sử MAX_GHE là số lượng ghế tối đa, ví dụ 40
-    int ghe[MAX_GHE] = {0};
+    int *ghe = (int*)malloc(MAX_GHE * sizeof(int));
+    if (ghe == NULL) {
+        perror("Loi cap phat bo nho: ");
+        exit(1); // Thoát chương trình với mã lỗi
+    }
+
+    // Khởi tạo mảng ghe với tất cả các ghế đều chưa được đặt (0)
+    for (int i = 0; i < MAX_GHE; i++) {
+        ghe[i] = 0;
+    }
+
     for (VeNode *temp = headVe; temp; temp = temp->next) {// Duyệt qua danh sách liên kết các vé
-        if (strcmp(temp->MaPhim, maPhim) == 0) {// Kiểm tra nếu vé hiện tại thuộc về phim có mã trùng với maPhim được truyền vào
+        if (strcmp(temp->MaPhim, maPhim) == 0) {  // So sánh mã phim trong vé với mã phim đã chọn
             for (int i = 0; i < MAX_GHE; i++) {
-                if (temp->GheNgoi[i]) ghe[i] = 1;
+                if (temp->GheNgoi[i])
+                ghe[i] = 1;
             }
         }
     }
@@ -141,20 +196,21 @@ void inSoDoGhe(VeNode *headVe, const char *maPhim) {
     printf("  ------------------------\n");
 
     for (char hang = 'A'; hang <= 'E'; hang++) {
-        printf("%c |", hang);// In tên hàng (A, B, C, D, E) và ký tự phân cách
+        printf("%c |", hang); // In tên hàng (A, B, C, D, E) và ký tự phân cách
         for (int cot = 1; cot <= 8; cot++) {// Duyệt qua các cột ghế (từ 1 đến 8)
             int idx = (hang - 'A') * 8 + (cot - 1);
             printf(" %-2s", ghe[idx] ? RED"X"RESET_COLOR : GREEN"O"RESET_COLOR);
         }
-        printf("\n");
+       printf("\n");
     }
 
     printf("  ------------------------\n");
-    printf("   ");
-    for (int cot = 1; cot <= 8; cot++) {// In số thứ tự của các cột (từ 1 đến 8)
+    printf("  ");
+    for (int cot = 1; cot <= 8; cot++) {
         printf(" %-2d", cot);
     }
     printf("\n");
+    free(ghe); // Lệnh free được di chuyển vào đúng vị trí
 }
 
 // Ham dat ve cho nguoi dung
@@ -171,27 +227,29 @@ void datVe(char *user) {
     }
     taoMaVe(newVe->MaVe);   // Tạo mã vé duy nhất cho vé mới
 
-    char *maPhim = (char*)malloc(15 * sizeof(char));
-    char *gheNgoi = (char*)malloc(3 * sizeof(char));
+    char *maPhim;
+    maPhim = (char*)malloc(15 * sizeof(char));
+    char *gheNgoi;
+    gheNgoi = (char*)malloc(3 * sizeof(char));
     if (maPhim == NULL || gheNgoi == NULL) { 
         perror(RED"Loi cap phat bo nho"RESET_COLOR); 
         exit(1); 
     }
 
     int gheINT;
-    newVe->TrangThai = 1;// Đặt trạng thái vé mới là 1 (đã đặt)
-    inDanhSachPhim();// Hiển thị danh sách phim để người dùng chọn
-    PhimNode *tempPhim;// Con trỏ tạm để duyệt danh sách phim
+    newVe->TrangThai = 1;  // Đặt trạng thái vé mới là 1 (đã đặt)
+    inDanhSachPhim();      // Hiển thị danh sách phim để người dùng chọn
+    PhimNode *tempPhim;    // Con trỏ tạm để duyệt danh sách phim
     do {
         printf(YELLOW"Nhap ma phim muon dat ve: "RESET_COLOR);
         scanf("%14s", maPhim);
         tempPhim = headPhim;
         while (tempPhim) {
-            if (strcmp(tempPhim->MaPhim, maPhim) == 0) {// So sánh mã phim nhập với mã phim trong danh sách
-                strcpy(newVe->MaPhim, maPhim);// Sao chép mã phim đã chọn vào nút vé mới
+            if (strcmp(tempPhim->MaPhim, maPhim) == 0) {   // So sánh mã phim nhập với mã phim trong danh sách
+                strcpy(newVe->MaPhim, maPhim);             // Sao chép mã phim đã chọn vào nút vé mới
                 break;
             }
-            tempPhim = tempPhim->next;// Chuyển sang phim tiếp theo
+            tempPhim = tempPhim->next; // Chuyển sang phim tiếp theo
         }
         if (!tempPhim) {
             printf(RED"Ma phim khong ton tai!\n"RESET_COLOR);
@@ -220,7 +278,7 @@ void datVe(char *user) {
                 break;
             }
         }
-        if (!daDat) {
+        if ( daDat == 0) { // Nếu ghế chưa được đặt
             for (int i = 0; i < 40; i++) newVe->GheNgoi[i] = 0;
             newVe->GheNgoi[gheINT] = 1;// Đánh dấu ghế đã chọn là 1 (đã đặt) trong vé mới
             newVe->next = headVe;
@@ -281,7 +339,9 @@ void huyVeDaDat(char *user) {
     VeNode *headVe = NULL;
     docVeTuFile(&headVe);
 
-    char *maVe = (char*)malloc(15 * sizeof(char));
+    char *maVe;
+    maVe = (char*)malloc(15 * sizeof(char));
+ 
     if (maVe == NULL) { 
         perror("Loi cap phat bo nho"); 
         exit(1); 
@@ -291,10 +351,10 @@ void huyVeDaDat(char *user) {
     printf(YELLOW"Nhap ma ve muon huy: "RESET_COLOR);
     scanf("%14s", maVe);
 
-    int found = 0;
+    int kiemTraVe = 0; // Biến để kiểm tra xem vé có tồn tại hay không
     VeNode *temp = headVe;
     while (temp) { // Lặp qua từng vé trong danh sách
-    // Kiểm tra nếu mã vé, tên người dùng trùng khớp và trạng thái vé là 1 (chưa hủy)
+                    // Kiểm tra nếu mã vé, tên người dùng trùng khớp và trạng thái vé là 1 (chưa hủy)
         if (strcmp(temp->MaVe, maVe) == 0 && strcmp(temp->TenNguoiDung, user) == 0 && temp->TrangThai == 1) {
             printf(YELLOW"Ban chac chan muon huy ve: "RESET_COLOR);
             for (int i = 0; i < 40; i++) {
@@ -304,7 +364,8 @@ void huyVeDaDat(char *user) {
             }
             printf(BLUE"?\nNhap 1 de xac nhan, 0 de huy thao tac: "RESET_COLOR);
 
-            int xacNhan;
+            int xacNhan; // Biến để xác nhận hủy vé
+
             scanf("%d", &xacNhan);
             if (xacNhan != 1) {
                 printf(RED"Da huy thao tac huy ve.\n"RESET_COLOR);
@@ -322,16 +383,17 @@ void huyVeDaDat(char *user) {
             temp->TrangThai = 2;
             for (int i = 0; i < 40; i++) {
                 temp->GheNgoi[i] = 0;
+            } // Đánh dấu tất cả ghế trong vé là chưa đặt (0)
             }
             ghiDanhSachVeVaoFile(headVe);
             printf("Huy ve thanh cong!\n");
-            found = 1;
+            kiemTraVe = 1;
             break;
         }
         temp = temp->next;
-    }
+    
 
-    if (!found) {
+    if ( kiemTraVe == 0) {
         printf(RED"Ma ve khong ton tai, da bi huy, hoac khong phai cua ban!\n"RESET_COLOR);
     }
 
@@ -349,6 +411,7 @@ void huyVeDaDat(char *user) {
 
 void themPhim(void) {
     PhimNode *headPhim = NULL;
+
     docPhimTuFile(&headPhim);
 
     PhimNode *newPhim = (PhimNode *)malloc(sizeof(PhimNode));
@@ -448,15 +511,15 @@ void suaPhim() {
     printf("Nhap ma phim muon sua: ");
     scanf("%s", maPhim);
 
-    PhimNode *found = NULL;
+    PhimNode *kiemTraVe = NULL;
     for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
         if (strcmp(temp->MaPhim, maPhim) == 0) {
-            found = temp;
+            kiemTraVe = temp;
             break;
         }
     }
 
-    if (!found) {
+    if (!kiemTraVe) {
         printf("Khong tim thay phim voi ma da nhap!\n");
         return;
     }
@@ -465,7 +528,7 @@ void suaPhim() {
     do {
         xoaMH();
         printf("\n---------------------THONG TIN PHIM---------------------\n");
-        inThongTinPhim(found);
+        inThongTinPhim(kiemTraVe);
         printf("\n------------------------- MENU -------------------------\n");
         printf(MAGENTA"1. Sua ma phim\n"RESET_COLOR);
         printf(MAGENTA"2. Sua ten phim\n"RESET_COLOR);
@@ -483,33 +546,33 @@ void suaPhim() {
         switch (choice) {
             case 1:
                 printf(BLUE"Nhap ma phim moi: "RESET_COLOR);
-                scanf("%s", found->MaPhim);
+                scanf("%s", kiemTraVe->MaPhim);
                 break;
             case 2:
                 printf(BLUE"Nhap ten phim moi: "RESET_COLOR);
-                fgets(found->TenPhim, sizeof(found->TenPhim), stdin);
-                strtok(found->TenPhim, "\n");
+                fgets(kiemTraVe->TenPhim, sizeof(kiemTraVe->TenPhim), stdin);
+                strtok(kiemTraVe->TenPhim, "\n");
                 break;
             case 3:
                 printf(BLUE"Nhap the loai moi: "RESET_COLOR);
-                fgets(found->TheLoai, sizeof(found->TheLoai), stdin);
-                strtok(found->TheLoai, "\n");
+                fgets(kiemTraVe->TheLoai, sizeof(kiemTraVe->TheLoai), stdin);
+                strtok(kiemTraVe->TheLoai, "\n");
                 break;
             case 4:
                 printf(BLUE"Nhap ngay chieu moi: "RESET_COLOR);
-                scanf("%s", found->NgayChieu);
+                scanf("%s", kiemTraVe->NgayChieu);
                 break;
             case 5:
                 printf(BLUE"Nhap gio chieu moi: "RESET_COLOR);
-                scanf("%s", found->GioChieu);
+                scanf("%s", kiemTraVe->GioChieu);
                 break;
             case 6:
                 printf(BLUE"Nhap phong chieu moi: "RESET_COLOR);
-                scanf("%s", found->PhongChieu);
+                scanf("%s", kiemTraVe->PhongChieu);
                 break;
             case 7:
                 printf(BLUE"Nhap gia ve moi: "RESET_COLOR);
-                scanf("%d", &found->GiaVe);
+                scanf("%d", &kiemTraVe->GiaVe);
                 break;
             case 0:
                 break;
@@ -518,14 +581,14 @@ void suaPhim() {
         }
     } while (choice != 0);
 
-    FILE *f = fopen("phim.txt", "w");
-    if (!f) {
+    FILE *a = fopen("phim.txt", "w");
+    if (!a) {
         perror("Loi mo file phim.txt");
         return;
     }
 
     for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
-        fprintf(f, "%s|%s|%s|%s|%s|%s|%d\n",
+        fprintf(a, "%s|%s|%s|%s|%s|%s|%d\n",
                 temp->MaPhim,
                 temp->TenPhim,
                 temp->TheLoai,
@@ -535,7 +598,7 @@ void suaPhim() {
                 temp->GiaVe);
     }
 
-    fclose(f);
+    fclose(a);
 
     PhimNode *tmp;
     while (headPhim) {
@@ -588,14 +651,14 @@ void xoaPhim() {
     free(curr);
 
     // Ghi lai danh sach moi vao file
-    FILE *f = fopen("phim.txt", "w");
-    if (!f) {
+    FILE *a = fopen("phim.txt", "w");
+    if (!a) {
         perror("Loi mo file phim.txt");
         return;
     }
 
     for (PhimNode *temp = headPhim; temp != NULL; temp = temp->next) {
-        fprintf(f, "%s|%s|%s|%s|%s|%s|%d\n",
+        fprintf(a, "%s|%s|%s|%s|%s|%s|%d\n",
                 temp->MaPhim,
                 temp->TenPhim,
                 temp->TheLoai,
@@ -605,7 +668,7 @@ void xoaPhim() {
                 temp->GiaVe);
     }
 
-    fclose(f);
+    fclose(a);
     printf("Xoa phim thanh cong!\n");
 
     // Giai phong bo nho
@@ -745,8 +808,8 @@ void thongKeDoanhThu() {
 }
 // Ham ghi danh sach nguoi dung vao file nguoidung.txt
 void ghiDanhSachNguoiDungVaoFile(NguoiDungNode *head) {
-    FILE *f = fopen("nguoidung.txt", "w");
-    if (!f) {
+    FILE *a = fopen("nguoidung.txt", "w");
+    if (!a) {
         perror("Loi mo file nguoidung.txt de ghi");
         return;
     }
@@ -754,10 +817,10 @@ void ghiDanhSachNguoiDungVaoFile(NguoiDungNode *head) {
     NguoiDungNode *current = head;
     while (current) {
         // WARNING: Writing password to file. Consider hashing in a real application.
-        fprintf(f, "%s|%s|%d\n", current->username, current->password, current->type);
+        fprintf(a, "%s|%s|%d\n", current->username, current->password, current->type);
         current = current->next;
     }
-    fclose(f);
+    fclose(a);
 }
 
 // Ham in danh sach tat ca nguoi dung

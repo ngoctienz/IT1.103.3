@@ -1,8 +1,14 @@
 #ifndef HOTRO_H
 #define HOTRO_H
 
-#define MAX_GHE 40
-#define RESET_COLOR   "\x1b[0m"
+
+/* Số lượng ghế tối đa là 40
+5 hàng A, B, C, D, E và mỗi hàng có 8 ghế từ 1 đến 8
+1: A1, 2: A2, ..., 8: A8, 9: B1, ..., 40: E8*/ 
+#define MAX_GHE 40 
+
+// Hằng số để định dạng màu sắc
+#define RESET_COLOR   "\x1b[0m" // Reset màu sắc
 #define BOLD          "\x1b[1m"
 #define GREEN         "\x1b[32m"
 #define RED           "\x1b[31m"
@@ -11,15 +17,19 @@
 #define BLUE          "\x1b[34m"
 #define MAGENTA       "\x1b[35m"
 #define BLACK         "\x1b[30m"
-/* danh sach lien ket nguoi dung */
-typedef struct NguoiDungNode {
+
+/* danh sach lien ket nguoi dung
+Gồm tên đăng nhập, mật khẩu và loại tài khoản*/
+ typedef struct NguoiDungNode {
     char username[15];
     char password[15];
-    int type;
+    int type; // 1: admin, 2: user
     struct NguoiDungNode *next;
 } NguoiDungNode;
 
-/* danh sách liên kết cho phim: MaPhim|TenPhim|TheLoai|NgayChieu|GioChieu|PhongChieu|GiaVe*/
+
+/* danh sách liên kết cho phim: 
+MaPhim|TenPhim|TheLoai|NgayChieu|GioChieu|PhongChieu|GiaVe*/
 typedef struct PhimNode {
     char MaPhim[15];
     char TenPhim[50];
@@ -31,19 +41,21 @@ typedef struct PhimNode {
     struct PhimNode *next;
 } PhimNode;
 
-/* Danh sách liên kết vé: MaVe|MaPhim|TenNguoiDung|GheNgoi|TrangThai*/
+/* Danh sách liên kết vé: 
+MaVe|MaPhim|TenNguoiDung|GheNgoi|TrangThai*/
 typedef struct VeNode {
     char MaVe[15];
     char MaPhim[15];
     char TenNguoiDung[15];
     int GheNgoi[40]; // so ghe ngoi toi da 5 hang A,B, C, D, E danh so tu 1 den 8. VD: A1, A2 ... E8 duoc xep theo thu tu tuong ung
                      // 1: A1, 2: A2, ..., 8: A8, 9: B1, ..., 40: E8
-    int TrangThai; // 0: chua dat, 1: da dat, 2: da huy
+    int TrangThai;   // 0: chua dat, 1: da dat, 2: da huy
     struct VeNode *next;
 } VeNode;
 
 /*Hàm xóa màn hình*/
 void xoaMH(void);
+
 /*Hàm đếm ngược t giây sau đó chuyển hướng đến nhiệm vụ/ quá trình s*/
 void stop(int t, const char *s);
 
@@ -98,9 +110,10 @@ void thongKeDoanhThu(void);
 /* Hàm ghi danh sách người dùng vào file nguoidung.txt */
 void ghiDanhSachNguoiDungVaoFile(NguoiDungNode *head);
 
-/* Hàm in danh sách tất cả người dùng (Admin only) */
+/* Hàm in danh sách tất cả người dùng chỉ admin mới có quyền này */
 void inDanhSachNguoiDung(void);
 
-/* Hàm xóa tài khoản người dùng (Admin only) */
+/* Hàm xóa tài khoản người dùng chỉ admin mới có quyền này */
 void xoaTaiKhoanNguoiDung(char *adminUser);
-#endif
+
+#endif // HOTRO_H

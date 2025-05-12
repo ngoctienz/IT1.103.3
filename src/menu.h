@@ -1,5 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
+
+
 /*Menu dangNhap:
 ===== HE THONG DAT VE XEM PHIM =====
 Chao mung!
@@ -9,6 +11,8 @@ Chao mung!
 ------------------------------------
 Nhap lua chon cua ban: */
 void menudangNhap(void);
+
+
 /*===== MENU KHACH HANG =====
 Chao mung !
 1. Xem danh sach phim
@@ -19,6 +23,8 @@ Chao mung !
 --------------------------
 Nhap lua chon cua ban: */
 void menuKhachHang(char *user);
+
+
 /*===== MENU QUAN TRI VIEN =====
 
 1. Quan ly Phim
@@ -28,6 +34,8 @@ void menuKhachHang(char *user);
 -----------------------------
 Nhap lua chon cua ban: */
 void menuQuanTriVien(char *user);
+
+
 /*===== QUAN LY PHIM =====
 
 1. Them phim moi
@@ -40,6 +48,7 @@ void menuQuanTriVien(char *user);
 Nhap lua chon cua ban: */
 void menuQuanLyPhim(char *user);
 
+
 /*===== QUAN LY VE & THONG KE =====
 
 1. Xem danh sach tat ca ve da dat
@@ -49,6 +58,8 @@ void menuQuanLyPhim(char *user);
 ------------------------------
 Nhap lua chon cua ban: */
 void menuQuanLyVeVaThongKe(char *user);
+
+
 /*===== QUAN LY TAI KHOAN NGUOI DUNG ======
 
 1. Xem danh sach nguoi dung
@@ -59,9 +70,13 @@ void menuQuanLyVeVaThongKe(char *user);
 Nhap lua chon cua ban: */
 void menuQuanLyTaiKhoanNguoiDung(char *user);
 
+
 /*Hàm chọn menu cho người dùng
+Hàm này sẽ hiển thị menu tương ứng với loại người dùng
  userType = 1: admin
- userType = 2: user*/
+ userType = 2: user
+ user = tên người dùng
+*/
  void chonMenu(int userType, char *user);
 
 #endif
