@@ -761,7 +761,7 @@ void inDanhSachVe() {
     if (tenPhim == NULL) {
         perror(RED"Loi cap phat bo nho"RESET_COLOR);
         free(tenPhim); // Giải phóng bộ nhớ nếu không thành công
-        return 1;   // Báo lỗi và thoát chương trình
+        exit(1);   // Báo lỗi và thoát chương trình
     }
 
     // Sao chép trực tiếp chuỗi vào vùng nhớ đã cấp phát
