@@ -167,6 +167,13 @@ int dangKy(char *user) {
                 scanf("%14s", pass); // Giới hạn đọc
                 while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
 
+                if (strlen(pass) < 6) {
+                    xoaMH();
+                    printf(RED"Mat khau phai co it nhat 6 ky tu! Vui long nhap lai.\n"RESET_COLOR);
+                    kiemTraPass = 0; // Mật khẩu không hợp lệ, tiếp tục lặp
+                    continue;
+                }
+                
                 printf(YELLOW"Nhap lai mat khau de xac nhan: "RESET_COLOR);
                 scanf("%14s", pass2); // Giới hạn đọc
                 while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
