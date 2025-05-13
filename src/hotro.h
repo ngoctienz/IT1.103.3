@@ -98,7 +98,7 @@ void suaPhim(void);
 /* Hàm in thông tin phim */
 void inThongTinPhim(PhimNode *p);
 
-/* Hàm xóa phim */
+/* Hàm xóa phim khoi danh sach */
 void xoaPhim(void);
 
 /* Hàm in danh sách vé đã đặt sap xếp theo mã phim */

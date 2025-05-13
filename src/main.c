@@ -5,15 +5,16 @@
 #include "hotro.h"
 
 int main(void) {
+    char c;
     int choice;
     int UserType = 0; // bien luu loai nguoi dung
-    // 0: khong tim thay, 1: admin, 2: user
+                     // 0: khong tim thay, 1: admin, 2: user
 
     // Mang luu  ten nguoi dung
     char *user;
     user = (char*)malloc(15 * sizeof(char));
 
-    char c;
+
      do {
          menudangNhap();
          scanf("%d", &choice);

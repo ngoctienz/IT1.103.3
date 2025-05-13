@@ -75,8 +75,7 @@ void menuQuanLyTaiKhoanNguoiDung(char *user);
 Hàm này sẽ hiển thị menu tương ứng với loại người dùng
  userType = 1: admin
  userType = 2: user
- user = tên người dùng
-*/
+ user = tên người dùng*/
  void chonMenu(int userType, char *user);
 
 #endif

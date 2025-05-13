@@ -9,7 +9,7 @@ int dangNhap(char *user);
 
 
 /*Hàm đọc file user và trả về ba giá trị uername, pass, usertype 
- File txt có dạng:
+File nguoidung.txt có dạng:
 admin123|12345|1
 user123|123456789|2
 trả về 0 nếu sai user hoặc pass; trả về 1 nếu là admin; trả về 2 nếu là user*/

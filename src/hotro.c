@@ -775,7 +775,10 @@ void inDanhSachVe() {
             tempPhim = tempPhim->next;
         }
 
-        printf(BOLD YELLOW"%-10s %-10s %-20s ", tempVe->MaVe, tempVe->MaPhim, tempVe->TenNguoiDung);
+        printf(BOLD YELLOW"%-10s %-10s %-20s ", 
+            tempVe->MaVe, 
+            tempVe->MaPhim, 
+            tempVe->TenNguoiDung);
         
         int demGhe = 0;
          int doDai = 0; //
@@ -816,7 +819,10 @@ void inDanhSachVe() {
     printf("-----------------------------------------------------------------------------------------\n"RESET_COLOR);
     for (PhimNode *tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
         int index = atoi(tempPhim->MaPhim + 2);
-        printf(BOLD YELLOW"%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, soLuongVe[index]);
+        printf(BOLD YELLOW"%-15s %-35s %-10d\n", 
+            tempPhim->MaPhim, 
+            tempPhim->TenPhim, 
+            soLuongVe[index]);
     }
     printf(RESET_COLOR);
 	printf(BOLD MAGENTA"-----------------------------------------------------------------------------------------\n"RESET_COLOR);
@@ -856,7 +862,10 @@ void thongKeDoanhThu() {
             }
         }
         // In Mã Phim, Tên Phim và Doanh Thu với màu vàng đậm và định dạng căn lề
-        printf(BOLD YELLOW"%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, doanhThu);
+        printf(BOLD YELLOW"%-15s %-35s %-10d\n", 
+            tempPhim->MaPhim, 
+            tempPhim->TenPhim, 
+            doanhThu);
     }
     printf(RESET_COLOR);
     printf(BOLD MAGENTA"----------------------------------------------------------------------------------------\n"RESET_COLOR);

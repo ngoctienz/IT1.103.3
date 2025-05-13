@@ -175,7 +175,7 @@ int dangKy(char *user) {
                 }
                 
                 printf(YELLOW"Nhap lai mat khau de xac nhan: "RESET_COLOR);
-                scanf("%14s", pass2); // Giới hạn đọc
+                scanf("%14s", pass2); // Giới hạn đọc ki tu
                 while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
 
                 if (strcmp(pass, pass2) == 0) {
