@@ -5,20 +5,12 @@
 #include "hotro.h"
 
 int main(void) {
+    int choice, UserType = 0;
+    char *user = (char*)malloc(15 * sizeof(char));
     char c;
-    int choice;
-    int UserType = 0; // bien luu loai nguoi dung
-                     // 0: khong tim thay, 1: admin, 2: user
-
-    // Mang luu  ten nguoi dung
-    char *user;
-    user = (char*)malloc(15 * sizeof(char));
-
-
      do {
          menudangNhap();
          scanf("%d", &choice);
-        while ((c = getchar()) != '\n' && c != EOF); // xoa bo dem
          switch (choice) {
              case 1:
                  xoaMH();
@@ -37,7 +29,6 @@ int main(void) {
          }
      } while (UserType == 0);
     chonMenu(UserType,user);
-    // Giai phap bo nho da cap phat cho user
     free(user);
     return 0;
 }

@@ -123,28 +123,28 @@ void menuQuanLyTaiKhoanNguoiDung(char *user) {
 }
 // ham chon menu
 void chonMenu(int n, char *user) {    
-    int luaChon;
+    int choice;
     if (n == 1) {
         do {
             xoaMH();
             menuQuanTriVien(user);
-            scanf("%d", &luaChon);
-            switch (luaChon) {
+            scanf("%d", &choice);
+            switch (choice) {
                 case 1:
                     do {
                         xoaMH();
                         menuQuanLyPhim(user);
-                        scanf("%d", &luaChon);
-                        switch (luaChon) {
+                        scanf("%d", &choice);
+                        switch (choice) {
                             case 1:
                             do {
                                 xoaMH();
                                 themPhim();
                                 printf("Nhap  0 de quay lai: ");
-                                scanf("%d", &luaChon);
-                                if (luaChon == 0) 
+                                scanf("%d", &choice);
+                                if (choice == 0) 
                                 break;
-                            } while (luaChon != 0);
+                            } while (choice != 0);
                             break;        
                             case 2:
                                 xoaMH();
@@ -155,20 +155,20 @@ void chonMenu(int n, char *user) {
                                     xoaMH();
                                     xoaPhim();
                                     printf("Nhap  0 de quay lai: ");
-                                    scanf("%d", &luaChon);
-                                    if (luaChon == 0) 
+                                    scanf("%d", &choice);
+                                    if (choice == 0) 
                                     break;
-                                } while (luaChon != 0);
+                                } while (choice != 0);
                                 break;
                             case 4:
                                 do {
                                     xoaMH();
                                     inDanhSachPhim();
                                     printf("Nhap  0 de quay lai: ");
-                                    scanf("%d", &luaChon);
-                                    if (luaChon == 0) 
+                                    scanf("%d", &choice);
+                                    if (choice == 0) 
                                     break;
-                                } while (luaChon != 0);
+                                } while (choice != 0);
                                 break;                    ;
                             case 5:
                                 break;
@@ -176,34 +176,34 @@ void chonMenu(int n, char *user) {
                                 xoaMH();
                                 printf("Lua chon khong hop le!\n");
                         }
-                        if (luaChon == 5) break;
-                    } while (luaChon != 5);
+                        if (choice == 5) break;
+                    } while (choice != 5);
                     break;
                 case 2:
                     do {
                         xoaMH();
                         menuQuanLyVeVaThongKe(user);
-                        scanf("%d", &luaChon);
-                        switch (luaChon) {
+                        scanf("%d", &choice);
+                        switch (choice) {
                             case 1:
                                 do {
                                     xoaMH();
                                     inDanhSachVe();
                                     printf("Nhap 0 de quay lai: ");
-                                    scanf("%d", &luaChon);
-                                    if (luaChon == 0) 
+                                    scanf("%d", &choice);
+                                    if (choice == 0) 
                                     break;
-                                } while (luaChon != 0);
+                                } while (choice != 0);
                                 break;
                              case 2:
                                  do {
                                      xoaMH();
                                      thongKeDoanhThu();
                                      printf("Nhap 0 de quay lai: ");
-                                     scanf("%d", &luaChon);
-                                     if (luaChon == 0) 
+                                     scanf("%d", &choice);
+                                     if (choice == 0) 
                                      break;
-                                 } while (luaChon != 0);
+                                 } while (choice != 0);
                                  break;
                             case 3:
                                 break;
@@ -211,38 +211,38 @@ void chonMenu(int n, char *user) {
                                 xoaMH();
                                 printf("Lua chon khong hop le!\n");
                         }
-                        if (luaChon == 3) break;
-                    } while (luaChon != 3);
+                        if (choice == 3) break;
+                    } while (choice != 3);
                     break;
                 case 3:
                     do {
                         xoaMH();
                         menuQuanLyTaiKhoanNguoiDung(user);
-                        scanf("%d", &luaChon);
-                        switch (luaChon) {
+                        scanf("%d", &choice);
+                        switch (choice) {
                          case 1: 
                         	do{
                         	xoaMH();
                         	inDanhSachNguoiDung();
                         	printf("Nhap 0 de quay lai: ");
-                            scanf("%d", &luaChon);
-                            if (luaChon == 0) 
+                            scanf("%d", &choice);
+                            if (choice == 0) 
                             break;					                                                	
-                      	} while (luaChon != 0);
+                      	} while (choice != 0);
                       	break;
                       	 case 2:
                       	    do{
                       	    xoaMH();
 							xoaTaiKhoanNguoiDung(user);  
 							printf("Nhap 0 de quay lai: ");
-                            scanf("%d", &luaChon);
-                            if (luaChon == 0) 
+                            scanf("%d", &choice);
+                            if (choice == 0) 
                             break;  	
-							  }while (luaChon != 0);
+							  }while (choice != 0);
 							  break;
 					}
-                        if (luaChon == 3) break;
-                    } while (luaChon != 3);
+                        if (choice == 3) break;
+                    } while (choice != 3);
                     break;
                 case 4:
                     xoaMH();
@@ -257,47 +257,47 @@ void chonMenu(int n, char *user) {
         do {
             xoaMH();
             menuKhachHang(user);
-            scanf("%d", &luaChon);
-            switch (luaChon) {
+            scanf("%d", &choice);
+            switch (choice) {
                 case 1:
                 do {
                     xoaMH();
                     inDanhSachPhim();
                     printf("Nhap  0 de quay lai: ");
-                    scanf("%d", &luaChon);
-                    if (luaChon == 0) 
+                    scanf("%d", &choice);
+                    if (choice == 0) 
                     break;
-                } while (luaChon != 0);
+                } while (choice != 0);
                 break;                              
                 case 2:
                     do{
                         xoaMH();
                         datVe(user);
                         printf("Nhap 0 de quay lai: ");
-                        scanf("%d", &luaChon);
-                        if (luaChon == 0) 
+                        scanf("%d", &choice);
+                        if (choice == 0) 
                         break;
-                    } while (luaChon != 0);
+                    } while (choice != 0);
                     break;
                 case 3:
                 do{
                     xoaMH();
                     inVeDaDat(user);
                     printf("Nhap 0 de quay lai: ");
-                    scanf("%d", &luaChon);
-                    if (luaChon == 0) 
+                    scanf("%d", &choice);
+                    if (choice == 0) 
                     break;
-                } while (luaChon != 0);
+                } while (choice != 0);
                 break;
                 case 4:
                 do{
                     xoaMH();
                     huyVeDaDat(user);
                     printf("Nhap 0 de quay lai: ");
-                    scanf("%d", &luaChon);
-                    if (luaChon == 0) 
+                    scanf("%d", &choice);
+                    if (choice == 0) 
                     break;
-                } while (luaChon != 0);
+                } while (choice != 0);
                 break;
                 case 5:
                     xoaMH();
