@@ -145,6 +145,7 @@ void inSoDoGhe(VeNode *headVe, const char *maPhim) {
         for (int cot = 1; cot <= 8; cot++) {// Duyệt qua các cột ghế (từ 1 đến 8)
             int idx = (hang - 'A') * 8 + (cot - 1);
             printf(" %-2s", ghe[idx] ? RED"X"RESET_COLOR : GREEN"O"RESET_COLOR);
+            printf(" ");      // In trạng thái ghế (X: đã đặt, O: trống) và ký tự phân cách
         }
         printf("\n");
     }
@@ -156,7 +157,6 @@ void inSoDoGhe(VeNode *headVe, const char *maPhim) {
     }
     printf("\n");
 }
-
 // Ham dat ve cho nguoi dung
 void datVe(char *user) {
     PhimNode *headPhim = NULL;
@@ -177,41 +177,32 @@ void datVe(char *user) {
         perror(RED"Loi cap phat bo nho"RESET_COLOR); 
         free(maPhim);
         free(gheNgoi);
+        free(newVe);
         exit(1); 
     }
-
+int c;
     int gheINT;
-    newVe->TrangThai = 1;// Đặt trạng thái vé mới là 1 (đã đặt)
-    inDanhSachPhim();// Hiển thị danh sách phim để người dùng chọn
-    PhimNode *tempPhim;// Con trỏ tạm để duyệt danh sách phim
+    newVe->TrangThai = 1; // Đặt trạng thái vé mới là 1 (đã đặt)
+    inDanhSachPhim(); // Hiển thị danh sách phim để người dùng chọn
+    PhimNode *tempPhim = headPhim; // Khởi tạo tempPhim trước vòng lặp
     do {
-        printf(YELLOW"Nhap ma phim muon dat ve (0 de huy) : "RESET_COLOR);
+        printf(YELLOW"Nhap ma phim muon dat ve (0 de huy): "RESET_COLOR);
         scanf("%14s", maPhim);
+        while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
         if (strcmp(maPhim, "0") == 0) { // Kiểm tra nếu người dùng nhập 0
-        printf(RED"Da huy thao tac dat ve.\n"RESET_COLOR);
-        free(maPhim);
-        free(gheNgoi);
-        free(newVe);
-        tempPhim = headPhim;
-        // Giải phóng danh sách liên kết
-        while (headPhim) {
-                PhimNode *tmp = headPhim;
-                headPhim = headPhim->next;
-                free(tmp);
-            }
-        while (headVe) {
-                VeNode *tmp = headVe;
-                headVe = headVe->next;
-                free(tmp);
-            }
-        return; // Thoát hàm
+            printf(RED"Da huy thao tac dat ve.\n"RESET_COLOR);
+            free(maPhim);
+            free(gheNgoi);
+            free(newVe);
+            return; // Thoát hàm
         }
+        tempPhim = headPhim; // Reset tempPhim để duyệt lại
         while (tempPhim) {
-            if (strcmp(tempPhim->MaPhim, maPhim) == 0) {// So sánh mã phim nhập với mã phim trong danh sách
-                strcpy(newVe->MaPhim, maPhim);// Sao chép mã phim đã chọn vào nút vé mới
+            if (strcmp(tempPhim->MaPhim, maPhim) == 0) { // So sánh mã phim nhập với mã phim trong danh sách
+                strcpy(newVe->MaPhim, maPhim); // Sao chép mã phim đã chọn vào nút vé mới
                 break;
             }
-            tempPhim = tempPhim->next;// Chuyển sang phim tiếp theo
+            tempPhim = tempPhim->next; // Chuyển sang phim tiếp theo
         }
         if (!tempPhim) {
             printf(RED"Ma phim khong ton tai!\n"RESET_COLOR);
@@ -225,16 +216,23 @@ void datVe(char *user) {
     strcpy(newVe->TenNguoiDung, user);
 
     do {
-        printf(GREEN"Nhap ghe ngoi (VD: A1): "RESET_COLOR);
+        printf(GREEN"Nhap ghe ngoi (VD: A1, 0 de huy): "RESET_COLOR);
         scanf("%2s", gheNgoi);
-        if (strlen(gheNgoi) != 2 || *gheNgoi < 'A' || *gheNgoi > 'E' || *(gheNgoi + 1) < '1' || *(gheNgoi + 1) > '8') {// Kiểm tra định dạng nhập ghế ngồi (phải là 2 ký tự, hàng từ A-E, cột từ 1-8)
-            printf("Dinh dang sai.\n");
+        while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+        if (strcmp(gheNgoi, "0") == 0) { // Kiểm tra nếu người dùng nhập 0
+            printf(RED"Da huy thao tac dat ve.\n"RESET_COLOR);
+            free(maPhim);
+            free(gheNgoi);
+            free(newVe);
+            return; // Thoát hàm
+        }
+        if (strlen(gheNgoi) != 2 || *gheNgoi < 'A' || *gheNgoi > 'E' || *(gheNgoi + 1) < '1' || *(gheNgoi + 1) > '8') { // Kiểm tra định dạng nhập ghế ngồi
+            printf(RED"Dinh dang sai.\n"RESET_COLOR);
             continue;
         }
         gheINT = (*gheNgoi - 'A') * 8 + (*(gheNgoi + 1) - '1');
         int daDat = 0;
         for (VeNode *temp = headVe; temp; temp = temp->next) {
-        	// Kiểm tra nếu vé thuộc cùng phim và ghế đã chọn đã được đánh dấu là 1 trong vé này
             if (strcmp(temp->MaPhim, newVe->MaPhim) == 0 && temp->GheNgoi[gheINT]) {
                 daDat = 1;
                 break;
@@ -242,19 +240,23 @@ void datVe(char *user) {
         }
         if (!daDat) {
             for (int i = 0; i < 40; i++) newVe->GheNgoi[i] = 0;
-            newVe->GheNgoi[gheINT] = 1;// Đánh dấu ghế đã chọn là 1 (đã đặt) trong vé mới
+            newVe->GheNgoi[gheINT] = 1; // Đánh dấu ghế đã chọn là 1 (đã đặt) trong vé mới
             newVe->next = headVe;
             headVe = newVe;
             ghiDanhSachVeVaoFile(headVe);
-            printf(RED"Dat ve thanh cong!\n"RESET_COLOR);
+            printf(GREEN"Dat ve thanh cong!\n"RESET_COLOR);
+            printf(YELLOW"Ma ve: %s\n", newVe->MaVe);
+            printf(YELLOW"Ghe da dat: %s\n", gheNgoi);
             break;
         } else {
             printf(GREEN"Ghe da duoc dat!\n"RESET_COLOR);
+            printf(YELLOW"Hay chon ghe khac.\n"RESET_COLOR); // Khuyến khích chọn lại ghế
         }
     } while (1);
 
     free(maPhim);
     free(gheNgoi);
+    // Không giải phóng headPhim và headVe vì chúng được cấp phát bởi docPhimTuFile và docVeTuFile
 }
 
 void inVeDaDat(char *user) {

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <conio.h> // Thư viện cho getch()
 #include "dangnhap.h"
 #include "hotro.h"
 //Ham doc file user
@@ -86,7 +88,8 @@ int dangNhap(char *user) {
         } else { // Nếu UserType khác 0 (đăng nhập thành công)
       
             printf(GREEN BOLD "Dang nhap thanh cong!\n" RESET_COLOR);
-             
+            // thong bao chuyen den menu chinh
+            stop(2, UserType == 1 ? "Menu Admin" : "Menu Nguoi dung");
             free(pass); 
             return UserType; // Trả về loại người dùng (1 hoặc 2) để báo hiệu đăng nhập thành công và loại tài khoản
         }
