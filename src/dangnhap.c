@@ -182,7 +182,8 @@ int dangKy(char *user) {
                 fprintf(a, "%s|%s|%d\n", user, pass, 2);
                 fclose(a);
                 xoaMH();
-                printf("Dang ky thanh cong!\nVui long dang nhap lai!\n");
+                printf("Dang ky thanh cong!\nVui long dang nhap lai!\n");               
+                stop(2, "Dang nhap");
                 check = 0; // Đặt check về 0 để thoát vòng lặp `do-while` chính
             } else {
                 perror("Loi mo file de ghi: ");
