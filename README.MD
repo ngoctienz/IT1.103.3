@@ -80,9 +80,8 @@ Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và cá
 1.  **Môi trường:** Cần có một trình biên dịch C (ví dụ: GCC trên Linux/macOS, MinGW trên Windows).
 2.  **Biên dịch:** Mở terminal hoặc command prompt, điều hướng đến thư mục chứa các tệp mã nguồn và thực hiện lệnh biên dịch. Ví dụ với GCC:
     ```bash
-    gcc main.c dangnhap.c menu.c hotro.c -o QuanLyRapChieuPhim -Wall
+    gcc main.c dangnhap.c menu.c hotro.c -o QuanLyRapChieuPhim
     ```
-    (Cờ `-Wall` để hiển thị tất cả các cảnh báo)
 3.  **Chạy chương trình:**
     * Sau khi biên dịch thành công, một tệp thực thi (ví dụ: `QuanLyRapChieuPhim.exe` trên Windows hoặc `QuanLyRapChieuPhim` trên Linux/macOS) sẽ được tạo.
     * Chạy tệp thực thi này từ terminal/command prompt:
