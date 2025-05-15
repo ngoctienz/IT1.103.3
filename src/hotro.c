@@ -925,3 +925,17 @@ void xoaTaiKhoanNguoiDung(char *adminUser) {
         free(tmp);
     }
 }
+
+//  Ham cam on
+void camOn() {
+    xoaMH();
+    printf(BOLD GREEN"CAM ON BAN DA SU DUNG CHUONG TRINH!\n"RESET_COLOR);
+    printf(BOLD YELLOW"----------------------------------------------------------\n"RESET_COLOR);
+    printf(BOLD YELLOW"|                  NHOM THUC HIEN                        |\n"RESET_COLOR);
+    printf(BOLD YELLOW"----------------------------------------------------------\n"RESET_COLOR);
+    printf(BOLD YELLOW"|             Nguyen Ngoc Tien - 6551071079              |\n"RESET_COLOR);
+    printf(BOLD YELLOW"|             Ngo Thanh Tien - 6551071082                |\n"RESET_COLOR);
+    printf(BOLD YELLOW"----------------------------------------------------------\n"RESET_COLOR);
+    stop(3,"Exit");
+    printf(BOLD YELLOW"----------------------------------------------------------\n"RESET_COLOR);
+}

@@ -103,4 +103,7 @@ void inDanhSachNguoiDung(void);
 
 /* Hàm xóa tài khoản người dùng (Admin only) */
 void xoaTaiKhoanNguoiDung(char *adminUser);
+
+// Cam on
+void camOn();
 #endif

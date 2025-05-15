@@ -247,6 +247,7 @@ void chonMenu(int n, char *user) {
                 case 4:
                     xoaMH();
                     printf("Dang xuat thanh cong!\n");
+                    camOn();
                     return; 
                 default:
                     xoaMH();
@@ -302,6 +303,7 @@ void chonMenu(int n, char *user) {
                 case 5:
                     xoaMH();
                     printf("Dang xuat thanh cong!\n");
+                    camOn();
                     return; 
                 default:
                     xoaMH();
