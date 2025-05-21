@@ -1,3 +1,4 @@
+# Bài tập lớn kĩ thuật lập trình
 # Đề tài: Xây Dựng Ứng Dụng Quản Lý Rạp Chiếu Phim
 
 Đây là dự án xây dựng ứng dụng quản lý rạp chiếu phim bằng ngôn ngữ lập trình C, tập trung vào các nghiệp vụ cơ bản của một rạp chiếu phim.
