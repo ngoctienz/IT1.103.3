@@ -22,7 +22,11 @@ Dự án nhằm xây dựng một ứng dụng quản lý toàn diện cho rạp
 * Đăng nhập hệ thống
 * Đăng ký tài khoản mới (dành cho Người Dùng)
 
+![DangNhap.png](https://github.com/ngoctienz/IT1.103.3/img/DangNhap.png)
+
 ### 3.2. Chức năng cho Người Dùng (User)
+
+![User.png](https://github.com/ngoctienz/IT1.103.3/img/User.png)
 
 Sau khi đăng nhập, Người Dùng có thể:
 
@@ -39,6 +43,8 @@ Sau khi đăng nhập, Người Dùng có thể:
 * **Đăng xuất.**
 
 ### 3.3. Chức năng cho Quản Trị Viên (Admin)
+
+![Admin.png](https://github.com/ngoctienz/IT1.103.3/img/Admin.png)
 
 Sau khi đăng nhập, Quản Trị Viên có các quyền quản lý sau:
 
@@ -91,12 +97,9 @@ Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và cá
 
 ### 5.2. Sử dụng Dev-C++ IDE
 
-1.  **Mở hoặc Tạo Project:**
-    * Nếu bạn có một tệp project Dev-C++ (`.dev`), hãy mở tệp đó bằng Dev-C++.
-    * Nếu không, bạn có thể tạo một Project mới trong Dev-C++:
-        * Chọn `File > New > Project...`.
-        * Chọn `Console Application` và ngôn ngữ `C Project`. Đặt tên cho project của bạn.
-        * Thêm tất cả các tệp `.c` (`main.c`, `dangnhap.c`, `menu.c`, `hotro.c`) và `.h` (`dangnhap.h`, `menu.h`, `hotro.h`) vào project. Bạn có thể làm điều này bằng cách nhấp chuột phải vào tên project trong Project Explorer và chọn `Add to Project...` hoặc kéo thả tệp vào.
+1.  **Mở Project:**
+    * Mở Dev-C++: Khởi động phần mềm Dev-C++
+    * Mở tệp .dev: Chọn File > Open Project or File... (hoặc nhấn Ctrl + O). Điều hướng đến thư mục chứa tệp .dev của bạn và chọn tệp đó.
 2.  **Biên dịch và Chạy:**
     * Trong Dev-C++, bạn có thể biên dịch project bằng cách chọn `Execute > Compile` (hoặc nhấn `F9`).
     * Để chạy project, chọn `Execute > Run` (hoặc nhấn `F10`).
