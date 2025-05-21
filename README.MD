@@ -22,11 +22,11 @@ Dự án nhằm xây dựng một ứng dụng quản lý toàn diện cho rạp
 * Đăng nhập hệ thống
 * Đăng ký tài khoản mới (dành cho Người Dùng)
 
-![DangNhap.png](https://github.com/ngoctienz/IT1.103.3/img/DangNhap.png)
+![DangNhap.png](https://github.com/ngoctienz/IT1.103.3/blob/master/img/DangNhap.png)
 
 ### 3.2. Chức năng cho Người Dùng (User)
 
-![User.png](https://github.com/ngoctienz/IT1.103.3/img/User.png)
+![User.png](https://github.com/ngoctienz/IT1.103.3/blob/master/img/User.png)
 
 Sau khi đăng nhập, Người Dùng có thể:
 
@@ -44,7 +44,7 @@ Sau khi đăng nhập, Người Dùng có thể:
 
 ### 3.3. Chức năng cho Quản Trị Viên (Admin)
 
-![Admin.png](https://github.com/ngoctienz/IT1.103.3/img/Admin.png)
+![Admin.png](https://github.com/ngoctienz/IT1.103.3/blob/master/img/Admin.png)
 
 Sau khi đăng nhập, Quản Trị Viên có các quyền quản lý sau:
 
