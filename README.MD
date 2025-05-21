@@ -82,7 +82,7 @@ Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và cá
 ## 5. Hướng Dẫn Biên Dịch và Chạy
 
 ### 5.1. Sử dụng trình biên dịch (ví dụ: GCC)
-    [Xem video hướng dẫn tại YouTube](https://youtu.be/ZUw9MnbEMvs)
+[Xem video hướng dẫn tại YouTube](https://youtu.be/ZUw9MnbEMvs)
 1.  **Môi trường:** Cần có một trình biên dịch C (ví dụ: GCC trên Linux/macOS, MinGW trên Windows).
 2.  **Biên dịch:** Mở terminal hoặc command prompt, điều hướng đến thư mục chứa các tệp mã nguồn và thực hiện lệnh biên dịch. Ví dụ với GCC:
     ```bash
@@ -96,7 +96,7 @@ Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và cá
         ```
 
 ### 5.2. Sử dụng Dev-C++ IDE
-    [Xem video hướng dẫn tại YouTube](https://youtu.be/lJ-qn12VQHk)
+[Xem video hướng dẫn tại YouTube](https://youtu.be/lJ-qn12VQHk)
 1.  **Mở Project:**
     * Mở Dev-C++: Khởi động phần mềm Dev-C++
     * Chọn vào file .dev > Open With > Dev-C++
