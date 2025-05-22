@@ -1,4 +1,3 @@
-AAA|ASDF|DFGH|19/02/2006|11:00|2E6|50000
 PH001|Phim A|Hanh dong|2024/07/20|10:00|P1|80000
 PH001|Phim A|Hanh dong|2024/07/20|15:30|P1|80000
 PH002|Phim B|Kinh di|2024/07/21|20:00|P2|90000
@@ -8,3 +7,6 @@ ASM|Hello World|JBH|19/03/2006|19:23|UTC2|50000
 CNTT|Tham tu kien|Trinh Tham|06/09/2006|5:15|3E4|90000
 BOLB|Mada|Tinh Cam|15/08/2006|5:15|2E6|90000
 TEST00|Xin Chao VN|Hoc duong|19-02-2025|07:00|C21|50000
+sxs|dsdsds|sdsds|dsdsd|sdds|sdsds|842019452
+sdsdssd|dsdsd|sdsds|dsdsd|sdsds|sdsd|842019452
+AHH|HHJJJ|MMM|11/55/1222|45:23|asa|50000

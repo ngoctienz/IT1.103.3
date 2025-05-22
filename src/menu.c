@@ -288,7 +288,7 @@ void chonMenu(int n, char *user) {
                             scanf("%d", &choice);
                             if (choice == 0) 
                             break;  	
-							  }while (choice != 0);
+							  } while (choice != 0);
 							  break;
                             
                         case 3:

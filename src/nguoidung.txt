@@ -1,7 +1,4 @@
-Tienngo12|13579|2
-Tienngo|Tienngo12|2
-ngoctien|2006|2
 tester|12345|1
-admin123|54321|1
-tienngo|tien|2
-adminnew|123456|1
+admin123|12345|1
+user|user123|2
+user123|123123|2

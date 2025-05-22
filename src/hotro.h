@@ -11,7 +11,9 @@
 #define BLUE          "\x1b[34m"
 #define MAGENTA       "\x1b[35m"
 #define BLACK         "\x1b[30m"
+
 /* danh sach lien ket nguoi dung */
+
 typedef struct NguoiDungNode {
     char username[15];
     char password[15];

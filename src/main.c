@@ -7,7 +7,10 @@
 int main(void) {
     int choice, UserType = 0;
     char *user = (char*)malloc(15 * sizeof(char));
-    char c;
+    if (user == NULL) {
+        perror("Loi cap phat bo nho cho user: ");
+        exit(1);
+    }
      do {
          menudangNhap();
          scanf("%d", &choice);

@@ -13,6 +13,7 @@ void xoaMH(void) {
 #endif
 }
 
+// Dung chuong trinh trong t giay va thong bao chuyen huong
 void stop(int t, const char *s) {
     while (t > 0) {
         printf("\rChuyen huong den %s sau %d giay !", s, t);
@@ -44,6 +45,7 @@ void docTaiKhoanTuFile(NguoiDungNode **head) {
     }
     fclose(a);
 }
+// Ham doc danh sach phim tu file phim.txt
 void docPhimTuFile(PhimNode **head) {
     FILE *a = fopen("phim.txt", "r");
     if (a == NULL) {
@@ -59,8 +61,13 @@ void docPhimTuFile(PhimNode **head) {
              exit(1);
         }
 
-        if (fscanf(a, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%d\n", temp->MaPhim, temp->TenPhim, temp->TheLoai,
-                   temp->NgayChieu, temp->GioChieu, temp->PhongChieu, &temp->GiaVe) == 7) {
+        if (fscanf(a, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%d\n", temp->MaPhim, 
+                    temp->TenPhim, 
+                    temp->TheLoai,
+                    temp->NgayChieu, 
+                    temp->GioChieu, 
+                    temp->PhongChieu, 
+                    &temp->GiaVe) == 7) {
             temp->next = *head;
             *head = temp;
         } else {
@@ -79,35 +86,46 @@ void inDanhSachPhim(void) {
     printf(RED"%-10s %-15s %-15s %-10s %-10s %-10s %-10s\n", "Ma Phim", "Ten Phim", "The Loai", "Ngay", "Gio", "Phong", "Gia ve");
     printf("------------------------------------------------------------------------------------------\n"RESET_COLOR);
     while (temp != NULL) {
-        printf(YELLOW"%-10s %-15s %-15s %-10s %-10s %-10s %-10d\n", temp->MaPhim, temp->TenPhim, temp->TheLoai, temp->NgayChieu, temp->GioChieu, temp->PhongChieu, temp->GiaVe);
+        printf(YELLOW"%-10s %-15s %-15s %-10s %-10s %-10s %-10d\n", 
+            temp->MaPhim, 
+            temp->TenPhim, 
+            temp->TheLoai, 
+            temp->NgayChieu, 
+            temp->GioChieu, 
+            temp->PhongChieu, 
+            temp->GiaVe);
         temp = temp->next;
     }
     printf(RESET_COLOR);
     printf(RED"------------------------------------------------------------------------------------------\n"RESET_COLOR);
     }
-// Ham doc danh sach ve tu file ve.txt
-// va luu vao danh sach lien ket
-
+// Ham doc danh sach ve tu file ve.txt va luu vao danh sach lien ket
 void docVeTuFile(VeNode **head) {
     FILE *a = fopen("ve.txt", "r");
     if (a == NULL) {
         perror("Loi file"); 
         exit(1); 
     }
-    while (!feof(a)) {// Lặp cho đến khi đạt cuối tệp
+    while (!feof(a)) {// Lap cho den khi dat cuoi tep
         VeNode *temp = (VeNode*)malloc(sizeof(VeNode));
         if (!temp) { perror(RED"Loi cap phat bo nho"RESET_COLOR); exit(1); }
 
         char gheChuoi[200];
-        if (fscanf(a, "%[^|]|%[^|]|%[^|]|%[^|]|%d\n", temp->MaVe, temp->MaPhim, temp->TenNguoiDung, gheChuoi, &temp->TrangThai) == 5) {
-            char *token = strtok(gheChuoi, ",");// Bắt đầu phân tích chuỗi ghế ngồi bằng dấu phẩy
+        if (fscanf(a, "%[^|]|%[^|]|%[^|]|%[^|]|%d\n", 
+            temp->MaVe, 
+            temp->MaPhim, 
+            temp->TenNguoiDung, 
+            gheChuoi, 
+            &temp->TrangThai) == 5) {
+            char *token = strtok(gheChuoi, ",");// Bat dau phan tich chuoi ghe ngoi bang dau phay
             int i = 0;
-            while (token && i < 40) {// Lặp qua các token (số ghế) và giới hạn 40 ghế
-                temp->GheNgoi[i++] = atoi(token);// Chuyển token sang số nguyên và lưu vào mảng GheNgoi
-                token = strtok(NULL, ",");// Lấy token tiếp theo
+            while (token && i < 40) {// Lap qua cac token (so ghe) va gioi han 40 ghe
+                // Chuyen token sang so nguyen va luu vao mang GheNgoi
+                temp->GheNgoi[i++] = atoi(token);
+                token = strtok(NULL, ",");// Lay token tiep theo
             }
-            while (i < 40) temp->GheNgoi[i++] = 0;// Điền 0 cho các vị trí còn lại nếu ít hơn 40 ghế
-
+            // Dien 0 cho cac vi tri con lai neu it hon 40 ghe
+            while (i < 40) temp->GheNgoi[i++] = 0;
             temp->next = *head;
             *head = temp;
         } else {
@@ -120,30 +138,40 @@ void docVeTuFile(VeNode **head) {
 // Ham ghi danh sach ve vao file ve.txt
 void ghiDanhSachVeVaoFile(VeNode *head) {
     FILE *f = fopen("ve.txt", "w");
-    if (!f) { perror("Loi file"); exit(1); }
+    if (!f) { 
+        perror("Loi file");
+        exit(1); 
+    }
 
     VeNode *current = head;
-    while (current) {// Lặp qua từng vé trong danh sách liên kết cho đến khi gặp NULL.
-        fprintf(f, "%s|%s|%s|", current->MaVe, current->MaPhim, current->TenNguoiDung);
-        for (int i = 0; i < 40; i++) {// Lặp qua mảng GheNgoi (40 phần tử) để ghi trạng thái từng ghế
-            fprintf(f, "%d", current->GheNgoi[i]);// Ghi trạng thái ghế (0 hoặc 1).
-            if (i < 39) fprintf(f, ",");// Ghi dấu phẩy sau mỗi số ghế, trừ số cuối cùng.
+    while (current) {// Lap qua tung ve trong danh sach lien ket cho den khi gap NULL.
+        fprintf(f, "%s|%s|%s|", current->MaVe, 
+            current->MaPhim, 
+            current->TenNguoiDung);
+        for (int i = 0; i < 40; i++) {
+            // Lap qua mang GheNgoi (40 phan tu) de ghi trang thai tung ghe
+            fprintf(f, "%d", current->GheNgoi[i]);
+            // Ghi trang thai ghe (0 hoac 1).
+            if (i < 39) fprintf(f, ",");
+            // Ghi dau phay sau moi so ghe, tru so cuoi cung.
         }
         fprintf(f, "|%d\n", current->TrangThai);
         current = current->next;
     }
     fclose(f);
 }
+// Ham tao ma ve ngau nhien
 void taoMaVe(char *maVe) {
-    srand(time(NULL)); // Khởi tạo bộ sinh số ngẫu nhiên dựa trên thời gian hiện tại
-    sprintf(maVe, "VE%04d", rand() % 10000);// Tạo mã vé có dạng "VE" theo sau là 4 chữ số ngẫu nhiên
+    srand(time(NULL)); // Khoi tao bo sinh so ngau nhien dua tren thoi gian hien tai
+    sprintf(maVe, "VE%04d", rand() % 10000);// Tao ma ve co dang "VE" theo sau la 4 chu so ngau nhien
 }
 
+// Ham in so do ghe cua mot phim
 void inSoDoGhe(VeNode *headVe, const char *maPhim) {
-    // Giả sử MAX_GHE là số lượng ghế tối đa, ví dụ 40
+    // Gia su MAX_GHE la so luong ghe toi da, vi du 40
     int ghe[MAX_GHE] = {0};
-    for (VeNode *temp = headVe; temp; temp = temp->next) {// Duyệt qua danh sách liên kết các vé
-        if (strcmp(temp->MaPhim, maPhim) == 0) {// Kiểm tra nếu vé hiện tại thuộc về phim có mã trùng với maPhim được truyền vào
+    for (VeNode *temp = headVe; temp; temp = temp->next) {// Duyet qua danh sach lien ket cac ve
+        if (strcmp(temp->MaPhim, maPhim) == 0) {// Kiem tra neu ve hien tai thuoc ve phim co ma trung voi maPhim duoc truyen vao
             for (int i = 0; i < MAX_GHE; i++) {
                 if (temp->GheNgoi[i]) ghe[i] = 1;
             }
@@ -154,18 +182,18 @@ void inSoDoGhe(VeNode *headVe, const char *maPhim) {
     printf("  ------------------------\n");
 
     for (char hang = 'A'; hang <= 'E'; hang++) {
-        printf("%c |", hang);// In tên hàng (A, B, C, D, E) và ký tự phân cách
-        for (int cot = 1; cot <= 8; cot++) {// Duyệt qua các cột ghế (từ 1 đến 8)
+        printf("%c |", hang);// In ten hang (A, B, C, D, E) va ky tu phan cach
+        for (int cot = 1; cot <= 8; cot++) {// Duyet qua cac cot ghe (tu 1 den 8)
             int idx = (hang - 'A') * 8 + (cot - 1);
             printf(" %-2s", ghe[idx] ? RED"X"RESET_COLOR : GREEN"O"RESET_COLOR);
-            printf(" ");      // In trạng thái ghế (X: đã đặt, O: trống) và ký tự phân cách
+            printf(" ");      // In trang thai ghe (X: da dat, O: trong) va ky tu phan cach
         }
         printf("\n");
     }
 
     printf("  ------------------------\n");
     printf("   ");
-    for (int cot = 1; cot <= 8; cot++) {// In số thứ tự của các cột (từ 1 đến 8)
+    for (int cot = 1; cot <= 8; cot++) {// In so thu tu cua cac cot (tu 1 den 8)
         printf(" %-2d", cot);
     }
     printf("\n");
@@ -182,7 +210,7 @@ void datVe(char *user) {
         perror(RED"Loi cap phat bo nho"RESET_COLOR); 
         exit(1); 
     }
-    taoMaVe(newVe->MaVe);   // Tạo mã vé duy nhất cho vé mới
+    taoMaVe(newVe->MaVe);   // Tao ma ve duy nhat cho ve moi
 
     char *maPhim = (char*)malloc(15 * sizeof(char));
     char *gheNgoi = (char*)malloc(3 * sizeof(char));
@@ -193,29 +221,32 @@ void datVe(char *user) {
         free(newVe);
         exit(1); 
     }
-int c;
+    int c;
     int gheINT;
-    newVe->TrangThai = 1; // Đặt trạng thái vé mới là 1 (đã đặt)
-    inDanhSachPhim(); // Hiển thị danh sách phim để người dùng chọn
-    PhimNode *tempPhim = headPhim; // Khởi tạo tempPhim trước vòng lặp
+    newVe->TrangThai = 1; // Dat trang thai ve moi la 1 (da dat)
+    inDanhSachPhim(); // Hien thi danh sach phim de nguoi dung chon
+    PhimNode *tempPhim = headPhim; // Khoi tao tempPhim truoc vong lap
     do {
         printf(YELLOW"Nhap ma phim muon dat ve (0 de huy): "RESET_COLOR);
         scanf("%14s", maPhim);
-        while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
-        if (strcmp(maPhim, "0") == 0) { // Kiểm tra nếu người dùng nhập 0
+        while ((c = getchar()) != '\n' && c != EOF); // Xoa bo dem nhap
+        if (strcmp(maPhim, "0") == 0) { // Kiem tra neu nguoi dung nhap 0
             printf(RED"Da huy thao tac dat ve.\n"RESET_COLOR);
             free(maPhim);
             free(gheNgoi);
             free(newVe);
-            return; // Thoát hàm
+            return; // Thoat ham
         }
-        tempPhim = headPhim; // Reset tempPhim để duyệt lại
+        // Reset tempPhim de duyet lai
+        tempPhim = headPhim; 
         while (tempPhim) {
-            if (strcmp(tempPhim->MaPhim, maPhim) == 0) { // So sánh mã phim nhập với mã phim trong danh sách
-                strcpy(newVe->MaPhim, maPhim); // Sao chép mã phim đã chọn vào nút vé mới
+            if (strcmp(tempPhim->MaPhim, maPhim) == 0) {
+                 // So sanh ma phim nhap voi ma phim trong danh sach
+                strcpy(newVe->MaPhim, maPhim); 
+                // Sao chep ma phim da chon vao nut ve moi
                 break;
             }
-            tempPhim = tempPhim->next; // Chuyển sang phim tiếp theo
+            tempPhim = tempPhim->next; // Chuyen sang phim tiep theo
         }
         if (!tempPhim) {
             printf(RED"Ma phim khong ton tai!\n"RESET_COLOR);
@@ -231,15 +262,15 @@ int c;
     do {
         printf(GREEN"Nhap ghe ngoi (VD: A1, 0 de huy): "RESET_COLOR);
         scanf("%2s", gheNgoi);
-        while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
-        if (strcmp(gheNgoi, "0") == 0) { // Kiểm tra nếu người dùng nhập 0
+        while ((c = getchar()) != '\n' && c != EOF); // Xoa bo dem nhap
+        if (strcmp(gheNgoi, "0") == 0) { // Kiem tra neu nguoi dung nhap 0
             printf(RED"Da huy thao tac dat ve.\n"RESET_COLOR);
             free(maPhim);
             free(gheNgoi);
             free(newVe);
-            return; // Thoát hàm
+            return; // Thoat ham
         }
-        if (strlen(gheNgoi) != 2 || *gheNgoi < 'A' || *gheNgoi > 'E' || *(gheNgoi + 1) < '1' || *(gheNgoi + 1) > '8') { // Kiểm tra định dạng nhập ghế ngồi
+        if (strlen(gheNgoi) != 2 || *gheNgoi < 'A' || *gheNgoi > 'E' || *(gheNgoi + 1) < '1' || *(gheNgoi + 1) > '8') { // Kiem tra dinh dang nhap ghe ngoi
             printf(RED"Dinh dang sai.\n"RESET_COLOR);
             continue;
         }
@@ -253,7 +284,7 @@ int c;
         }
         if (!daDat) {
             for (int i = 0; i < 40; i++) newVe->GheNgoi[i] = 0;
-            newVe->GheNgoi[gheINT] = 1; // Đánh dấu ghế đã chọn là 1 (đã đặt) trong vé mới
+            newVe->GheNgoi[gheINT] = 1; // Danh dau ghe da chon la 1 (da dat) trong ve moi
             newVe->next = headVe;
             headVe = newVe;
             ghiDanhSachVeVaoFile(headVe);
@@ -263,15 +294,16 @@ int c;
             break;
         } else {
             printf(GREEN"Ghe da duoc dat!\n"RESET_COLOR);
-            printf(YELLOW"Hay chon ghe khac.\n"RESET_COLOR); // Khuyến khích chọn lại ghế
+            printf(YELLOW"Hay chon ghe khac.\n"RESET_COLOR); // Khuyen khich chon lai ghe
         }
     } while (1);
 
     free(maPhim);
     free(gheNgoi);
-    // Không giải phóng headPhim và headVe vì chúng được cấp phát bởi docPhimTuFile và docVeTuFile
+    // Khong giai phong headPhim va headVe vi chung duoc cap phat boi docPhimTuFile va docVeTuFile
 }
 
+// Ham in danh sach ve da dat cua nguoi dung
 void inVeDaDat(char *user) {
     VeNode *headVe = NULL;
     docVeTuFile(&headVe);
@@ -282,14 +314,16 @@ void inVeDaDat(char *user) {
     printf(MAGENTA"----------------------------------------------------------------------------------------\n");
     for (VeNode *temp = headVe; temp; temp = temp->next) {
         if (strcmp(temp->TenNguoiDung, user) == 0) {
-            // In dòng đầu với các trường cơ bản
-            printf(BOLD YELLOW"%-10s %-10s %-20s ", temp->MaVe, temp->MaPhim, temp->TenNguoiDung);
+            // In dong dau voi cac truong co ban
+            printf(BOLD YELLOW"%-10s %-10s %-20s ", temp->MaVe, 
+                temp->MaPhim, 
+                temp->TenNguoiDung);
 
-            // In các ghế đã đặt
+            // In cac ghe da dat
             int demGhe = 0;
-            char gheStr[21]; // Buffer để lưu chuỗi ghế, độ dài tối đa 20 + null terminator
-            gheStr[0] = '\0'; // Khởi tạo chuỗi rỗng
-            for (int i = 0; i < 40 && demGhe < 10; i++) { // Giới hạn 10 ghế để tránh tràn
+            char gheStr[21]; // Bo dem de luu chuoi ghe, do dai toi da 20 + null terminator
+            gheStr[0] = '\0'; // Khoi tao chuoi rong
+            for (int i = 0; i < 40 && demGhe < 10; i++) { // Gioi han 10 ghe de tranh tran
                 if (temp->GheNgoi[i]) {
                     char tempGhe[5];
                     snprintf(tempGhe, sizeof(tempGhe), "%c%d ", 'A' + i / 8, i % 8 + 1);
@@ -297,7 +331,7 @@ void inVeDaDat(char *user) {
                         strcat(gheStr, tempGhe);
                         demGhe++;
                     } else {
-                        break; // Dừng nếu vượt quá 20 ký tự
+                        break; // Dung neu vuot qua 20 ky tu
                     }
                 }
             }
@@ -306,8 +340,8 @@ void inVeDaDat(char *user) {
             }
             printf("%-20s", gheStr);
 
-            // In trạng thái với độ rộng cố định 12 ký tự, tách màu sắc
-                if (temp->TrangThai == 1) {
+            // In trang thai voi do rong co dinh 12 ky tu, tach mau sac
+            if (temp->TrangThai == 1) {
                 printf(GREEN"%-12s"RESET_COLOR, "Da dat");
             } else {
                 printf(RED"%-12s"RESET_COLOR, "Da huy");
@@ -318,7 +352,7 @@ void inVeDaDat(char *user) {
 
     printf(MAGENTA"----------------------------------------------------------------------------------------\n"RESET_COLOR);
 
-    // Giải phóng bộ nhớ
+    // Giai phong bo nho
     VeNode *tmp;
     while (headVe) {
         tmp = headVe;
@@ -327,6 +361,7 @@ void inVeDaDat(char *user) {
     }
 }
 
+// Ham huy ve da dat cua nguoi dung
 void huyVeDaDat(char *user) {
     VeNode *headVe = NULL;
     docVeTuFile(&headVe);
@@ -340,27 +375,27 @@ void huyVeDaDat(char *user) {
     inVeDaDat(user);
     printf(YELLOW"Nhap ma ve muon huy (0 de thoat): "RESET_COLOR);
     scanf("%14s", maVe);
-    if (strcmp(maVe, "0") == 0) { // Kiểm tra nếu người dùng nhập 0
+    if (strcmp(maVe, "0") == 0) { // Kiem tra neu nguoi dung nhap 0
         printf(RED"Da huy thao tac huy ve.\n"RESET_COLOR);
         free(maVe);
-        // Giải phóng danh sách liên kết
+        // Giai phong danh sach lien ket
         VeNode *tmp;
         while (headVe) {
             tmp = headVe;
             headVe = headVe->next;
             free(tmp);
         }
-        return; // Thoát hàm
+        return; // Thoat ham
     }
     int found = 0;
     VeNode *temp = headVe;
-    while (temp) { // Lặp qua từng vé trong danh sách
-    // Kiểm tra nếu mã vé, tên người dùng trùng khớp và trạng thái vé là 1 (chưa hủy)
+    while (temp) { // Lap qua tung ve trong danh sach
+    // Kiem tra neu ma ve, ten nguoi dung trung khop va trang thai ve la 1 (chua huy)
         if (strcmp(temp->MaVe, maVe) == 0 && strcmp(temp->TenNguoiDung, user) == 0 && temp->TrangThai == 1) {
             printf(YELLOW"Ban chac chan muon huy ve: "RESET_COLOR);
             for (int i = 0; i < 40; i++) {
-                if (temp->GheNgoi[i]) {// Nếu ghế thứ i đã được đặt (giá trị là 1)
-                    printf("%c%d ", 'A' + i / 8, i % 8 + 1);// In tên ghế (ví dụ: A1, B5)
+                if (temp->GheNgoi[i]) {// Neu ghe thu i da duoc dat (gia tri la 1)
+                    printf("%c%d ", 'A' + i / 8, i % 8 + 1);// In ten ghe (vi du: A1, B5)
                 }
             }
             printf(BLUE"?\nNhap 1 de xac nhan, 0 de huy thao tac: "RESET_COLOR);
@@ -370,7 +405,7 @@ void huyVeDaDat(char *user) {
             if (xacNhan != 1) {
                 printf(RED"Da huy thao tac huy ve.\n"RESET_COLOR);
                 free(maVe);
-                // Giải phóng danh sách
+                // Giai phong danh sach
                 VeNode *tmp;
                 while (headVe) {
                     tmp = headVe;
@@ -396,7 +431,7 @@ void huyVeDaDat(char *user) {
         printf(RED"Ma ve khong ton tai, da bi huy, hoac khong phai cua ban!\n"RESET_COLOR);
     }
 
-    // Giải phóng
+    // Giai phong
     free(maVe);
     VeNode *tmp;
     while (headVe) {
@@ -467,7 +502,13 @@ void themPhim(void) {
         return;
     }
 
-    fprintf(f, "%s|%s|%s|%s|%s|%s|%d\n",newPhim->MaPhim,newPhim->TenPhim,newPhim->TheLoai,newPhim->NgayChieu,newPhim->GioChieu,newPhim->PhongChieu,newPhim->GiaVe);
+    fprintf(f, "%s|%s|%s|%s|%s|%s|%d\n",newPhim->MaPhim,
+        newPhim->TenPhim,
+        newPhim->TheLoai,
+        newPhim->NgayChieu,
+        newPhim->GioChieu,
+        newPhim->PhongChieu,
+        newPhim->GiaVe);
 
     fclose(f);
 
@@ -487,6 +528,7 @@ void themPhim(void) {
     }
 }
 
+// Ham in thong tin phim
 void inThongTinPhim(PhimNode *p) {
     if (p) {
         printf("Ma phim: %s\n", p->MaPhim);
@@ -499,6 +541,7 @@ void inThongTinPhim(PhimNode *p) {
     }
 }
 
+// Ham sua thong tin phim
 void suaPhim() {
     PhimNode *headPhim = NULL;
     docPhimTuFile(&headPhim);
@@ -614,22 +657,22 @@ void xoaPhim() {
     char maPhim[15];
     printf(RED"Nhap ma phim muon xoa (0 de thoat): "RESET_COLOR);
     scanf("%14s", maPhim);
-        if (strcmp(maPhim, "0") == 0) { // Kiểm tra nếu người dùng nhập 0
+    if (strcmp(maPhim, "0") == 0) { // Kiem tra neu nguoi dung nhap 0
         printf(RED"Da huy thao tac xoa phim.\n"RESET_COLOR);
-        // Giải phóng bộ nhớ
+        // Giai phong bo nho
         PhimNode *tmp;
         while (headPhim) {
             tmp = headPhim;
             headPhim = headPhim->next;
             free(tmp);
         }
-        return; // Thoát hàm
+        return; // Thoat ham
     }
-// Khởi tạo con trỏ 'curr' trỏ đến đầu danh sách, 'prev' là NULL
+    // Khoi tao con tro 'curr' tro den dau danh sach, 'prev' la NULL
     PhimNode *curr = headPhim, *prev = NULL;
-    // Duyệt danh sách để tìm nút có MaPhim trùng với mã người dùng nhập
+    // Duyet danh sach de tim nut co MaPhim trung voi ma nguoi dung nhap
     while (curr != NULL && strcmp(curr->MaPhim, maPhim) != 0) {
-        prev = curr;// Cập nhật 'prev' trước khi 'curr' di chuyển
+        prev = curr;// Cap nhat 'prev' truoc khi 'curr' di chuyen
         curr = curr->next;
     }
     if (!curr) {
@@ -714,10 +757,13 @@ void inDanhSachVe() {
             tempPhim = tempPhim->next;
         }
 
-        printf(BOLD YELLOW"%-10s %-10s %-20s ", tempVe->MaVe, tempVe->MaPhim, tempVe->TenNguoiDung);
+        printf(BOLD YELLOW"%-10s %-10s %-20s ", 
+            tempVe->MaVe, 
+            tempVe->MaPhim, 
+            tempVe->TenNguoiDung);
         
         int demGhe = 0;
-         int currentGheDisplayedLength = 0;
+        int currentGheDisplayedLength = 0;
         for (int i = 0; i < 40; i++) {
             if (tempVe->GheNgoi[i]) {
                 printf("%c%d ", 'A' + i / 8, i % 8 + 1);
@@ -729,15 +775,15 @@ void inDanhSachVe() {
             printf("XX ");
             currentGheDisplayedLength = 3;
         }
-		int requiredPadding = 10 - currentGheDisplayedLength; // Tính toán số khoảng trắng cần thêm
-        if (requiredPadding < 0) { // Đảm bảo không âm
+        int requiredPadding = 10 - currentGheDisplayedLength; // Tinh toan so khoang trang can them
+        if (requiredPadding < 0) { // Dam bao khong am
             requiredPadding = 0;
         }
-        for (int k = 0; k < requiredPadding; k++) { // In số khoảng trắng cần thiết
+        for (int k = 0; k < requiredPadding; k++) { // In so khoang trang can thiet
             printf(" ");
         }
         printf("%-12s %-35s\n", tempVe->TrangThai == 1 ? "Da dat" : "Da huy", tenPhim);
-       printf(RESET_COLOR);
+        printf(RESET_COLOR);
 
         for (tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
             if (strcmp(tempPhim->MaPhim, tempVe->MaPhim) == 0) {
@@ -746,7 +792,6 @@ void inDanhSachVe() {
             }
         }
     }
-//    printf("----------------------------------------------------------------------------------------\n");
     printf(BOLD MAGENTA"----------------------------------------------------------------------------------------\n"RESET_COLOR);
     printf(BOLD BLUE"\n\n                                SO LUONG VE DA DAT THEO PHIM                             \n"RESET_COLOR);
     printf(BOLD MAGENTA"-----------------------------------------------------------------------------------------\n");
@@ -754,10 +799,12 @@ void inDanhSachVe() {
     printf("-----------------------------------------------------------------------------------------\n"RESET_COLOR);
     for (PhimNode *tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
         int index = atoi(tempPhim->MaPhim + 2);
-        printf(BOLD YELLOW"%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, soLuongVe[index]);
+        printf(BOLD YELLOW"%-15s %-35s %-10d\n", tempPhim->MaPhim, 
+            tempPhim->TenPhim, 
+            soLuongVe[index]);
     }
     printf(RESET_COLOR);
-	printf(BOLD MAGENTA"-----------------------------------------------------------------------------------------\n"RESET_COLOR);
+    printf(BOLD MAGENTA"-----------------------------------------------------------------------------------------\n"RESET_COLOR);
     
     VeNode *tmpVe;
     while (headVe) {
@@ -772,6 +819,7 @@ void inDanhSachVe() {
         free(tmpPhim);
     }
 }
+// Ham thong ke doanh thu theo phim
 void thongKeDoanhThu() {
     VeNode *headVe = NULL;
     PhimNode *headPhim = NULL;
@@ -786,26 +834,28 @@ void thongKeDoanhThu() {
     for (PhimNode *tempPhim = headPhim; tempPhim; tempPhim = tempPhim->next) {
         int doanhThu = 0;
         for (VeNode *tempVe = headVe; tempVe; tempVe = tempVe->next) {
-        	// Kiểm tra nếu MaPhim của vé trùng với MaPhim của phim hiện tại
-            // VÀ trạng thái vé là 1 (nghĩa là vé đã được bán/thanh toán)
+            // Kiem tra neu MaPhim cua ve trung voi MaPhim cua phim hien tai
+            // VA trang thai ve la 1 (nghia la ve da duoc ban/thanh toan)
             if (strcmp(tempPhim->MaPhim, tempVe->MaPhim) == 0 && tempVe->TrangThai == 1) {
-    // Cộng giá vé của phim vào tổng doanh thu của bộ phim đó
-	            doanhThu += tempPhim->GiaVe;
+                // Cong gia ve cua phim vao tong doanh thu cua bo phim do
+                doanhThu += tempPhim->GiaVe;
             }
         }
-        // In Mã Phim, Tên Phim và Doanh Thu với màu vàng đậm và định dạng căn lề
-        printf(BOLD YELLOW"%-15s %-35s %-10d\n", tempPhim->MaPhim, tempPhim->TenPhim, doanhThu);
+        // In Ma Phim, Ten Phim va Doanh Thu voi mau vang dam va dinh dang can le
+        printf(BOLD YELLOW"%-15s %-35s %-10d\n", tempPhim->MaPhim, 
+            tempPhim->TenPhim, 
+            doanhThu);
     }
     printf(RESET_COLOR);
     printf(BOLD MAGENTA"----------------------------------------------------------------------------------------\n"RESET_COLOR);
-// --- Giải phóng bộ nhớ của danh sách liên kết vé ---
+    // Giai phong bo nho cua danh sach lien ket ve
     VeNode *tmpVe;
     while (headVe) {
         tmpVe = headVe;
         headVe = headVe->next;
         free(tmpVe);
     }
-    // --- Giải phóng bộ nhớ của danh sách liên kết phim ---
+    // Giai phong bo nho cua danh sach lien ket phim
     PhimNode *tmpPhim;
     while (headPhim) {
         tmpPhim = headPhim;
@@ -823,8 +873,10 @@ void ghiDanhSachNguoiDungVaoFile(NguoiDungNode *head) {
 
     NguoiDungNode *current = head;
     while (current) {
-        // WARNING: Writing password to file. Consider hashing in a real application.
-        fprintf(f, "%s|%s|%d\n", current->username, current->password, current->type);
+        // CANH BAO: Ghi mat khau ra file. Nen ma hoa trong ung dung thuc te.
+        fprintf(f, "%s|%s|%d\n", current->username, 
+            current->password, 
+            current->type);
         current = current->next;
     }
     fclose(f);
@@ -842,7 +894,7 @@ void inDanhSachNguoiDung(void) {
 
     NguoiDungNode *current = head;
     while (current != NULL) {
-        // Do not display passwords directly
+        // Khong hien thi mat khau truc tiep
         printf(BOLD YELLOW"%-20s %-10s\n", current->username, current->type == 1 ? "Admin" : "User");
         current = current->next;
     }
@@ -865,13 +917,14 @@ void xoaTaiKhoanNguoiDung(char *adminUser) {
     xoaMH();
     inDanhSachNguoiDung();
 
-    char usernameToDelete[15];// Buffer để lưu tên đăng nhập cần xóa
+    char usernameToDelete[15];// Bo dem de luu ten dang nhap can xoa
     printf(RED"\nNhap ten dang nhap cua nguoi dung muon xoa: "RESET_COLOR);
     scanf("%14s", usernameToDelete);
- // Kiểm tra xem tên đăng nhập muốn xóa có trùng với tên đăng nhập của admin
+    // Kiem tra xem ten dang nhap muon xoa 
+    // co trung voi ten dang nhap cua admin
     if (strcmp(usernameToDelete, adminUser) == 0) {
         printf(RED"Ban khong the xoa tai khoan admin dang su dung!\n"RESET_COLOR);
-         // Giai phong bo nho
+        // Giai phong bo nho
         NguoiDungNode *tmp;
         while (head) {
             tmp = head;
@@ -882,7 +935,7 @@ void xoaTaiKhoanNguoiDung(char *adminUser) {
     }
 
     NguoiDungNode *curr = head, *prev = NULL;
-    // Duyệt danh sách để tìm nút có username trùng với tên đăng nhập người dùng nhập
+    // Duyet danh sach de tim nut co username trung voi ten dang nhap nguoi dung nhap
     while (curr != NULL && strcmp(curr->username, usernameToDelete) != 0) {
         prev = curr;
         curr = curr->next;
@@ -890,7 +943,7 @@ void xoaTaiKhoanNguoiDung(char *adminUser) {
 
     if (!curr) {
         printf("Khong tim thay nguoi dung voi ten dang nhap: %s\n", usernameToDelete);
-         // Giai phong bo nho
+        // Giai phong bo nho
         NguoiDungNode *tmp;
         while (head) {
             tmp = head;
@@ -907,7 +960,7 @@ void xoaTaiKhoanNguoiDung(char *adminUser) {
 
     if (confirm != 1) {
         printf(RED"Huy xoa tai khoan.\n"RESET_COLOR);
-         // Giai phong bo nho
+        // Giai phong bo nho
         NguoiDungNode *tmp;
         while (head) {
             tmp = head;
@@ -939,7 +992,7 @@ void xoaTaiKhoanNguoiDung(char *adminUser) {
     }
 }
 
-//  Ham cam on
+// Ham cam on
 void camOn() {
     xoaMH();
     printf(BOLD GREEN"CAM ON BAN DA SU DUNG CHUONG TRINH!\n"RESET_COLOR);
