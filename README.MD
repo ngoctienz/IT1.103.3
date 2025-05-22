@@ -5,11 +5,11 @@
 * Nguyễn Ngọc Tiên - MSSV: 6551071079
 * Ngô Thanh Tiến - MSSV: 6551071082
 
-# Chú ý !:
+# Chú ý!
 
-[Tài khoản demo](https://github.com/ngoctienz/IT1.103.3#53-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu-v%C3%A0-t%C3%A0i-kho%E1%BA%A3n-test)
+[Tài khoản demo](#53-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu-v%C3%A0-t%C3%A0i-kho%E1%BA%A3n-test)
 
-[Hướng Dẫn Biên Dịch và Chạy](https://github.com/ngoctienz/IT1.103.3#5-h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-bi%C3%AAn-d%E1%BB%8Bch-v%C3%A0-ch%E1%BA%A1y)
+[Hướng Dẫn Biên Dịch và Chạy](#5-h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-bi%C3%AAn-d%E1%BB%8Bch-v%C3%A0-ch%E1%BA%A1y)
 
 # Đề tài: Xây Dựng Ứng Dụng Quản Lý Rạp Chiếu Phim
 
