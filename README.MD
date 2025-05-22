@@ -1,4 +1,4 @@
-# Bài tập lớn kĩ thuật lập trình
+# Bài tập lớn Kỹ thuật lập trình
 # Đề tài: Xây Dựng Ứng Dụng Quản Lý Rạp Chiếu Phim
 
 Đây là dự án xây dựng ứng dụng quản lý rạp chiếu phim bằng ngôn ngữ lập trình C, tập trung vào các nghiệp vụ cơ bản của một rạp chiếu phim.
@@ -23,11 +23,11 @@ Dự án nhằm xây dựng một ứng dụng quản lý toàn diện cho rạp
 * Đăng nhập hệ thống
 * Đăng ký tài khoản mới (dành cho Người Dùng)
 
-![DangNhap.png](https://github.com/ngoctienz/IT1.103.3/blob/master/img/DangNhap.png)
+![Giao diện đăng nhập](https://github.com/ngoctienz/IT1.103.3/blob/master/img/DangNhap.png)
 
 ### 3.2. Chức năng cho Người Dùng (User)
 
-![User.png](https://github.com/ngoctienz/IT1.103.3/blob/master/img/User.png)
+![Giao diện người dùng](https://github.com/ngoctienz/IT1.103.3/blob/master/img/User.png)
 
 Sau khi đăng nhập, Người Dùng có thể:
 
@@ -41,11 +41,12 @@ Sau khi đăng nhập, Người Dùng có thể:
 * **Hủy vé đã đặt:**
     * Chọn vé muốn hủy từ danh sách vé đã đặt.
     * Xác nhận hủy vé. Trạng thái vé được cập nhật và ghế ngồi được trả về trạng thái trống.
+* **Đổi mật khẩu:** Cập nhật mật khẩu tài khoản.
 * **Đăng xuất.**
 
 ### 3.3. Chức năng cho Quản Trị Viên (Admin)
 
-![Admin.png](https://github.com/ngoctienz/IT1.103.3/blob/master/img/Admin.png)
+![Giao diện quản trị viên](https://github.com/ngoctienz/IT1.103.3/blob/master/img/Admin.png)
 
 Sau khi đăng nhập, Quản Trị Viên có các quyền quản lý sau:
 
@@ -60,6 +61,8 @@ Sau khi đăng nhập, Quản Trị Viên có các quyền quản lý sau:
 * **Quản lý Tài khoản Người dùng:**
     * **Xem danh sách người dùng:** Liệt kê tất cả các tài khoản người dùng trong hệ thống (Tên đăng nhập, Loại tài khoản).
     * **Xóa tài khoản người dùng:** Xóa một tài khoản người dùng ra khỏi hệ thống (không thể xóa tài khoản admin đang đăng nhập).
+    * **Thêm tài khoản Admin:** Chỉ Admin mới có thể thêm tài khoản Admin mới.
+* **Đổi mật khẩu:** Cập nhật mật khẩu tài khoản.
 * **Đăng xuất.**
 
 ## 4. Cấu Trúc Thư Mục và Tệp
@@ -99,22 +102,24 @@ Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và cá
 ### 5.2. Sử dụng Dev-C++ IDE
 [Xem video hướng dẫn tại YouTube](https://youtu.be/lJ-qn12VQHk)
 1.  **Mở Project:**
-    * Mở Dev-C++: Khởi động phần mềm Dev-C++
-    * Chọn vào file .dev > Open With > Dev-C++
-    * Hoặc: Mở tệp .dev: Chọn File > Open Project or File... (hoặc nhấn Ctrl + O). Điều hướng đến thư mục chứa tệp .dev của bạn và chọn tệp đó.
+    * Mở Dev-C++: Khởi động phần mềm Dev-C++.
+    * Chọn vào file `.dev` > Open With > Dev-C++.
+    * Hoặc: Mở tệp `.dev`: Chọn `File` > `Open Project or File...` (hoặc nhấn `Ctrl + O`). Điều hướng đến thư mục chứa tệp `.dev` của bạn và chọn tệp đó.
 2.  **Biên dịch và Chạy:**
-    * Trong Dev-C++, bạn có thể biên dịch project bằng cách chọn `Execute > Compile` (hoặc nhấn `F9`).
-    * Để chạy project, chọn `Execute > Run` (hoặc nhấn `F10`).
-    * Để biên dịch và chạy cùng lúc, chọn `Execute > Compile & Run` (hoặc nhấn `F11`).
+    * Trong Dev-C++, bạn có thể biên dịch project bằng cách chọn `Execute` > `Compile` (hoặc nhấn `F9`).
+    * Để chạy project, chọn `Execute` > `Run` (hoặc nhấn `F10`).
+    * Để biên dịch và chạy cùng lúc, chọn `Execute` > `Compile & Run` (hoặc nhấn `F11`).
 
-### 5.3. Tệp dữ liệu
+### 5.3. Dữ liệu mẫu và Tài khoản Test
 
 Đảm bảo các tệp `nguoidung.txt`, `phim.txt`, và `ve.txt` được tạo (có thể để trống ban đầu) và đặt cùng thư mục với tệp thực thi (thường là thư mục chứa project `.dev` hoặc thư mục con nơi tệp `.exe` được tạo ra) để chương trình có thể đọc và ghi dữ liệu. Nếu các tệp này không tồn tại khi chương trình cố gắng đọc, có thể xảy ra lỗi.
 
-* **Dữ liệu mẫu `nguoidung.txt`:**
-    ```
-    admin|admin123|1
-    user1|user123|2
+* **Dữ liệu mẫu `nguoidung.txt` (bao gồm tài khoản test):**
+    ```   
+    tester|12345|1
+    admin123|12345|1
+    user|user123|2
+    user123|123123|2
     ```
 * **Dữ liệu mẫu `phim.txt`:** (MaPhim|TenPhim|TheLoai|NgayChieu|GioChieu|PhongChieu|GiaVe)
     ```
