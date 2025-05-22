@@ -232,6 +232,11 @@ void themTaiKhoanAdmin(void) {
     docTaiKhoanTuFile(&dau);
     xoaMH();
     do {
+        printf(YELLOW"-----------------------------------------\n"RESET_COLOR);
+        printf(YELLOW"|        THEM TAI KHOAN ADMIN           |"RESET_COLOR);
+        printf(YELLOW"\n-----------------------------------------\n"RESET_COLOR);
+
+        // Nhap ten admin
         printf(YELLOW"Nhap ten Admin: "RESET_COLOR);
         scanf("%49s", tenDangNhap);
         while ((kyTu = getchar()) != '\n' && kyTu != EOF);
@@ -251,6 +256,8 @@ void themTaiKhoanAdmin(void) {
         } else {
             // Vong lap nhap va xac nhan mat khau
             do {
+
+                // Nhap mat khau va xac nhan mat khau
                 printf(YELLOW"Nhap mat khau: "RESET_COLOR);
                 scanf("%49s", matKhau);
                 while ((kyTu = getchar()) != '\n' && kyTu != EOF);
@@ -345,6 +352,10 @@ void doiMatKhau(char *tenDangNhap) {
     docTaiKhoanTuFile(&dau);
     xoaMH();
     do {
+        printf(YELLOW"---------------------------------------\n"RESET_COLOR);
+        printf(YELLOW"|         DOI MAT KHAU:               |\n"RESET_COLOR);
+        printf(YELLOW" Ten Dang Nhap: %s\n"RESET_COLOR, tenDangNhap);
+        printf(YELLOW"--------------------------------------\n"RESET_COLOR);
         printf(YELLOW"Nhap mat khau cu: "RESET_COLOR);
         scanf("%49s", matKhauCu);
         while ((kyTu = getchar()) != '\n' && kyTu != EOF);
@@ -361,6 +372,8 @@ void doiMatKhau(char *tenDangNhap) {
         if (dungMatKhauCu == 0) {
             xoaMH();
             printf(RED"Mat khau cu khong dung! Vui long chon mat khau khac.\n"RESET_COLOR);
+
+            
         } else {
             // Vong lap nhap va xac nhan mat khau moi
             do {

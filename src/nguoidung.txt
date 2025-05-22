@@ -2,3 +2,5 @@ tester|12345|1
 admin123|12345|1
 user|user123|2
 user123|123123|2
+adminNew|123123|1
+NewAdmin|123123|1

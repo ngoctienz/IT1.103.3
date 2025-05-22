@@ -82,7 +82,7 @@ void menuQuanTriVien(char *user) {
     printf(BOLD YELLOW " 3. Quan ly Tai khoan Nguoi dung      ");
     printf( BLUE"|\n");
     printf("|"); 
-    printf(BOLD YELLOW " 4. Doi mat khau                     ");
+    printf(BOLD YELLOW " 4. Doi mat khau                      ");
     printf( BLUE"|\n");
     printf("|"); 
     printf( BOLD YELLOW" 5. Dang xuat                         "); 
