@@ -1,4 +1,8 @@
 # Bài tập lớn Kỹ thuật lập trình
+* Chú ý:
+[Tài khoản demo](https://github.com/ngoctienz/IT1.103.3#53-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu-v%C3%A0-t%C3%A0i-kho%E1%BA%A3n-test)
+[Hướng Dẫn Biên Dịch và Chạy](https://github.com/ngoctienz/IT1.103.3#5-h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-bi%C3%AAn-d%E1%BB%8Bch-v%C3%A0-ch%E1%BA%A1y)
+
 # Đề tài: Xây Dựng Ứng Dụng Quản Lý Rạp Chiếu Phim
 
 Đây là dự án xây dựng ứng dụng quản lý rạp chiếu phim bằng ngôn ngữ lập trình C, tập trung vào các nghiệp vụ cơ bản của một rạp chiếu phim.
@@ -114,7 +118,7 @@ Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và cá
 
 Đảm bảo các tệp `nguoidung.txt`, `phim.txt`, và `ve.txt` được tạo (có thể để trống ban đầu) và đặt cùng thư mục với tệp thực thi (thường là thư mục chứa project `.dev` hoặc thư mục con nơi tệp `.exe` được tạo ra) để chương trình có thể đọc và ghi dữ liệu. Nếu các tệp này không tồn tại khi chương trình cố gắng đọc, có thể xảy ra lỗi.
 
-* **Dữ liệu mẫu `nguoidung.txt` (bao gồm tài khoản test):**
+* **Dữ liệu mẫu `nguoidung.txt` (bao gồm tài khoản test):** (username|password|type)
     ```   
     tester|12345|1
     admin123|12345|1
