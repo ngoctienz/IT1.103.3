@@ -1,5 +1,11 @@
 # Bài tập lớn Kỹ thuật lập trình
-* Chú ý !:
+
+## Thành Viên Nhóm
+
+* Nguyễn Ngọc Tiên - MSSV: 6551071079
+* Ngô Thanh Tiến - MSSV: 6551071082
+
+# Chú ý !:
 
 [Tài khoản demo](https://github.com/ngoctienz/IT1.103.3#53-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu-v%C3%A0-t%C3%A0i-kho%E1%BA%A3n-test)
 
@@ -138,11 +144,6 @@ Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và cá
     ```
     *(Lưu ý: Định dạng `GheNgoi` trong `ve.txt` là một chuỗi 40 số 0 hoặc 1, cách nhau bởi dấu phẩy, thể hiện trạng thái của 40 ghế. Số 1 nghĩa là ghế đó được chọn cho vé này)*
 
-## 6. Thành Viên Nhóm
-
-* Nguyễn Ngọc Tiên - MSSV: 6551071079
-* Ngô Thanh Tiến - MSSV: 6551071082
-
-## 7. Giảng Viên Hướng Dẫn
+## 6. Giảng Viên Hướng Dẫn
 
 * Trần Phong Nhã
