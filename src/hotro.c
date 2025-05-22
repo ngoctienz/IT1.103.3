@@ -29,7 +29,10 @@ void docTaiKhoanTuFile(NguoiDungNode **head) {
 
     while (!feof(a)) {
         NguoiDungNode *temp = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
-        if (!temp) { perror("Loi cap phat bo nho"); exit(1); }
+        if (!temp) {
+             perror("Loi cap phat bo nho");
+             exit(1);
+        }
         char pass[15];
         if (fscanf(a, "%[^|]|%[^|]|%d\n", temp->username, pass, &temp->type) == 3) {
             strcpy(temp->password, pass);
@@ -43,11 +46,18 @@ void docTaiKhoanTuFile(NguoiDungNode **head) {
 }
 void docPhimTuFile(PhimNode **head) {
     FILE *a = fopen("phim.txt", "r");
-    if (!a) { perror("Loi file"); exit(1); }
+    if (a == NULL) {
+        perror("Loi file"); 
+        exit(1); 
+    }
 
     while (!feof(a)) {
         PhimNode *temp = (PhimNode*)malloc(sizeof(PhimNode));
-        if (!temp) { perror("Loi cap phat bo nho"); exit(1); }
+        if (temp == NULL) {
+             // Cap phat bo nho that bai
+             perror("Loi cap phat bo nho");
+             exit(1);
+        }
 
         if (fscanf(a, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%d\n", temp->MaPhim, temp->TenPhim, temp->TheLoai,
                    temp->NgayChieu, temp->GioChieu, temp->PhongChieu, &temp->GiaVe) == 7) {
@@ -80,7 +90,10 @@ void inDanhSachPhim(void) {
 
 void docVeTuFile(VeNode **head) {
     FILE *a = fopen("ve.txt", "r");
-    if (!a) { perror("Loi file"); exit(1); }
+    if (a == NULL) {
+        perror("Loi file"); 
+        exit(1); 
+    }
     while (!feof(a)) {// Lặp cho đến khi đạt cuối tệp
         VeNode *temp = (VeNode*)malloc(sizeof(VeNode));
         if (!temp) { perror(RED"Loi cap phat bo nho"RESET_COLOR); exit(1); }

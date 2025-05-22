@@ -1,8 +1,7 @@
 Tienngo12|13579|2
 Tienngo|Tienngo12|2
-user|123|2
 ngoctien|2006|2
 tester|12345|1
-admin123|12345|1
+admin123|54321|1
 tienngo|tien|2
 adminnew|123456|1

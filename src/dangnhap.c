@@ -2,335 +2,423 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <conio.h> // Thư viện cho getch()
+#include <conio.h> // Thu vien cho getch()
 #include "dangnhap.h"
 #include "hotro.h"
-//Ham doc file user
-int docTaiKhoan(char *user, char *pass) {
-    FILE *a;
-    char *user_temp = (char*)malloc(15 * sizeof(char));
-    char *pass_temp = (char*)malloc(15 * sizeof(char));
-    int type;
-    a = fopen("nguoidung.txt", "r");
-    if (a == NULL) {
+
+// Ham doc file user
+int docTaiKhoan(char *tenDangNhap, char *matKhau) {
+    FILE *tepTin;
+    char *tenDangNhapTam = (char*)malloc(15 * sizeof(char));
+    char *matKhauTam = (char*)malloc(15 * sizeof(char));
+    int loaiNguoiDung;
+    tepTin = fopen("nguoidung.txt", "r");
+    if (tepTin == NULL) {
         perror("Loi file: ");
         exit(1);
     }
-    while (fscanf(a, "%[^|]|%[^|]|%d\n", user_temp, pass_temp, &type) == 3) {
-        if ((strcmp(user, user_temp) == 0) && (strcmp(pass, pass_temp) == 0)) {
-            fclose(a);
-            return type; // Dung tai khoan thi tra ve luon
+    // Doc tung dong trong file va so sanh voi thong tin nhap vao
+    while (fscanf(tepTin, "%[^|]|%[^|]|%d\n", tenDangNhapTam, matKhauTam, &loaiNguoiDung) == 3) {
+        if ((strcmp(tenDangNhap, tenDangNhapTam) == 0) && (strcmp(matKhau, matKhauTam) == 0)) {
+            fclose(tepTin);
+            return loaiNguoiDung; // Dung tai khoan thi tra ve luon
         }
     }
-    fclose(a);
+    fclose(tepTin);
     return 0;
 }
 
-// ham dang nhap
-int dangNhap(char *user) {
-    char *pass = (char*)malloc(15 * sizeof(char));
-    if (pass == NULL) {
+// Ham dang nhap
+int dangNhap(char *tenDangNhap) {
+    char *matKhau = (char*)malloc(15 * sizeof(char));
+    if (matKhau == NULL) {
         perror("Loi cap phat bo nho cho mat khau: ");
-        // Trả về -1 nếu cấp phát lỗi
+        // Tra ve -1 neu cap phat loi
         return -1;
     }
-    int c; // Biến để đọc ký tự từ input
-    int UserType = 0; // Biến để lưu loại người dùng (0: không tìm thấy/sai thông tin, 1: admin, 2: user)
+    int kyTu; // Bien de doc ky tu tu input
+    int loaiNguoiDung = 0; // Luu loai nguoi dung (0: khong tim thay/sai, 1: admin, 2: user)
     xoaMH();
     printf(BOLD CYAN "===== HE THONG DANG NHAP =====\n" RESET_COLOR);
     do {
         printf(YELLOW "Nhap ten dang nhap: " RESET_COLOR);
-        scanf("%s", user);
-        while ((c = getchar()) != '\n' && c != EOF);
+        scanf("%s", tenDangNhap);
+        // Xoa bo dem nhap
+        while ((kyTu = getchar()) != '\n' && kyTu != EOF);
         printf(YELLOW "Nhap mat khau: " RESET_COLOR);
-        // --- Bắt đầu phần nhập mật khẩu ẩn (hiển thị ***) ---
-        int i = 0; // Chỉ số cho mảng pass
-        char input_char; // Biến tạm để đọc từng ký tự
-        while ((input_char = getch()) != '\r' && input_char != '\n' && i < 14) {
-            // getch() đọc một ký tự mà không hiển thị lên màn hình
-            if (input_char != 8 && input_char != 127) {
-                 // Nếu là ký tự thông thường, lưu vào mảng pass
-                 pass[i] = input_char;
-                 i++; // Tăng chỉ số
-                 printf("*"); // In ký tự '*' ra màn hình
+        // Bat dau nhap mat khau an (hien thi ***)
+        int i = 0; // Chi so cho mang matKhau
+        char kyTuNhap; // Bien tam de doc tung ky tu
+        while ((kyTuNhap = getch()) != '\r' && kyTuNhap != '\n' && i < 14) {
+            // getch() doc mot ky tu ma khong hien thi len man hinh
+            if (kyTuNhap != 8 && kyTuNhap != 127) {
+                // Neu la ky tu thong thuong, luu vao mang matKhau
+                matKhau[i] = kyTuNhap;
+                i++; // Tang chi so
+                printf("*"); // In ky tu '*' ra man hinh
             } else if (i > 0) {
-                 i--; // Giảm chỉ số
-                 printf("\b \b"); // Xóa ký tự '*' cuối cùng trên màn hình (\b: lùi con trỏ, ' ': in khoảng trắng, \b: lùi con trỏ lại)
+                i--; // Giam chi so
+                // Xoa ky tu '*' cuoi cung tren man hinh
+                printf("\b \b");
             }
         }
-        pass[i] = '\0'; // Thêm ký tự null kết thúc chuỗi vào cuối mật khẩu
+        matKhau[i] = '\0'; // Them ky tu null ket thuc chuoi vao cuoi mat khau
         printf("\n");
-        // --- Kết thúc phần nhập mật khẩu ẩn ---
-        // và trả về loại tài khoản (1: admin, 2: user) hoặc 0 nếu không tìm thấy/sai
-        UserType = docTaiKhoan(user, pass); // Hàm docTaiKhoan cần được định nghĩa
-       
-        if (UserType == 0) { // Nếu UserType là 0 (đăng nhập thất bại)
+        // Ket thuc nhap mat khau an
+        // Tra ve loai tai khoan (1: admin, 2: user) hoac 0 neu khong dung
+        loaiNguoiDung = docTaiKhoan(tenDangNhap, matKhau);
+
+        if (loaiNguoiDung == 0) { // Dang nhap that bai
             xoaMH();
-            // In thông báo lỗi với màu đỏ đậm và in đậm
             printf(RED BOLD "Ten dang nhap hoac mat khau khong dung!\n" RESET_COLOR);
-            // Yêu cầu người dùng nhập lại hoặc quay lại menu chính
             printf(YELLOW "Nhan Enter de nhap lai hoac nhap 0 de quay lai menu chinh: " RESET_COLOR);
 
-            char temp_choice[10]; // Buffer tạm để đọc lựa chọn
-            fgets(temp_choice, sizeof(temp_choice), stdin); // Sử dụng fgets an toàn hơn scanf cho chuỗi
+            char luaChonTam[10]; // Buffer tam de doc lua chon
+            fgets(luaChonTam, sizeof(luaChonTam), stdin); // Dung fgets an toan hon scanf cho chuoi
 
-            // So sánh lựa chọn với "0\n" (Enter sau khi nhập 0) hoặc "0\r\n" (trên một số hệ điều hành)
-            if (strcmp(temp_choice, "0\n") == 0 || strcmp(temp_choice, "0\r\n") == 0) {
-                 // Nếu người dùng nhập 0
-                 free(pass);
-                 user[0] = '\0'; // Đặt ký tự null vào đầu chuỗi user để làm rỗng tên đăng nhập
-                 return 0; // Trả về 0 để báo hiệu quay lại menu chính
+            // So sanh lua chon voi "0\n" hoac "0\r\n"
+            if (strcmp(luaChonTam, "0\n") == 0 || strcmp(luaChonTam, "0\r\n") == 0) {
+                free(matKhau);
+                tenDangNhap[0] = '\0'; // Dat ky tu null vao dau chuoi user de lam rong
+                return 0; // Quay lai menu chinh
             }
-            // Nếu người dùng nhấn Enter (không nhập 0), tiếp tục vòng lặp
-            xoaMH(); 
+            // Neu nhan Enter (khong nhap 0), tiep tuc vong lap
+            xoaMH();
             printf(BOLD CYAN "===== HE THONG DANG NHAP =====\n" RESET_COLOR);
-            // Vòng lặp do-while tiếp tục vì UserType vẫn là 0
-        } else { // Nếu UserType khác 0 (đăng nhập thành công)
-      
+        } else { // Dang nhap thanh cong
             printf(GREEN BOLD "Dang nhap thanh cong!\n" RESET_COLOR);
-            // thong bao chuyen den menu chinh
-            stop(2, UserType == 1 ? "Menu Admin" : "Menu Nguoi dung");
-            free(pass); 
-            return UserType; // Trả về loại người dùng (1 hoặc 2) để báo hiệu đăng nhập thành công và loại tài khoản
+            // Thong bao chuyen den menu chinh
+            stop(2, loaiNguoiDung == 1 ? "Menu Admin" : "Menu Nguoi dung");
+            free(matKhau);
+            return loaiNguoiDung; // Tra ve loai nguoi dung (1 hoac 2)
         }
-    } while (UserType == 0); // Vòng lặp tiếp tục nếu UserType là 0 (đăng nhập thất bại)
-    free(pass); 
+    } while (loaiNguoiDung == 0); // Lap lai neu dang nhap that bai
+    free(matKhau);
     return 0;
 }
-// ham dang ky
-int dangKy(char *user) {
-    FILE *a;
-    char *pass = (char*)malloc(50 * sizeof(char)); // Tăng kích thước để phù hợp với NguoiDungNode
-    char *confirmPass = (char*)malloc(50 * sizeof(char)); // Biến cho mật khẩu xác nhận
-    char c; // Khai báo biến để đọc ký tự thừa trong bộ đệm nhập
-    NguoiDungNode *head = NULL, *temp = NULL, *newNode = NULL;
-    int check = 0; // Biến để kiểm tra tên đăng nhập có tồn tại hay không
-    int passwordMatch = 0; // Biến để kiểm tra mật khẩu có khớp không
 
-    if (pass == NULL || confirmPass == NULL) {
+// Ham dang ky
+int dangKy(char *tenDangNhap) {
+    FILE *tepTin;
+    char *matKhau = (char*)malloc(50 * sizeof(char)); // Tang kich thuoc de phu hop voi NguoiDungNode
+    char *xacNhanMatKhau = (char*)malloc(50 * sizeof(char)); // Bien cho mat khau xac nhan
+    char kyTu;
+    NguoiDungNode *dau = NULL, *tam = NULL, *nutMoi = NULL;
+    int tonTai = 0; // Kiem tra ten dang nhap co ton tai khong
+    int khopMatKhau = 0; // Kiem tra mat khau co khop khong
+
+    if (matKhau == NULL || xacNhanMatKhau == NULL) {
         perror("Loi cap phat bo nho: ");
-        free(pass); // Free if one allocated
-        free(confirmPass); // Free if one allocated
+        free(matKhau);
+        free(xacNhanMatKhau);
         return -1;
     }
-    
-    docTaiKhoanTuFile(&head);
+
+    docTaiKhoanTuFile(&dau);
     xoaMH();
     do {
         printf(YELLOW"Nhap ten dang nhap: "RESET_COLOR);
-        scanf("%49s", user); // Giới hạn đọc để tránh tràn bộ đệm
-        while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+        scanf("%49s", tenDangNhap); // Gioi han doc de tranh tran bo dem
+        // Xoa bo dem nhap
+        while ((kyTu = getchar()) != '\n' && kyTu != EOF);
 
-        check = 0;
-        for (temp = head; temp != NULL; temp = temp->next) {
-            if (strcmp(user, temp->username) == 0) {
-                check = 1;
+        tonTai = 0;
+        // Kiem tra ten dang nhap da ton tai chua
+        for (tam = dau; tam != NULL; tam = tam->next) {
+            if (strcmp(tenDangNhap, tam->username) == 0) {
+                tonTai = 1;
                 break;
             }
         }
 
-        if (check == 1) {
+        if (tonTai == 1) {
             xoaMH();
             printf(RED"Ten dang nhap da ton tai! Vui long chon ten khac.\n"RESET_COLOR);
         } else {
-            // Vòng lặp để nhập và xác nhận mật khẩu
+            // Vong lap nhap va xac nhan mat khau
             do {
                 printf(YELLOW"Nhap mat khau: "RESET_COLOR);
-                scanf("%49s", pass); // Giới hạn đọc
-                while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+                scanf("%49s", matKhau);
+                while ((kyTu = getchar()) != '\n' && kyTu != EOF);
 
                 printf(YELLOW"Nhap lai mat khau de xac nhan: "RESET_COLOR);
-                scanf("%49s", confirmPass); // Giới hạn đọc
-                while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+                scanf("%49s", xacNhanMatKhau);
+                while ((kyTu = getchar()) != '\n' && kyTu != EOF);
 
-                if (strcmp(pass, confirmPass) == 0) {
-                    passwordMatch = 1; // Mật khẩu khớp
+                if (strcmp(matKhau, xacNhanMatKhau) == 0) {
+                    khopMatKhau = 1; // Mat khau khop
                 } else {
                     xoaMH();
                     printf(RED"Mat khau khong khop! Vui long nhap lai.\n"RESET_COLOR);
-                    passwordMatch = 0; // Mật khẩu không khớp, tiếp tục lặp
+                    khopMatKhau = 0; // Mat khau khong khop, tiep tuc lap
                 }
-            } while (passwordMatch == 0); // Lặp cho đến khi mật khẩu khớp
+            } while (khopMatKhau == 0);
 
-            newNode = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
-            if (newNode == NULL) {
-                perror("Loi cap phat bo nho cho newNode: ");
-                free(pass);
-                free(confirmPass);
-                // Giải phóng danh sách liên kết nếu có
-                NguoiDungNode *current = head;
-                NguoiDungNode *nextNode;
-                while (current != NULL) {
-                    nextNode = current->next;
-                    free(current);
-                    current = nextNode;
+            nutMoi = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
+            if (nutMoi == NULL) {
+                perror("Loi cap phat bo nho cho nutMoi: ");
+                free(matKhau);
+                free(xacNhanMatKhau);
+                // Giai phong danh sach lien ket neu co
+                NguoiDungNode *hienTai = dau;
+                NguoiDungNode *nutTiep;
+                while (hienTai != NULL) {
+                    nutTiep = hienTai->next;
+                    free(hienTai);
+                    hienTai = nutTiep;
                 }
                 return -1;
             }
 
-            // Sao chép tên đăng nhập và mật khẩu vào nút mới
-            // Đảm bảo kích thước buffer đủ lớn trong NguoiDungNode
-            strncpy(newNode->username, user, sizeof(newNode->username) - 1);
-            newNode->username[sizeof(newNode->username) - 1] = '\0'; // Đảm bảo kết thúc null
+            // Sao chep ten dang nhap va mat khau vao nut moi
+            strncpy(nutMoi->username, tenDangNhap, sizeof(nutMoi->username) - 1);
+            nutMoi->username[sizeof(nutMoi->username) - 1] = '\0';
 
-            strncpy(newNode->password, pass, sizeof(newNode->password) - 1);
-            newNode->password[sizeof(newNode->password) - 1] = '\0'; // Đảm bảo kết thúc null
+            strncpy(nutMoi->password, matKhau, sizeof(nutMoi->password) - 1);
+            nutMoi->password[sizeof(nutMoi->password) - 1] = '\0';
 
-            newNode->type = 2; // User
-            newNode->next = head;
-            head = newNode;
+            nutMoi->type = 2; // User
+            nutMoi->next = dau;
+            dau = nutMoi;
 
-            a = fopen("nguoidung.txt", "a");
-            if (a != NULL) {
-                fprintf(a, "%s|%s|%d\n", user, pass, 2);
-                fclose(a);
+            tepTin = fopen("nguoidung.txt", "a");
+            if (tepTin != NULL) {
+                fprintf(tepTin, "%s|%s|%d\n", tenDangNhap, matKhau, 2);
+                fclose(tepTin);
                 xoaMH();
                 printf("Dang ky thanh cong!\nVui long dang nhap lai!\n");
-                check = 0; // Đặt check về 0 để thoát vòng lặp `do-while` chính
+                tonTai = 0; // Thoat vong lap chinh
             } else {
                 perror("Loi mo file de ghi: ");
-                // Nếu không mở được file, bạn có thể muốn giải phóng newNode
-                // và giữ check = 1 để người dùng nhập lại hoặc xử lý khác.
-                // Hiện tại, nó sẽ thoát do check vẫn là 0 (sau khi đăng ký thành công giả định)
-                // hoặc bạn cần đặt lại check = 1 và giải phóng newNode
-                // nếu việc ghi file là bắt buộc để kết thúc.
-                free(newNode); // Giải phóng nút vừa cấp phát
-                check = 1; // Đặt lại check = 1 để lặp lại quy trình đăng ký
+                free(nutMoi);
+                tonTai = 1; // Lap lai quy trinh dang ky
             }
         }
-    } while (check == 1); // Tiếp tục lặp nếu tên đăng nhập đã tồn tại hoặc ghi file thất bại
+    } while (tonTai == 1);
 
-    // Giải phóng danh sách liên kết
-    NguoiDungNode *current = head;
-    NguoiDungNode *nextNode;
-    while (current != NULL) {
-        nextNode = current->next;
-        free(current);
-        current = nextNode;
+    // Giai phong danh sach lien ket
+    NguoiDungNode *hienTai = dau;
+    NguoiDungNode *nutTiep;
+    while (hienTai != NULL) {
+        nutTiep = hienTai->next;
+        free(hienTai);
+        hienTai = nutTiep;
     }
 
-    // Giải phóng bộ nhớ đã cấp phát cho `pass` và `confirmPass`
-    // Không giải phóng `user` ở đây vì nó là tham số được truyền vào,
-    // giả định nó được cấp phát ở nơi gọi hàm.
-    free(pass);
-    free(confirmPass);
+    // Giai phong bo nho da cap phat cho matKhau va xacNhanMatKhau
+    free(matKhau);
+    free(xacNhanMatKhau);
     return 0;
 }
 
+// Ham them tai khoan admin
 void themTaiKhoanAdmin(void) {
-    FILE *a;
-    char *user = (char*)malloc(50 * sizeof(char)); 
-    char *pass = (char*)malloc(50 * sizeof(char));
-    char *confirmPass = (char*)malloc(50 * sizeof(char)); // Biến cho mật khẩu xác nhận
-    char c; // Khai báo biến để đọc ký tự thừa trong bộ đệm nhập
-    NguoiDungNode *head = NULL, *temp = NULL, *newNode = NULL;
-    int check = 0; // Biến để kiểm tra tên đăng nhập có tồn tại hay không
-    int passwordMatch = 0; // Biến để kiểm tra mật khẩu có khớp không
+    FILE *tepTin;
+    char *tenDangNhap = (char*)malloc(50 * sizeof(char));
+    char *matKhau = (char*)malloc(50 * sizeof(char));
+    char *xacNhanMatKhau = (char*)malloc(50 * sizeof(char));
+    char kyTu;
+    NguoiDungNode *dau = NULL, *tam = NULL, *nutMoi = NULL;
+    int tonTai = 0;
+    int khopMatKhau = 0;
 
-    if (pass == NULL || confirmPass == NULL) {
+    if (matKhau == NULL || xacNhanMatKhau == NULL) {
         perror("Loi cap phat bo nho: ");
-        free(pass); // Free if one allocated
-        free(confirmPass); // Free if one allocated
+        free(matKhau);
+        free(xacNhanMatKhau);
         exit(1);
     }
-    
-    docTaiKhoanTuFile(&head);
+
+    docTaiKhoanTuFile(&dau);
     xoaMH();
     do {
         printf(YELLOW"Nhap ten Admin: "RESET_COLOR);
-        scanf("%49s", user); // Giới hạn đọc để tránh tràn bộ đệm
-        while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+        scanf("%49s", tenDangNhap);
+        while ((kyTu = getchar()) != '\n' && kyTu != EOF);
 
-        check = 0;
-        for (temp = head; temp != NULL; temp = temp->next) {
-            if (strcmp(user, temp->username) == 0) {
-                check = 1;
+        tonTai = 0;
+        // Kiem tra ten admin da ton tai chua
+        for (tam = dau; tam != NULL; tam = tam->next) {
+            if (strcmp(tenDangNhap, tam->username) == 0) {
+                tonTai = 1;
                 break;
             }
         }
 
-        if (check == 1) {
+        if (tonTai == 1) {
             xoaMH();
             printf(RED"Ten Admin da ton tai! Vui long chon ten khac.\n"RESET_COLOR);
         } else {
-            // Vòng lặp để nhập và xác nhận mật khẩu
+            // Vong lap nhap va xac nhan mat khau
             do {
                 printf(YELLOW"Nhap mat khau: "RESET_COLOR);
-                scanf("%49s", pass); // Giới hạn đọc
-                while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+                scanf("%49s", matKhau);
+                while ((kyTu = getchar()) != '\n' && kyTu != EOF);
 
                 printf(YELLOW"Nhap lai mat khau de xac nhan: "RESET_COLOR);
-                scanf("%49s", confirmPass); // Giới hạn đọc
-                while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+                scanf("%49s", xacNhanMatKhau);
+                while ((kyTu = getchar()) != '\n' && kyTu != EOF);
 
-                if (strcmp(pass, confirmPass) == 0) {
-                    passwordMatch = 1; // Mật khẩu khớp
+                if (strcmp(matKhau, xacNhanMatKhau) == 0) {
+                    khopMatKhau = 1;
                 } else {
                     xoaMH();
                     printf(RED"Mat khau khong khop! Vui long nhap lai.\n"RESET_COLOR);
-                    passwordMatch = 0; // Mật khẩu không khớp, tiếp tục lặp
+                    khopMatKhau = 0;
                 }
-            } while (passwordMatch == 0); // Lặp cho đến khi mật khẩu khớp
+            } while (khopMatKhau == 0);
 
-            newNode = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
-            if (newNode == NULL) {
-                perror("Loi cap phat bo nho cho newNode: ");
-                free(pass);
-                free(confirmPass);
-                // Giải phóng danh sách liên kết nếu có
-                NguoiDungNode *current = head;
-                NguoiDungNode *nextNode;
-                while (current != NULL) {
-                    nextNode = current->next;
-                    free(current);
-                    current = nextNode;
+            nutMoi = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
+            if (nutMoi == NULL) {
+                perror("Loi cap phat bo nho cho nutMoi: ");
+                free(matKhau);
+                free(xacNhanMatKhau);
+                // Giai phong danh sach lien ket neu co
+                NguoiDungNode *hienTai = dau;
+                NguoiDungNode *nutTiep;
+                while (hienTai != NULL) {
+                    nutTiep = hienTai->next;
+                    free(hienTai);
+                    hienTai = nutTiep;
                 }
             }
 
-            // Sao chép tên đăng nhập và mật khẩu vào nút mới
-            // Đảm bảo kích thước buffer đủ lớn trong NguoiDungNode
-            strncpy(newNode->username, user, sizeof(newNode->username) - 1);
-            newNode->username[sizeof(newNode->username) - 1] = '\0'; // Đảm bảo kết thúc null
+            // Sao chep ten dang nhap va mat khau vao nut moi
+            strncpy(nutMoi->username, tenDangNhap, sizeof(nutMoi->username) - 1);
+            nutMoi->username[sizeof(nutMoi->username) - 1] = '\0';
 
-            strncpy(newNode->password, pass, sizeof(newNode->password) - 1);
-            newNode->password[sizeof(newNode->password) - 1] = '\0'; // Đảm bảo kết thúc null
+            strncpy(nutMoi->password, matKhau, sizeof(nutMoi->password) - 1);
+            nutMoi->password[sizeof(nutMoi->password) - 1] = '\0';
 
-            newNode->type = 1; // User
-            newNode->next = head;
-            head = newNode;
+            nutMoi->type = 1; // Admin
+            nutMoi->next = dau;
+            dau = nutMoi;
 
-            a = fopen("nguoidung.txt", "a");
-            if (a != NULL) {
-                fprintf(a, "%s|%s|%d\n", user, pass, 1);
-                fclose(a);
+            tepTin = fopen("nguoidung.txt", "a");
+            if (tepTin != NULL) {
+                fprintf(tepTin, "%s|%s|%d\n", tenDangNhap, matKhau, 1);
+                fclose(tepTin);
                 xoaMH();
                 printf("Dang ky thanh cong!\nVui long dang nhap lai!\n");
-                check = 0; // Đặt check về 0 để thoát vòng lặp `do-while` chính
+                tonTai = 0;
             } else {
                 perror("Loi mo file de ghi: ");
-                // Nếu không mở được file, bạn có thể muốn giải phóng newNode
-                // và giữ check = 1 để người dùng nhập lại hoặc xử lý khác.
-                // Hiện tại, nó sẽ thoát do check vẫn là 0 (sau khi đăng ký thành công giả định)
-                // hoặc bạn cần đặt lại check = 1 và giải phóng newNode
-                // nếu việc ghi file là bắt buộc để kết thúc.
-                free(newNode); // Giải phóng nút vừa cấp phát
-                check = 1; // Đặt lại check = 1 để lặp lại quy trình đăng ký
+                free(nutMoi);
+                tonTai = 1;
             }
         }
-    } while (check == 1); // Tiếp tục lặp nếu tên đăng nhập đã tồn tại hoặc ghi file thất bại
+    } while (tonTai == 1);
 
-    // Giải phóng danh sách liên kết
-    NguoiDungNode *current = head;
-    NguoiDungNode *nextNode;
-    while (current != NULL) {
-        nextNode = current->next;
-        free(current);
-        current = nextNode;
+    // Giai phong danh sach lien ket
+    NguoiDungNode *hienTai = dau;
+    NguoiDungNode *nutTiep;
+    while (hienTai != NULL) {
+        nutTiep = hienTai->next;
+        free(hienTai);
+        hienTai = nutTiep;
     }
 
-    // Giải phóng bộ nhớ đã cấp phát cho `pass` và `confirmPass`
-    // Không giải phóng `user` ở đây vì nó là tham số được truyền vào,
-    // giả định nó được cấp phát ở nơi gọi hàm.
-    free(pass);
-    free(confirmPass);
+    // Giai phong bo nho da cap phat cho matKhau va xacNhanMatKhau
+    free(matKhau);
+    free(xacNhanMatKhau);
+}
+
+// Ham doi mat khau
+void doiMatKhau(char *tenDangNhap) {
+    FILE *tepTin;
+    char *matKhauCu = (char*)malloc(50 * sizeof(char));
+    char *matKhauMoi = (char*)malloc(50 * sizeof(char));
+    char *xacNhanMatKhau = (char*)malloc(50 * sizeof(char));
+    char kyTu;
+    NguoiDungNode *dau = NULL, *tam = NULL, *nutMoi = NULL;
+    int dungMatKhauCu = 0;
+    int khopMatKhau = 0;
+
+    if (matKhauCu == NULL || matKhauMoi == NULL || xacNhanMatKhau == NULL) {
+        perror("Loi cap phat bo nho: ");
+        free(matKhauCu);
+        free(matKhauMoi);
+        free(xacNhanMatKhau);
+        exit(1);
+    }
+
+    docTaiKhoanTuFile(&dau);
+    xoaMH();
+    do {
+        printf(YELLOW"Nhap mat khau cu: "RESET_COLOR);
+        scanf("%49s", matKhauCu);
+        while ((kyTu = getchar()) != '\n' && kyTu != EOF);
+
+        dungMatKhauCu = 0;
+        // Kiem tra mat khau cu co dung khong
+        for (tam = dau; tam != NULL; tam = tam->next) {
+            if ((strcmp(tenDangNhap, tam->username) == 0) && (strcmp(matKhauCu, tam->password) == 0)) {
+                dungMatKhauCu = 1;
+                break;
+            }
+        }
+
+        if (dungMatKhauCu == 0) {
+            xoaMH();
+            printf(RED"Mat khau cu khong dung! Vui long chon mat khau khac.\n"RESET_COLOR);
+        } else {
+            // Vong lap nhap va xac nhan mat khau moi
+            do {
+                printf(YELLOW"Nhap mat khau moi: "RESET_COLOR);
+                scanf("%49s", matKhauMoi);
+                while ((kyTu = getchar()) != '\n' && kyTu != EOF);
+
+                printf(YELLOW"Nhap lai mat khau moi de xac nhan: "RESET_COLOR);
+                scanf("%49s", xacNhanMatKhau);
+                while ((kyTu = getchar()) != '\n' && kyTu != EOF);
+                if (strcmp(matKhauMoi, xacNhanMatKhau) == 0) {
+                    khopMatKhau = 1;
+                } else {
+                    xoaMH();
+                    printf(RED"Mat khau khong khop! Vui long nhap lai.\n"RESET_COLOR);
+                    khopMatKhau = 0;
+                }
+            } while (khopMatKhau == 0);
+
+            // Tim nut can cap nhat mat khau
+            for (tam = dau; tam != NULL; tam = tam->next) {
+                if (strcmp(tenDangNhap, tam->username) == 0) {
+                    break;
+                }
+            }
+            if (tam != NULL) {
+                // Cap nhat mat khau
+                strncpy(tam->password, matKhauMoi, sizeof(tam->password) - 1);
+                tam->password[sizeof(tam->password) - 1] = '\0';
+            }
+            tepTin = fopen("nguoidung.txt", "w");
+            if (tepTin != NULL) {
+                // Ghi lai danh sach nguoi dung vao file
+                for (tam = dau; tam != NULL; tam = tam->next) {
+                    fprintf(tepTin, "%s|%s|%d\n", tam->username, tam->password, tam->type);
+                }
+                fclose(tepTin);
+                xoaMH();
+                printf("Doi mat khau thanh cong!\n");
+                dungMatKhauCu = 0;
+            } else {
+                perror("Loi mo file de ghi: ");
+                free(nutMoi);
+                dungMatKhauCu = 1;
+            }
+        }
+    } while (dungMatKhauCu == 1);
+
+    // Giai phong danh sach lien ket
+    NguoiDungNode *hienTai = dau;
+    NguoiDungNode *nutTiep;
+    while (hienTai != NULL) {
+        nutTiep = hienTai->next;
+        free(hienTai);
+        hienTai = nutTiep;
+    }
+    // Giai phong bo nho da cap phat cho matKhauCu, matKhauMoi va xacNhanMatKhau
+    free(matKhauCu);
+    free(matKhauMoi);
+    free(xacNhanMatKhau);
 }
