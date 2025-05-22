@@ -5,3 +5,4 @@ ngoctien|2006|2
 tester|12345|1
 admin123|12345|1
 tienngo|tien|2
+adminnew|123456|1

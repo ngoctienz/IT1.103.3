@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "menu.h"
 #include "hotro.h"
+#include "dangnhap.h"
 // Ham menudangNhap
 void menudangNhap(void) {
     xoaMH();
@@ -37,11 +38,16 @@ void menuKhachHang(char *user) {
     printf(BOLD BLUE"+----------------------------------+\n");
     printf("|" BOLD GREEN " Chao mung: %-21s " RESET_COLOR, user); printf(BOLD BLUE"|\n");
     printf("+----------------------------------+\n");
-    printf("|"); printf(BOLD YELLOW " 1. Xem danh sach phim            "); printf(BOLD BLUE "|\n");
-    printf("|"); printf(BOLD YELLOW " 2. Dat ve xem phim               "); printf(BOLD BLUE "|\n");
-    printf("|"); printf(BOLD YELLOW " 3. Xem ve da dat                 "); printf( BOLD BLUE"|\n");
-    printf("|"); printf(BOLD YELLOW " 4. Huy ve da dat                 "); printf(BOLD BLUE "|\n");
-    printf("|"); printf(BOLD YELLOW " 5. Dang xuat                     "); printf(BOLD BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 1. Xem danh sach phim            "); 
+    printf(BOLD BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 2. Dat ve xem phim               "); 
+    printf(BOLD BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 3. Xem ve da dat                 "); 
+    printf( BOLD BLUE"|\n");
+    printf("|"); printf(BOLD YELLOW " 4. Huy ve da dat                 "); 
+    printf(BOLD BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 5. Dang xuat                     "); 
+    printf(BOLD BLUE "|\n");
     printf("+----------------------------------+\n"RESET_COLOR);
     printf(YELLOW);
     printf("Nhap lua chon cua ban: ");
@@ -58,10 +64,14 @@ void menuQuanTriVien(char *user) {
     printf("+--------------------------------------+\n");
     printf("|" BOLD GREEN " Admin: %-28s  " RESET_COLOR , user);printf(BLUE "|\n");
     printf("+--------------------------------------+\n");
-    printf("|"); printf(BOLD YELLOW " 1. Quan ly Phim                      "); printf(BLUE"|\n");
-    printf("|"); printf(BOLD YELLOW " 2. Quan ly Du lieu Ve va Thong ke    "); printf( BLUE"|\n");
-    printf("|"); printf(BOLD YELLOW " 3. Quan ly Tai khoan Nguoi dung      "); printf( BLUE"|\n");
-    printf("|"); printf( BOLD YELLOW" 4. Dang xuat                         "); printf( BLUE"|\n");
+    printf("|"); printf(BOLD YELLOW " 1. Quan ly Phim                      "); 
+    printf(BLUE"|\n");
+    printf("|"); printf(BOLD YELLOW " 2. Quan ly Du lieu Ve va Thong ke    "); 
+    printf( BLUE"|\n");
+    printf("|"); printf(BOLD YELLOW " 3. Quan ly Tai khoan Nguoi dung      "); 
+    printf( BLUE"|\n");
+    printf("|"); printf( BOLD YELLOW" 4. Dang xuat                         "); 
+    printf( BLUE"|\n");
     printf("+--------------------------------------+\n");
     printf(GREEN);
     printf("Nhap lua chon cua ban: ");
@@ -77,11 +87,16 @@ void menuQuanLyPhim(char *user) {
     printf(RESET_COLOR);
     printf(BOLD BLUE"|\n");
     printf("+----------------------------------+\n"RESET_COLOR);
-    printf("|"); printf(BOLD YELLOW " 1. Them phim moi                  "); printf(BOLD BLUE "|\n");
-    printf("|"); printf(BOLD YELLOW " 2. Sua thong tin phim             "); printf(BOLD BLUE "|\n");
-    printf("|"); printf(BOLD YELLOW " 3. Xoa phim                       "); printf(BOLD BLUE"|\n");
-    printf("|"); printf(BOLD YELLOW " 4. Hien thi danh sach phim        "); printf(BOLD BLUE "|\n");
-    printf("|"); printf(BOLD YELLOW " 5. Quay lai Menu chinh            "); printf(BOLD BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 1. Them phim moi                  "); 
+    printf(BOLD BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 2. Sua thong tin phim             "); 
+    printf(BOLD BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 3. Xoa phim                       "); 
+    printf(BOLD BLUE"|\n");
+    printf("|"); printf(BOLD YELLOW " 4. Hien thi danh sach phim        "); 
+    printf(BOLD BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 5. Quay lai Menu chinh            "); 
+    printf(BOLD BLUE "|\n");
     printf("+----------------------------------+\n");
     printf(GREEN);
     printf("Nhap lua chon cua ban: ");
@@ -97,9 +112,12 @@ void menuQuanLyVeVaThongKe(char *user) {
     printf(RESET_COLOR);
     printf(BLUE"|\n");
     printf("+--------------------------------------+\n");
-    printf("|"); printf(BOLD YELLOW " 1. Xem danh sach tat ca ve da dat    "); printf(BLUE "|\n");
-    printf("|"); printf(BOLD YELLOW " 2. Thong ke doanh thu                "); printf( BLUE"|\n");
-    printf("|"); printf( BOLD YELLOW" 3. Quay lai Menu chinh               "); printf( BLUE"|\n");
+    printf("|"); printf(BOLD YELLOW " 1. Xem danh sach tat ca ve da dat    "); 
+    printf(BLUE "|\n");
+    printf("|"); printf(BOLD YELLOW " 2. Thong ke doanh thu                "); 
+    printf( BLUE"|\n");
+    printf("|"); printf( BOLD YELLOW" 3. Quay lai Menu chinh               "); 
+    printf( BLUE"|\n");
     printf("+--------------------------------------+\n");
     printf(GREEN);
     printf("Nhap lua chon cua ban: ");
@@ -115,9 +133,14 @@ void menuQuanLyTaiKhoanNguoiDung(char *user) {
     printf(RESET_COLOR);
     printf(BOLD MAGENTA"|\n");
     printf("+--------------------------------------+\n");
-    printf("|"); printf(BOLD YELLOW " 1. Xem danh sach nguoi dung          "); printf(BOLD MAGENTA "|\n");
-    printf("|"); printf(BOLD YELLOW  " 2. Xoa tai khoan nguoi dung          "); printf(BOLD MAGENTA "|\n");
-    printf("|"); printf(BOLD YELLOW  " 3. Quay lai Menu chinh               "); printf(BOLD MAGENTA "|\n");
+    printf("|"); printf(BOLD YELLOW " 1. Xem danh sach nguoi dung          "); 
+    printf(BOLD MAGENTA "|\n");
+    printf("|"); printf(BOLD YELLOW  " 2. Xoa tai khoan nguoi dung          "); 
+    printf(BOLD MAGENTA "|\n");
+    printf("|"); printf(BOLD YELLOW  " 3. Them tai khoan Admin              "); 
+    printf(BOLD MAGENTA "|\n");
+    printf("|"); printf(BOLD YELLOW  " 4. Quay lai Menu chinh               "); 
+    printf(BOLD MAGENTA "|\n");
     printf("+--------------------------------------+\n");
     printf(BOLD GREEN"Nhap lua chon cua ban: "RESET_COLOR);
 }
@@ -240,10 +263,22 @@ void chonMenu(int n, char *user) {
                             break;  	
 							  }while (choice != 0);
 							  break;
+                            
+                        case 3:
+                            do {
+                                xoaMH();
+                                themTaiKhoanAdmin();
+                                printf("Nhap 0 de quay lai: ");
+                                scanf("%d", &choice);
+                                if (choice == 0) 
+                                break;
+                            } while (choice != 0);
+                            break;
 					}
-                        if (choice == 3) break;
-                    } while (choice != 3);
-                    break;
+                        if (choice == 4)
+                        break;
+                    } while (choice != 4);
+                        break;
                 case 4:
                     xoaMH();
                     printf("Dang xuat thanh cong!\n");

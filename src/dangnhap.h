@@ -19,5 +19,9 @@ Cho nhập tên người dùng sau đó kiểm tra với dslk nếu trùng cho n
 nếu chưa tồn tại sẽ cho nhập mật khẩu và lưu vào file nguoidung.txt trả về 2 nếu đăng kí hoàn tất*/
 int dangKy(char *user);
 
+/*Hàm thêm tài khoản admin
+Cho nhập tên người dùng sau đó kiểm tra với dslk nếu trùng cho nhập lại hoặc chuyển sang menu đăng nhập,
+nếu chưa tồn tại sẽ cho nhập mật khẩu và lưu vào file nguoidung.txt nếu đăng kí hoàn tất*/
+void themTaiKhoanAdmin(void);
 
 #endif

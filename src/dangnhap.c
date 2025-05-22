@@ -216,3 +216,121 @@ int dangKy(char *user) {
     free(confirmPass);
     return 0;
 }
+
+void themTaiKhoanAdmin(void) {
+    FILE *a;
+    char *user = (char*)malloc(50 * sizeof(char)); 
+    char *pass = (char*)malloc(50 * sizeof(char));
+    char *confirmPass = (char*)malloc(50 * sizeof(char)); // Biến cho mật khẩu xác nhận
+    char c; // Khai báo biến để đọc ký tự thừa trong bộ đệm nhập
+    NguoiDungNode *head = NULL, *temp = NULL, *newNode = NULL;
+    int check = 0; // Biến để kiểm tra tên đăng nhập có tồn tại hay không
+    int passwordMatch = 0; // Biến để kiểm tra mật khẩu có khớp không
+
+    if (pass == NULL || confirmPass == NULL) {
+        perror("Loi cap phat bo nho: ");
+        free(pass); // Free if one allocated
+        free(confirmPass); // Free if one allocated
+        exit(1);
+    }
+    
+    docTaiKhoanTuFile(&head);
+    xoaMH();
+    do {
+        printf(YELLOW"Nhap ten Admin: "RESET_COLOR);
+        scanf("%49s", user); // Giới hạn đọc để tránh tràn bộ đệm
+        while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+
+        check = 0;
+        for (temp = head; temp != NULL; temp = temp->next) {
+            if (strcmp(user, temp->username) == 0) {
+                check = 1;
+                break;
+            }
+        }
+
+        if (check == 1) {
+            xoaMH();
+            printf(RED"Ten Admin da ton tai! Vui long chon ten khac.\n"RESET_COLOR);
+        } else {
+            // Vòng lặp để nhập và xác nhận mật khẩu
+            do {
+                printf(YELLOW"Nhap mat khau: "RESET_COLOR);
+                scanf("%49s", pass); // Giới hạn đọc
+                while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+
+                printf(YELLOW"Nhap lai mat khau de xac nhan: "RESET_COLOR);
+                scanf("%49s", confirmPass); // Giới hạn đọc
+                while ((c = getchar()) != '\n' && c != EOF); // Xóa bộ đệm nhập
+
+                if (strcmp(pass, confirmPass) == 0) {
+                    passwordMatch = 1; // Mật khẩu khớp
+                } else {
+                    xoaMH();
+                    printf(RED"Mat khau khong khop! Vui long nhap lai.\n"RESET_COLOR);
+                    passwordMatch = 0; // Mật khẩu không khớp, tiếp tục lặp
+                }
+            } while (passwordMatch == 0); // Lặp cho đến khi mật khẩu khớp
+
+            newNode = (NguoiDungNode*)malloc(sizeof(NguoiDungNode));
+            if (newNode == NULL) {
+                perror("Loi cap phat bo nho cho newNode: ");
+                free(pass);
+                free(confirmPass);
+                // Giải phóng danh sách liên kết nếu có
+                NguoiDungNode *current = head;
+                NguoiDungNode *nextNode;
+                while (current != NULL) {
+                    nextNode = current->next;
+                    free(current);
+                    current = nextNode;
+                }
+            }
+
+            // Sao chép tên đăng nhập và mật khẩu vào nút mới
+            // Đảm bảo kích thước buffer đủ lớn trong NguoiDungNode
+            strncpy(newNode->username, user, sizeof(newNode->username) - 1);
+            newNode->username[sizeof(newNode->username) - 1] = '\0'; // Đảm bảo kết thúc null
+
+            strncpy(newNode->password, pass, sizeof(newNode->password) - 1);
+            newNode->password[sizeof(newNode->password) - 1] = '\0'; // Đảm bảo kết thúc null
+
+            newNode->type = 1; // User
+            newNode->next = head;
+            head = newNode;
+
+            a = fopen("nguoidung.txt", "a");
+            if (a != NULL) {
+                fprintf(a, "%s|%s|%d\n", user, pass, 1);
+                fclose(a);
+                xoaMH();
+                printf("Dang ky thanh cong!\nVui long dang nhap lai!\n");
+                check = 0; // Đặt check về 0 để thoát vòng lặp `do-while` chính
+            } else {
+                perror("Loi mo file de ghi: ");
+                // Nếu không mở được file, bạn có thể muốn giải phóng newNode
+                // và giữ check = 1 để người dùng nhập lại hoặc xử lý khác.
+                // Hiện tại, nó sẽ thoát do check vẫn là 0 (sau khi đăng ký thành công giả định)
+                // hoặc bạn cần đặt lại check = 1 và giải phóng newNode
+                // nếu việc ghi file là bắt buộc để kết thúc.
+                free(newNode); // Giải phóng nút vừa cấp phát
+                check = 1; // Đặt lại check = 1 để lặp lại quy trình đăng ký
+            }
+        }
+    } while (check == 1); // Tiếp tục lặp nếu tên đăng nhập đã tồn tại hoặc ghi file thất bại
+
+    // Giải phóng danh sách liên kết
+    NguoiDungNode *current = head;
+    NguoiDungNode *nextNode;
+    while (current != NULL) {
+        nextNode = current->next;
+        free(current);
+        current = nextNode;
+    }
+
+    // Giải phóng bộ nhớ đã cấp phát cho `pass` và `confirmPass`
+    // Không giải phóng `user` ở đây vì nó là tham số được truyền vào,
+    // giả định nó được cấp phát ở nơi gọi hàm.
+    free(pass);
+    free(confirmPass);
+}
