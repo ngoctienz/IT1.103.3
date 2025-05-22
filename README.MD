@@ -114,17 +114,16 @@ Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và cá
 ### 5.2. Sử dụng Dev-C++ IDE
 [Xem video hướng dẫn tại YouTube](https://youtu.be/lJ-qn12VQHk)
 1.  **Mở Project:**
-    * Mở Dev-C++: Khởi động phần mềm Dev-C++.
-    * Chọn vào file `.dev` > Open With > Dev-C++.
-    * Hoặc: Mở tệp `.dev`: Chọn `File` > `Open Project or File...` (hoặc nhấn `Ctrl + O`). Điều hướng đến thư mục chứa tệp `.dev` của bạn và chọn tệp đó.
+    * Tại File Explorer > chọn vào file `.dev` > Open With > Dev-C++.
+    * Hoặc: Khởi động phần mềm Dev-C++ > Chọn `File` > `Open Project or File...` (hoặc nhấn `Ctrl + O`). Điều hướng đến thư mục chứa tệp `.dev`.
 2.  **Biên dịch và Chạy:**
-    * Trong Dev-C++, bạn có thể biên dịch project bằng cách chọn `Execute` > `Compile` (hoặc nhấn `F9`).
+    * Trong Dev-C++, biên dịch project bằng cách chọn `Execute` > `Compile` (hoặc nhấn `F9`).
     * Để chạy project, chọn `Execute` > `Run` (hoặc nhấn `F10`).
     * Để biên dịch và chạy cùng lúc, chọn `Execute` > `Compile & Run` (hoặc nhấn `F11`).
 
 ### 5.3. Dữ liệu mẫu và Tài khoản Test
 
-Đảm bảo các tệp `nguoidung.txt`, `phim.txt`, và `ve.txt` được tạo (có thể để trống ban đầu) và đặt cùng thư mục với tệp thực thi (thường là thư mục chứa project `.dev` hoặc thư mục con nơi tệp `.exe` được tạo ra) để chương trình có thể đọc và ghi dữ liệu. Nếu các tệp này không tồn tại khi chương trình cố gắng đọc, có thể xảy ra lỗi.
+Đảm bảo các tệp `nguoidung.txt`, `phim.txt`, và `ve.txt` được tạo (có thể để trống ban đầu) và đặt cùng thư mục với tệp thực thi (thường là thư mục chứa project `.dev` hoặc thư mục con nơi tệp `.exe` được tạo ra) để chương trình có thể đọc và ghi dữ liệu. Nếu các tệp này không tồn tại khi chương trình cố gắng đọc, sẽ xảy ra lỗi.
 
 * **Dữ liệu mẫu `nguoidung.txt` (bao gồm tài khoản test):** (username|password|type)
     ```   
