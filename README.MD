@@ -2,8 +2,10 @@
 
 ## Thành Viên Nhóm
 
-* Nguyễn Ngọc Tiên - MSSV: 6551071079
-* Ngô Thanh Tiến - MSSV: 6551071082
+Tên|MSSVV
+:---|:---
+Nguyễn Ngọc Tiên|6551071079
+Ngô Thanh Tiến|6551071082
 
 ## Chú ý!
 
@@ -82,18 +84,27 @@ Sau khi đăng nhập, Quản Trị Viên có các quyền quản lý sau:
 Dự án bao gồm các tệp mã nguồn C (.c), tệp tiêu đề (.h) và các tệp dữ liệu (.txt):
 
 * **Tệp mã nguồn chính:**
-    * `main.c`: Chứa hàm `main`, điều phối luồng chính của ứng dụng.
-    * `dangnhap.c`: Chứa các hàm liên quan đến chức năng đăng nhập, đăng ký.
-    * `menu.c`: Chứa các hàm hiển thị menu và điều hướng lựa chọn của người dùng.
-    * `hotro.c`: Chứa các hàm hỗ trợ chung như quản lý dữ liệu phim, vé, người dùng, các tiện ích (xóa màn hình, dừng chương trình), đọc/ghi file.
+
+Tên File|Chức năng
+:---|:---
+`main.c`|Chứa hàm `main`, điều phối luồng chính của ứng dụng.
+`dangnhap.c`|Chứa các hàm liên quan đến chức năng đăng nhập, đăng ký.
+`menu.c`|Chứa các hàm hiển thị menu và điều hướng lựa chọn của người dùng.
+`hotro.c`|Chứa các hàm hỗ trợ chung như quản lý dữ liệu phim, vé, người dùng, các tiện ích (xóa màn hình, dừng chương trình), đọc/ghi file.
 * **Tệp tiêu đề:**
-    * `dangnhap.h`: Khai báo các hàm trong `dangnhap.c`.
-    * `menu.h`: Khai báo các hàm trong `menu.c`.
-    * `hotro.h`: Khai báo các cấu trúc dữ liệu (NguoiDungNode, PhimNode, VeNode) và các hàm trong `hotro.c`, cũng như các định nghĩa màu sắc cho console.
+
+Tên File|Chức năng
+:---|:---
+`dangnhap.h`|Khai báo các hàm trong `dangnhap.c`.
+`menu.h`|Khai báo các hàm trong `menu.c`.
+`hotro.h`|Khai báo các cấu trúc dữ liệu (NguoiDungNode, PhimNode, VeNode) và các hàm trong `hotro.c`, cũng như các định nghĩa màu sắc cho console.
 * **Tệp dữ liệu (lưu trữ ở cùng thư mục với file thực thi):**
-    * `nguoidung.txt`: Lưu thông tin tài khoản người dùng (username|password|type).
-    * `phim.txt`: Lưu thông tin các bộ phim (MaPhim|TenPhim|TheLoai|NgayChieu|GioChieu|PhongChieu|GiaVe).
-    * `ve.txt`: Lưu thông tin các vé đã đặt (MaVe|MaPhim|TenNguoiDung|GheNgoi_danh_sach_cach_nhau_boi_dau_phay|TrangThai).
+
+Tên File|Chức năng
+:---|:---
+`nguoidung.txt`|Lưu thông tin tài khoản người dùng (username|password|type).
+`phim.txt`|Lưu thông tin các bộ phim (MaPhim|TenPhim|TheLoai|NgayChieu|GioChieu|PhongChieu|GiaVe).
+`ve.txt`|Lưu thông tin các vé đã đặt (MaVe|MaPhim|TenNguoiDung|GheNgoi_danh_sach_cach_nhau_boi_dau_phay|TrangThai).
 
 ## 5. Hướng Dẫn Biên Dịch và Chạy
 
