@@ -102,9 +102,9 @@ Tên File|Chức năng
 
 Tên File|Chức năng
 :---|:---
-`nguoidung.txt`|Lưu thông tin tài khoản người dùng (username|password|type).
-`phim.txt`|Lưu thông tin các bộ phim (MaPhim|TenPhim|TheLoai|NgayChieu|GioChieu|PhongChieu|GiaVe).
-`ve.txt`|Lưu thông tin các vé đã đặt (MaVe|MaPhim|TenNguoiDung|GheNgoi_danh_sach_cach_nhau_boi_dau_phay|TrangThai).
+`nguoidung.txt`|Lưu thông tin tài khoản người dùng `(username|password|type)`.
+`phim.txt`|Lưu thông tin các bộ phim `(MaPhim|TenPhim|TheLoai|NgayChieu|GioChieu|PhongChieu|GiaVe)`.
+`ve.txt`|Lưu thông tin các vé đã đặt `(MaVe|MaPhim|TenNguoiDung|GheNgoi_danh_sach_cach_nhau_boi_dau_phay|TrangThai)`.
 
 ## 5. Hướng Dẫn Biên Dịch và Chạy
 
