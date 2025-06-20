@@ -3,9 +3,9 @@
 ## Thành Viên Nhóm
 
 Tên|MSSV
-:---|:---
-Nguyễn Ngọc Tiên|6551071079
-Ngô Thanh Tiến|6551071082
+:---|:---|:---
+Nguyễn Ngọc Tiên|6551071079|CQ.65.CNTT
+Ngô Thanh Tiến|6551071082|CQ.65.CNTT
 
 ## Chú ý!
 
