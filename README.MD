@@ -2,7 +2,7 @@
 
 ## Thành Viên Nhóm
 
-Tên|MSSV
+Tên|MSSV|Lớp
 :---|:---|:---
 Nguyễn Ngọc Tiên|6551071079|CQ.65.CNTT
 Ngô Thanh Tiến|6551071082|CQ.65.CNTT
